@@ -1,0 +1,197 @@
+import { Movie } from '@/types';
+
+export const FEATURED_MOVIE: Movie = {
+  id: '1',
+  title: 'Les Fils du Wouri',
+  genre: 'Drama',
+  year: 2023,
+  rating: 8.4,
+  duration: '1h 52m',
+  description:
+    'An epic story of three brothers from Douala navigating identity, tradition, and modernity along the banks of the Wouri River. A timeless tale of family, loyalty, and Cameroonian heritage.',
+  posterColor: '#1A0A00',
+  accentColor: '#D4AF37',
+  tags: ['Drama', 'Family', 'Heritage'],
+  featured: true,
+  director: 'Jean-Pierre Bekolo',
+  cast: ['Cédric Fokoua', 'Merveille Nguemeni', 'Adèle Tabi'],
+};
+
+export const MOVIES: Movie[] = [
+  {
+    id: '1',
+    title: 'Les Fils du Wouri',
+    genre: 'Drama',
+    year: 2023,
+    rating: 8.4,
+    duration: '1h 52m',
+    description:
+      'An epic story of three brothers from Douala navigating identity, tradition, and modernity along the banks of the Wouri River.',
+    posterColor: '#1A0A00',
+    accentColor: '#D4AF37',
+    tags: ['Drama', 'Family'],
+    director: 'Jean-Pierre Bekolo',
+    cast: ['Cédric Fokoua', 'Merveille Nguemeni'],
+  },
+  {
+    id: '2',
+    title: "Quartier Mozart",
+    genre: 'Comedy',
+    year: 1992,
+    rating: 7.8,
+    duration: '1h 20m',
+    description:
+      'A young girl magically transforms into a man to discover the secrets of the male world in a lively Yaoundé neighborhood.',
+    posterColor: '#0A1A00',
+    accentColor: '#4CAF50',
+    tags: ['Comedy', 'Magic', 'Classic'],
+    director: 'Jean-Pierre Bekolo',
+    cast: ['Essindi Mindja', 'Jean-Roger Mireille'],
+  },
+  {
+    id: '3',
+    title: "L'Œil du Cyclone",
+    genre: 'Thriller',
+    year: 2015,
+    rating: 7.5,
+    duration: '1h 45m',
+    description:
+      'A gripping political thriller set in the corridors of power in Central Africa, where one journalist risks everything for the truth.',
+    posterColor: '#00001A',
+    accentColor: '#3F51B5',
+    tags: ['Thriller', 'Political'],
+    director: 'Sékou Traoré',
+  },
+  {
+    id: '4',
+    title: 'Nguyen',
+    genre: 'Drama',
+    year: 2021,
+    rating: 7.9,
+    duration: '1h 35m',
+    description:
+      'A Vietnamese-Cameroonian cultural love story set between Yaoundé and Hanoi. A rare cross-cultural romance.',
+    posterColor: '#1A0015',
+    accentColor: '#E91E63',
+    tags: ['Drama', 'Romance', 'Cross-cultural'],
+    director: 'Stéphane Huard',
+  },
+  {
+    id: '5',
+    title: 'Le Spectre de Boko Haram',
+    genre: 'Documentary',
+    year: 2020,
+    rating: 8.1,
+    duration: '1h 28m',
+    description:
+      'A powerful documentary exploring the resilience of communities in northern Cameroon facing the threat of extremist violence.',
+    posterColor: '#1A0800',
+    accentColor: '#FF5722',
+    tags: ['Documentary', 'Social'],
+    director: 'Cyrielle Raingou',
+  },
+  {
+    id: '6',
+    title: 'Afrique sur Seine',
+    genre: 'Drama',
+    year: 1955,
+    rating: 8.6,
+    duration: '0h 21m',
+    description:
+      'A pioneering short film considered one of the first Sub-Saharan African films ever made. A historic gem.',
+    posterColor: '#0D0D0D',
+    accentColor: '#9E9E9E',
+    tags: ['Classic', 'Short Film', 'Historic'],
+    director: 'Paulin Soumanou Vieyra',
+  },
+  {
+    id: '7',
+    title: 'Muna Moto',
+    genre: 'Drama',
+    year: 1975,
+    rating: 8.3,
+    duration: '1h 30m',
+    description:
+      "Cameroon's most celebrated film. A young man cannot marry the woman he loves because of the bride price tradition. A timeless classic.",
+    posterColor: '#1A1000',
+    accentColor: '#FFC107',
+    tags: ['Classic', 'Drama', 'Culture'],
+    director: 'Jean-Pierre Dikongué Pipa',
+  },
+  {
+    id: '8',
+    title: 'Boh Boys',
+    genre: 'Action',
+    year: 2023,
+    rating: 7.2,
+    duration: '1h 40m',
+    description:
+      'A raw and energetic street action film following young men navigating survival in the urban landscape of Douala.',
+    posterColor: '#100005',
+    accentColor: '#C62828',
+    tags: ['Action', 'Urban', 'Youth'],
+    director: 'Arcel Mongo',
+  },
+  {
+    id: '9',
+    title: 'Mont Cameroun',
+    genre: 'Documentary',
+    year: 2022,
+    rating: 8.0,
+    duration: '1h 15m',
+    description:
+      "A breathtaking nature documentary following the annual race up Africa's largest volcano, celebrated by local communities.",
+    posterColor: '#001A0A',
+    accentColor: '#00BCD4',
+    tags: ['Documentary', 'Nature', 'Sport'],
+    director: 'Nora Kameni',
+  },
+  {
+    id: '10',
+    title: 'Femmes du Cameroun',
+    genre: 'Documentary',
+    year: 2021,
+    rating: 8.5,
+    duration: '1h 10m',
+    description:
+      'Portraits of extraordinary Cameroonian women from all ten regions — farmers, artists, entrepreneurs, and healers.',
+    posterColor: '#1A001A',
+    accentColor: '#9C27B0',
+    tags: ['Documentary', 'Empowerment', 'Culture'],
+    director: 'Laurette Mbida',
+  },
+  {
+    id: '11',
+    title: 'Kribi Blues',
+    genre: 'Romance',
+    year: 2024,
+    rating: 7.6,
+    duration: '1h 48m',
+    description:
+      'A summer romance unfolds in the coastal town of Kribi, where two strangers discover love, loss, and the magic of the Atlantic coast.',
+    posterColor: '#00101A',
+    accentColor: '#03A9F4',
+    tags: ['Romance', 'Drama', 'Coast'],
+    director: 'Blaise Mbu',
+  },
+  {
+    id: '12',
+    title: 'Bakweri Echoes',
+    genre: 'Cultural',
+    year: 2023,
+    rating: 8.2,
+    duration: '1h 25m',
+    description:
+      'A visual journey into the Bakweri people of Mount Cameroon, their sacred rituals, masks, and the spirits that guide their lives.',
+    posterColor: '#0A1500',
+    accentColor: '#8BC34A',
+    tags: ['Cultural', 'Traditional', 'Spiritual'],
+    director: 'Epie Ndoumbe',
+  },
+];
+
+export const TRENDING: Movie[] = MOVIES.slice(0, 6);
+export const NEW_RELEASES: Movie[] = MOVIES.slice(5, 11);
+export const DOCUMENTARIES: Movie[] = MOVIES.filter(
+  (m) => m.genre === 'Documentary'
+);
