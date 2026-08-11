@@ -1,20 +1,40 @@
-import React, { useState } from 'react';
+import React, {
+  useMemo,
+  useState,
+} from 'react';
+
 import {
   Platform,
+  Pressable,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import Feather from '@/components/FeatherCompat';
+
+import { BlurView } from 'expo-blur';
+
+import { LinearGradient } from 'expo-linear-gradient';
+
 import { useRouter } from 'expo-router';
-import { Feather } from '@expo/vector-icons';
+
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import * as Haptics from 'expo-haptics';
+
 import { CategoryButton } from '@/components/CategoryButton';
+
 import { HeroBanner } from '@/components/HeroBanner';
+
 import { MovieCard } from '@/components/MovieCard';
+
 import { SectionTitle } from '@/components/SectionTitle';
+
 import { CATEGORIES } from '@/data/categories';
+
 import {
   DOCUMENTARIES,
   FEATURED_MOVIE,
@@ -22,169 +42,475 @@ import {
   NEW_RELEASES,
   TRENDING,
 } from '@/data/movies';
+
 import { THEME } from '@/constants/theme';
+
+interface GlassIconProps {
+  icon:
+    | 'search'
+    | 'bell'
+    | 'user';
+  onPress?: () => void;
+}
+
+function GlassIconButton({
+  icon,
+  onPress,
+}: GlassIconProps) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [
+        styles.glassIconButton,
+
+        pressed && {
+          opacity: 0.65,
+          transform: [
+            {
+              scale: 0.94,
+            },
+          ],
+        },
+      ]}
+    >
+      <BlurView
+        intensity={55}
+        tint="dark"
+        experimentalBlurMethod={
+          Platform.OS === 'android'
+            ? 'dimezisBlurView'
+            : undefined
+        }
+        style={StyleSheet.absoluteFill}
+      />
+
+      <View style={styles.glassIconTint} />
+
+      <Feather
+        name={icon}
+        size={19}
+        color="#FFFFFF"
+      />
+    </Pressable>
+  );
+}
 
 export default function HomeScreen() {
   const router = useRouter();
+
   const insets = useSafeAreaInsets();
-  const [activeCategory, setActiveCategory] = useState('all');
+
+  const [activeCategory, setActiveCategory] =
+    useState('all');
 
   const topPadding =
-    Platform.OS === 'web' ? 67 : insets.top;
+    Platform.OS === 'web'
+      ? 24
+      : insets.top + 8;
+
+  const visibleMovies = useMemo(() => {
+    if (activeCategory === 'all') {
+      return TRENDING;
+    }
+
+    const filtered = MOVIES.filter(
+      (movie) =>
+        movie.genre.toLowerCase() ===
+        activeCategory.toLowerCase()
+    );
+
+    return filtered.length > 0
+      ? filtered
+      : TRENDING;
+  }, [activeCategory]);
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="transparent"
+        translucent
+      />
 
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
         bounces
+        contentContainerStyle={
+          styles.scrollContent
+        }
       >
-        {/* Top Header */}
-        <View style={[styles.topBar, { paddingTop: topPadding + 12 }]}>
+        {/* HEADER */}
+
+        <View
+          style={[
+            styles.header,
+            {
+              paddingTop: topPadding,
+            },
+          ]}
+        >
           <View>
-            <Text style={styles.brandName}>MBOA FLIX</Text>
-            <Text style={styles.brandTagline}>Cameroonian Cinema & Culture</Text>
+            <Text style={styles.logo}>
+              MBOA
+              <Text style={styles.logoAccent}>
+                {' '}FLIX
+              </Text>
+            </Text>
+
+            <Text style={styles.tagline}>
+              Stories from Cameroon
+            </Text>
           </View>
-          <View style={styles.topIcons}>
-            <Feather name="search" size={22} color={THEME.textSecondary} />
-            <Feather name="bell" size={22} color={THEME.textSecondary} />
+
+          <View style={styles.headerActions}>
+            <GlassIconButton
+              icon="search"
+              onPress={() =>
+                router.push('/explore')
+              }
+            />
+
+            <GlassIconButton
+              icon="bell"
+              onPress={() =>
+                Haptics.selectionAsync()
+              }
+            />
           </View>
         </View>
 
-        {/* Hero Banner */}
+        {/* HERO */}
+
         <HeroBanner
           movie={FEATURED_MOVIE}
-          onPlay={() => router.push(`/movie/${FEATURED_MOVIE.id}`)}
-          onInfo={() => router.push(`/movie/${FEATURED_MOVIE.id}`)}
+          onPlay={() =>
+            router.push(
+              `/movie/${FEATURED_MOVIE.id}`
+            )
+          }
+          onInfo={() =>
+            router.push(
+              `/movie/${FEATURED_MOVIE.id}`
+            )
+          }
         />
 
-        {/* Categories */}
-        <View style={styles.categoriesSection}>
+        {/* CATEGORY FILTER */}
+
+        <View style={styles.categories}>
           <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.categoriesList}
+            showsHorizontalScrollIndicator={
+              false
+            }
+            contentContainerStyle={
+              styles.categoriesContent
+            }
           >
-            {CATEGORIES.slice(0, 7).map((cat) => (
+            {CATEGORIES.map((category) => (
               <CategoryButton
-                key={cat.id}
-                label={cat.label}
-                active={activeCategory === cat.id}
-                onPress={() => setActiveCategory(cat.id)}
+                key={category.id}
+                label={category.label}
+                active={
+                  activeCategory ===
+                  category.id
+                }
+                onPress={() =>
+                  setActiveCategory(
+                    category.id
+                  )
+                }
               />
             ))}
           </ScrollView>
         </View>
 
-        {/* Trending Now */}
+        {/* TRENDING */}
+
         <View style={styles.section}>
           <SectionTitle
-            title="Trending Now"
-            onSeeAll={() => router.push('/explore')}
+            title={
+              activeCategory === 'all'
+                ? 'Trending in Cameroon'
+                : `${
+                    CATEGORIES.find(
+                      (item) =>
+                        item.id ===
+                        activeCategory
+                    )?.label
+                  } Movies`
+            }
+            onSeeAll={() =>
+              router.push('/explore')
+            }
           />
+
           <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
+            showsHorizontalScrollIndicator={
+              false
+            }
+            contentContainerStyle={
+              styles.horizontalList
+            }
           >
-            {TRENDING.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                size="md"
-                onPress={() => router.push(`/movie/${movie.id}`)}
-              />
-            ))}
+            {visibleMovies.map(
+              (movie, index) => (
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  rank={
+                    activeCategory === 'all'
+                      ? index + 1
+                      : undefined
+                  }
+                  onPress={() =>
+                    router.push(
+                      `/movie/${movie.id}`
+                    )
+                  }
+                />
+              )
+            )}
           </ScrollView>
         </View>
 
-        {/* New Releases */}
+        {/* CULTURE PROMOTION */}
+
+        <Pressable
+          onPress={() =>
+            router.push('/culture')
+          }
+          style={({ pressed }) => [
+            styles.cultureCard,
+            pressed && {
+              opacity: 0.8,
+            },
+          ]}
+        >
+          <LinearGradient
+            colors={[
+              '#1B1205',
+              '#100B06',
+              '#090909',
+            ]}
+            start={{
+              x: 0,
+              y: 0,
+            }}
+            end={{
+              x: 1,
+              y: 1,
+            }}
+            style={StyleSheet.absoluteFill}
+          />
+
+          <View style={styles.cultureGlow} />
+
+          <View style={styles.cultureContent}>
+            <View style={styles.cultureIcon}>
+              <Feather
+                name="globe"
+                size={23}
+                color={THEME.gold}
+              />
+            </View>
+
+            <View style={styles.cultureTexts}>
+              <Text
+                style={styles.cultureEyebrow}
+              >
+                DISCOVER CAMEROON
+              </Text>
+
+              <Text style={styles.cultureTitle}>
+                More than movies.
+              </Text>
+
+              <Text
+                style={styles.cultureDescription}
+              >
+                Explore food, music,
+                traditions and stories from
+                across Cameroon.
+              </Text>
+            </View>
+
+            <View style={styles.arrowButton}>
+              <Feather
+                name="arrow-up-right"
+                size={19}
+                color="#080808"
+              />
+            </View>
+          </View>
+        </Pressable>
+
+        {/* NEW RELEASES */}
+
         <View style={styles.section}>
           <SectionTitle
             title="New Releases"
-            onSeeAll={() => router.push('/explore')}
+            onSeeAll={() =>
+              router.push('/explore')
+            }
           />
+
           <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
+            showsHorizontalScrollIndicator={
+              false
+            }
+            contentContainerStyle={
+              styles.horizontalList
+            }
           >
             {NEW_RELEASES.map((movie) => (
               <MovieCard
                 key={movie.id}
                 movie={movie}
-                size="md"
-                onPress={() => router.push(`/movie/${movie.id}`)}
+                onPress={() =>
+                  router.push(
+                    `/movie/${movie.id}`
+                  )
+                }
               />
             ))}
           </ScrollView>
         </View>
 
-        {/* Promotions Banner */}
-        <View style={styles.promoBanner}>
-          <View style={styles.promoLeft}>
-            <Feather name="award" size={28} color={THEME.gold} />
-            <View>
-              <Text style={styles.promoTitle}>African Film Heritage</Text>
-              <Text style={styles.promoSub}>
-                Timeless classics from 1955 to today
-              </Text>
-            </View>
+        {/* HERITAGE CARD */}
+
+        <View style={styles.heritage}>
+          <BlurView
+            intensity={45}
+            tint="dark"
+            experimentalBlurMethod={
+              Platform.OS === 'android'
+                ? 'dimezisBlurView'
+                : undefined
+            }
+            style={
+              StyleSheet.absoluteFill
+            }
+          />
+
+          <View style={styles.heritageTint} />
+
+          <View style={styles.heritageIcon}>
+            <Feather
+              name="award"
+              size={24}
+              color={THEME.gold}
+            />
           </View>
-          <Feather name="chevron-right" size={20} color={THEME.gold} />
+
+          <View style={styles.heritageContent}>
+            <Text style={styles.heritageTitle}>
+              Cameroonian Film Heritage
+            </Text>
+
+            <Text
+              style={styles.heritageSubtitle}
+            >
+              Classics that shaped our
+              cinema.
+            </Text>
+          </View>
+
+          <Feather
+            name="chevron-right"
+            size={20}
+            color={THEME.gold}
+          />
         </View>
 
-        {/* Documentaries */}
+        {/* DOCUMENTARIES */}
+
         <View style={styles.section}>
           <SectionTitle
             title="Documentaries"
-            onSeeAll={() => router.push('/explore')}
+            onSeeAll={() =>
+              router.push('/explore')
+            }
           />
+
           <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
+            showsHorizontalScrollIndicator={
+              false
+            }
+            contentContainerStyle={
+              styles.horizontalList
+            }
           >
-            {DOCUMENTARIES.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                size="lg"
-                onPress={() => router.push(`/movie/${movie.id}`)}
-              />
-            ))}
+            {DOCUMENTARIES.map(
+              (movie) => (
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  size="lg"
+                  onPress={() =>
+                    router.push(
+                      `/movie/${movie.id}`
+                    )
+                  }
+                />
+              )
+            )}
           </ScrollView>
         </View>
 
-        {/* All Films Teaser */}
+        {/* DISCOVER MORE */}
+
         <View style={styles.section}>
-          <SectionTitle title="More to Discover" />
+          <SectionTitle
+            title="Hidden Gems"
+            onSeeAll={() =>
+              router.push('/explore')
+            }
+          />
+
           <ScrollView
             horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalList}
+            showsHorizontalScrollIndicator={
+              false
+            }
+            contentContainerStyle={
+              styles.horizontalList
+            }
           >
-            {MOVIES.slice(6, 12).map((movie) => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                size="sm"
-                onPress={() => router.push(`/movie/${movie.id}`)}
-              />
-            ))}
+            {MOVIES.slice(6, 12).map(
+              (movie) => (
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  size="sm"
+                  onPress={() =>
+                    router.push(
+                      `/movie/${movie.id}`
+                    )
+                  }
+                />
+              )
+            )}
           </ScrollView>
         </View>
 
-        {/* Footer tagline */}
+        {/* FOOTER */}
+
         <View style={styles.footer}>
+          <View style={styles.footerLine} />
+
+          <Text style={styles.footerBrand}>
+            MBOA FLIX
+          </Text>
+
           <Text style={styles.footerText}>
-            ✦ Africa in miniature. Stories without borders. ✦
+            Our stories. Our culture.
+            Our screen.
           </Text>
         </View>
-
-        {Platform.OS === 'web' && <View style={{ height: 34 }} />}
       </ScrollView>
     </View>
   );
@@ -193,86 +519,310 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: THEME.background,
+
+    backgroundColor: '#050505',
   },
-  topBar: {
+
+  scrollContent: {
+    paddingBottom: 135,
+  },
+
+  header: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingBottom: 16,
+
+    justifyContent:
+      'space-between',
+
+    alignItems: 'center',
+
+    paddingHorizontal: 18,
+
+    paddingBottom: 18,
   },
-  brandName: {
+
+  logo: {
+    color: '#FFFFFF',
+
+    fontSize: 25,
+    fontWeight: '800',
+
+    letterSpacing: 1.5,
+  },
+
+  logoAccent: {
     color: THEME.gold,
-    fontSize: 22,
-    fontFamily: 'Inter_700Bold',
-    letterSpacing: 2,
   },
-  brandTagline: {
-    color: THEME.textMuted,
+
+  tagline: {
+    color:
+      'rgba(255,255,255,0.42)',
+
     fontSize: 11,
-    fontFamily: 'Inter_400Regular',
-    letterSpacing: 0.5,
-    marginTop: 2,
+
+    marginTop: 3,
+
+    letterSpacing: 0.4,
   },
-  topIcons: {
+
+  headerActions: {
     flexDirection: 'row',
-    gap: 18,
-    paddingTop: 4,
+
+    gap: 9,
   },
-  categoriesSection: {
-    marginTop: 20,
-    marginBottom: 4,
-  },
-  categoriesList: {
-    paddingHorizontal: 20,
-  },
-  section: {
-    marginTop: 28,
-  },
-  horizontalList: {
-    paddingHorizontal: 20,
-    paddingRight: 8,
-  },
-  promoBanner: {
-    marginHorizontal: 20,
-    marginTop: 28,
-    backgroundColor: THEME.card,
-    borderRadius: 14,
-    padding: 18,
-    flexDirection: 'row',
+
+  glassIconButton: {
+    width: 42,
+    height: 42,
+
+    borderRadius: 21,
+
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+
+    overflow: 'hidden',
+
     borderWidth: 1,
-    borderColor: 'rgba(212,175,55,0.2)',
+
+    borderColor:
+      'rgba(255,255,255,0.12)',
   },
-  promoLeft: {
+
+  glassIconTint: {
+    ...StyleSheet.absoluteFillObject,
+
+    backgroundColor:
+      'rgba(255,255,255,0.045)',
+  },
+
+  categories: {
+    marginTop: 20,
+  },
+
+  categoriesContent: {
+    paddingHorizontal: 18,
+
+    paddingRight: 9,
+  },
+
+  section: {
+    marginTop: 32,
+  },
+
+  horizontalList: {
+    paddingHorizontal: 18,
+
+    paddingRight: 5,
+  },
+
+  cultureCard: {
+    marginHorizontal: 18,
+
+    marginTop: 34,
+
+    minHeight: 170,
+
+    borderRadius: 28,
+
+    overflow: 'hidden',
+
+    borderWidth: 1,
+
+    borderColor:
+      'rgba(212,175,55,0.18)',
+  },
+
+  cultureGlow: {
+    position: 'absolute',
+
+    width: 180,
+    height: 180,
+
+    borderRadius: 90,
+
+    right: -50,
+    top: -70,
+
+    backgroundColor:
+      'rgba(212,175,55,0.10)',
+  },
+
+  cultureContent: {
+    flex: 1,
+
     flexDirection: 'row',
+
     alignItems: 'center',
-    gap: 14,
+
+    padding: 20,
+
+    gap: 15,
+  },
+
+  cultureIcon: {
+    width: 48,
+    height: 48,
+
+    borderRadius: 17,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor:
+      'rgba(212,175,55,0.10)',
+
+    borderWidth: 1,
+
+    borderColor:
+      'rgba(212,175,55,0.20)',
+  },
+
+  cultureTexts: {
     flex: 1,
   },
-  promoTitle: {
-    color: THEME.text,
-    fontSize: 15,
-    fontFamily: 'Inter_600SemiBold',
+
+  cultureEyebrow: {
+    color: THEME.gold,
+
+    fontSize: 9,
+    fontWeight: '800',
+
+    letterSpacing: 1.5,
   },
-  promoSub: {
-    color: THEME.textMuted,
+
+  cultureTitle: {
+    color: '#FFFFFF',
+
+    fontSize: 20,
+    fontWeight: '800',
+
+    marginTop: 5,
+  },
+
+  cultureDescription: {
+    color:
+      'rgba(255,255,255,0.56)',
+
     fontSize: 12,
-    fontFamily: 'Inter_400Regular',
-    marginTop: 2,
+    lineHeight: 18,
+
+    marginTop: 7,
   },
-  footer: {
-    marginTop: 36,
+
+  arrowButton: {
+    width: 40,
+    height: 40,
+
+    borderRadius: 20,
+
+    backgroundColor: THEME.gold,
+
     alignItems: 'center',
-    paddingHorizontal: 20,
+    justifyContent: 'center',
   },
+
+  heritage: {
+    marginHorizontal: 18,
+
+    marginTop: 32,
+
+    minHeight: 92,
+
+    borderRadius: 24,
+
+    overflow: 'hidden',
+
+    flexDirection: 'row',
+
+    alignItems: 'center',
+
+    paddingHorizontal: 17,
+
+    borderWidth: 1,
+
+    borderColor:
+      'rgba(255,255,255,0.10)',
+  },
+
+  heritageTint: {
+    ...StyleSheet.absoluteFillObject,
+
+    backgroundColor:
+      'rgba(15,15,15,0.64)',
+  },
+
+  heritageIcon: {
+    width: 46,
+    height: 46,
+
+    borderRadius: 17,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor:
+      'rgba(212,175,55,0.09)',
+
+    borderWidth: 1,
+
+    borderColor:
+      'rgba(212,175,55,0.16)',
+  },
+
+  heritageContent: {
+    flex: 1,
+
+    marginLeft: 13,
+  },
+
+  heritageTitle: {
+    color: '#FFFFFF',
+
+    fontSize: 15,
+    fontWeight: '700',
+  },
+
+  heritageSubtitle: {
+    color:
+      'rgba(255,255,255,0.45)',
+
+    fontSize: 11,
+
+    marginTop: 4,
+  },
+
+  footer: {
+    alignItems: 'center',
+
+    paddingTop: 55,
+    paddingBottom: 20,
+  },
+
+  footerLine: {
+    width: 30,
+    height: 2,
+
+    borderRadius: 2,
+
+    backgroundColor: THEME.gold,
+
+    marginBottom: 16,
+  },
+
+  footerBrand: {
+    color: THEME.gold,
+
+    fontSize: 13,
+    fontWeight: '800',
+
+    letterSpacing: 3,
+  },
+
   footerText: {
-    color: THEME.textMuted,
-    fontSize: 12,
-    fontFamily: 'Inter_400Regular',
-    letterSpacing: 0.5,
-    textAlign: 'center',
+    color:
+      'rgba(255,255,255,0.28)',
+
+    marginTop: 8,
+
+    fontSize: 11,
   },
 });

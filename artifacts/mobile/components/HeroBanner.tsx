@@ -1,13 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View, Pressable, Dimensions } from 'react-native';
+import {
+  Platform,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+import Feather from '@/components/FeatherCompat';
+import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Feather } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
+
 import { Movie } from '@/types';
 import { THEME } from '@/constants/theme';
-
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const BANNER_HEIGHT = 460;
 
 interface HeroBannerProps {
   movie: Movie;
@@ -15,92 +21,211 @@ interface HeroBannerProps {
   onInfo?: () => void;
 }
 
-export function HeroBanner({ movie, onPlay, onInfo }: HeroBannerProps) {
+export function HeroBanner({
+  movie,
+  onPlay,
+  onInfo,
+}: HeroBannerProps) {
   const handlePlay = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    Haptics.impactAsync(
+      Haptics.ImpactFeedbackStyle.Medium
+    );
+
     onPlay?.();
   };
 
   const handleInfo = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(
+      Haptics.ImpactFeedbackStyle.Light
+    );
+
     onInfo?.();
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: movie.posterColor }]}>
-      {/* Abstract art background */}
-      <View style={[styles.circle1, { borderColor: movie.accentColor }]} />
-      <View style={[styles.circle2, { backgroundColor: movie.accentColor }]} />
-      <View style={[styles.circle3, { borderColor: movie.accentColor }]} />
-
-      {/* Film reel decorative icon */}
-      <View style={styles.filmIcon}>
-        <Feather name="film" size={120} color={movie.accentColor} style={{ opacity: 0.08 }} />
-      </View>
-
-      {/* Gradient overlay */}
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: movie.posterColor,
+        },
+      ]}
+    >
+      {/* Background cinematic gradient */}
       <LinearGradient
         colors={[
-          'transparent',
-          'rgba(10,10,10,0.2)',
-          'rgba(10,10,10,0.7)',
-          'rgba(10,10,10,0.97)',
+          movie.posterColor,
+          '#17100A',
+          '#080808',
         ]}
-        locations={[0, 0.3, 0.65, 1]}
-        style={styles.gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={StyleSheet.absoluteFill}
       />
 
-      {/* Featured label */}
-      <View style={styles.featuredBadge}>
-        <Text style={styles.featuredText}>✦ FEATURED</Text>
+      {/* Decorative glow */}
+      <View
+        style={[
+          styles.glowLarge,
+          {
+            borderColor: movie.accentColor,
+          },
+        ]}
+      />
+
+      <View
+        style={[
+          styles.glowSmall,
+          {
+            backgroundColor: movie.accentColor,
+          },
+        ]}
+      />
+
+      <View style={styles.filmWatermark}>
+        <Feather
+          name="film"
+          size={130}
+          color={movie.accentColor}
+        />
       </View>
 
-      {/* Content */}
-      <View style={styles.content}>
-        {/* Tags */}
-        <View style={styles.tags}>
-          {movie.tags.map((tag) => (
-            <View key={tag} style={styles.tag}>
-              <Text style={styles.tagText}>{tag}</Text>
+      {/* Top labels */}
+      <View style={styles.topRow}>
+        <View style={styles.originalBadge}>
+          <View style={styles.originalDot} />
+
+          <Text style={styles.originalText}>
+            MBOA ORIGINAL
+          </Text>
+        </View>
+
+        <View style={styles.featuredBadge}>
+          <Feather
+            name="star"
+            size={12}
+            color="#080808"
+          />
+
+          <Text style={styles.featuredText}>
+            FEATURED
+          </Text>
+        </View>
+      </View>
+
+      {/* Glass information panel */}
+      <View style={styles.glassWrapper}>
+        <BlurView
+          intensity={75}
+          tint="dark"
+          experimentalBlurMethod={
+            Platform.OS === 'android'
+              ? 'dimezisBlurView'
+              : undefined
+          }
+          style={StyleSheet.absoluteFill}
+        />
+
+        <View style={styles.glassTint} />
+
+        <View style={styles.content}>
+          <View style={styles.tags}>
+            {movie.tags.slice(0, 3).map((tag) => (
+              <View key={tag} style={styles.tag}>
+                <Text style={styles.tagText}>
+                  {tag}
+                </Text>
+              </View>
+            ))}
+          </View>
+
+          <Text style={styles.title}>
+            {movie.title}
+          </Text>
+
+          <View style={styles.meta}>
+            <View style={styles.rating}>
+              <Feather
+                name="star"
+                size={13}
+                color={THEME.goldLight}
+              />
+
+              <Text style={styles.ratingText}>
+                {movie.rating.toFixed(1)}
+              </Text>
             </View>
-          ))}
-        </View>
 
-        {/* Title */}
-        <Text style={styles.title}>{movie.title}</Text>
+            <View style={styles.dot} />
 
-        {/* Meta */}
-        <View style={styles.meta}>
-          <Feather name="star" size={12} color={THEME.gold} />
-          <Text style={styles.metaText}>{movie.rating.toFixed(1)}</Text>
-          <View style={styles.dot} />
-          <Text style={styles.metaText}>{movie.year}</Text>
-          <View style={styles.dot} />
-          <Text style={styles.metaText}>{movie.duration}</Text>
-        </View>
+            <Text style={styles.metaText}>
+              {movie.year}
+            </Text>
 
-        {/* Description */}
-        <Text style={styles.description} numberOfLines={2}>
-          {movie.description}
-        </Text>
+            <View style={styles.dot} />
 
-        {/* Buttons */}
-        <View style={styles.buttons}>
-          <Pressable
-            onPress={handlePlay}
-            style={({ pressed }) => [styles.playButton, pressed && { opacity: 0.85 }]}
+            <Text style={styles.metaText}>
+              {movie.duration}
+            </Text>
+          </View>
+
+          <Text
+            style={styles.description}
+            numberOfLines={2}
           >
-            <Feather name="play" size={18} color="#0A0A0A" />
-            <Text style={styles.playLabel}>Play</Text>
-          </Pressable>
+            {movie.description}
+          </Text>
 
-          <Pressable
-            onPress={handleInfo}
-            style={({ pressed }) => [styles.infoButton, pressed && { opacity: 0.75 }]}
-          >
-            <Feather name="info" size={16} color="#FFFFFF" />
-            <Text style={styles.infoLabel}>More Info</Text>
-          </Pressable>
+          <View style={styles.actions}>
+            <Pressable
+              onPress={handlePlay}
+              style={({ pressed }) => [
+                styles.playButton,
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <Feather
+                name="play"
+                size={18}
+                color="#080808"
+              />
+
+              <Text style={styles.playText}>
+                Watch
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={handleInfo}
+              style={({ pressed }) => [
+                styles.infoButton,
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <Feather
+                name="info"
+                size={18}
+                color="#FFFFFF"
+              />
+
+              <Text style={styles.infoText}>
+                Details
+              </Text>
+            </Pressable>
+
+            <Pressable
+              style={({ pressed }) => [
+                styles.circleButton,
+                pressed && styles.buttonPressed,
+              ]}
+            >
+              <Feather
+                name="plus"
+                size={20}
+                color="#FFFFFF"
+              />
+            </Pressable>
+          </View>
         </View>
       </View>
     </View>
@@ -109,153 +234,326 @@ export function HeroBanner({ movie, onPlay, onInfo }: HeroBannerProps) {
 
 const styles = StyleSheet.create({
   container: {
-    width: SCREEN_WIDTH,
-    height: BANNER_HEIGHT,
-    position: 'relative',
+    height: 440,
+    marginHorizontal: 16,
+    borderRadius: 32,
     overflow: 'hidden',
-  },
-  circle1: {
-    position: 'absolute',
-    top: -40,
-    right: -40,
-    width: 220,
-    height: 220,
-    borderRadius: 110,
+    position: 'relative',
+
     borderWidth: 1,
-    opacity: 0.18,
+    borderColor: 'rgba(255,255,255,0.10)',
   },
-  circle2: {
+
+  glowLarge: {
     position: 'absolute',
-    top: 30,
-    right: 30,
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    opacity: 0.1,
+    width: 290,
+    height: 290,
+    borderRadius: 145,
+
+    right: -100,
+    top: -70,
+
+    borderWidth: 1.5,
+    opacity: 0.25,
   },
-  circle3: {
+
+  glowSmall: {
     position: 'absolute',
-    top: 120,
-    right: 100,
-    width: 150,
-    height: 150,
-    borderRadius: 75,
-    borderWidth: 0.5,
-    opacity: 0.1,
+
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+
+    top: 60,
+    right: 35,
+
+    opacity: 0.12,
   },
-  filmIcon: {
+
+  filmWatermark: {
     position: 'absolute',
-    top: 30,
-    left: 20,
+
+    left: 25,
+    top: 85,
+
+    opacity: 0.08,
+
+    transform: [
+      {
+        rotate: '-10deg',
+      },
+    ],
   },
-  gradient: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  featuredBadge: {
+
+  topRow: {
     position: 'absolute',
-    top: 20,
-    right: 20,
+
+    top: 18,
+    left: 18,
+    right: 18,
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  originalBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    gap: 7,
+
+    paddingHorizontal: 11,
+    paddingVertical: 7,
+
+    borderRadius: 100,
+
+    backgroundColor: 'rgba(0,0,0,0.40)',
+
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+  },
+
+  originalDot: {
+    width: 6,
+    height: 6,
+
+    borderRadius: 3,
+
     backgroundColor: THEME.gold,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 6,
   },
-  featuredText: {
-    color: '#0A0A0A',
+
+  originalText: {
+    color: '#FFFFFF',
+
     fontSize: 10,
-    fontFamily: 'Inter_700Bold',
+    fontWeight: '700',
+
+    letterSpacing: 1.3,
+  },
+
+  featuredBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    gap: 6,
+
+    backgroundColor: THEME.gold,
+
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+
+    borderRadius: 100,
+  },
+
+  featuredText: {
+    color: '#080808',
+
+    fontSize: 10,
+    fontWeight: '800',
+
     letterSpacing: 1,
   },
-  content: {
+
+  glassWrapper: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingHorizontal: 20,
-    paddingBottom: 24,
+
+    left: 12,
+    right: 12,
+    bottom: 12,
+
+    borderRadius: 26,
+
+    overflow: 'hidden',
+
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.14)',
   },
+
+  glassTint: {
+    ...StyleSheet.absoluteFillObject,
+
+    backgroundColor: 'rgba(8,8,8,0.56)',
+  },
+
+  content: {
+    padding: 18,
+  },
+
   tags: {
     flexDirection: 'row',
-    gap: 8,
+    flexWrap: 'wrap',
+
+    gap: 7,
+
     marginBottom: 10,
   },
+
   tag: {
+    paddingHorizontal: 9,
+    paddingVertical: 4,
+
+    borderRadius: 100,
+
+    backgroundColor:
+      'rgba(255,255,255,0.07)',
+
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.25)',
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: 5,
+    borderColor:
+      'rgba(255,255,255,0.10)',
   },
+
   tagText: {
-    color: 'rgba(255,255,255,0.75)',
-    fontSize: 11,
-    fontFamily: 'Inter_400Regular',
+    color: 'rgba(255,255,255,0.78)',
+
+    fontSize: 10,
+    fontWeight: '500',
   },
+
   title: {
     color: '#FFFFFF',
+
     fontSize: 30,
-    fontFamily: 'Inter_700Bold',
-    lineHeight: 36,
-    marginBottom: 10,
-    letterSpacing: 0.2,
+    lineHeight: 34,
+
+    fontWeight: '800',
+
+    letterSpacing: -0.5,
   },
+
   meta: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
-    marginBottom: 10,
+
+    gap: 7,
+
+    marginTop: 9,
   },
-  metaText: {
-    color: THEME.textSecondary,
+
+  rating: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    gap: 5,
+  },
+
+  ratingText: {
+    color: THEME.goldLight,
+
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
+    fontWeight: '700',
   },
+
+  metaText: {
+    color: 'rgba(255,255,255,0.64)',
+
+    fontSize: 12,
+    fontWeight: '500',
+  },
+
   dot: {
     width: 3,
     height: 3,
-    borderRadius: 1.5,
-    backgroundColor: THEME.textMuted,
+
+    borderRadius: 2,
+
+    backgroundColor:
+      'rgba(255,255,255,0.38)',
   },
+
   description: {
-    color: 'rgba(255,255,255,0.72)',
+    marginTop: 10,
+
+    color: 'rgba(255,255,255,0.70)',
+
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
     lineHeight: 19,
-    marginBottom: 18,
   },
-  buttons: {
+
+  actions: {
     flexDirection: 'row',
-    gap: 12,
     alignItems: 'center',
+
+    gap: 10,
+
+    marginTop: 16,
   },
+
   playButton: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+
     gap: 8,
+
+    height: 46,
+
+    paddingHorizontal: 22,
+
+    borderRadius: 16,
+
     backgroundColor: THEME.gold,
-    paddingHorizontal: 28,
-    paddingVertical: 13,
-    borderRadius: 8,
   },
-  playLabel: {
-    color: '#0A0A0A',
-    fontSize: 15,
-    fontFamily: 'Inter_700Bold',
+
+  playText: {
+    color: '#080808',
+
+    fontSize: 14,
+    fontWeight: '800',
   },
+
   infoButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
-    backgroundColor: 'rgba(255,255,255,0.18)',
-    paddingHorizontal: 20,
-    paddingVertical: 13,
-    borderRadius: 8,
+    justifyContent: 'center',
+
+    gap: 7,
+
+    height: 46,
+
+    paddingHorizontal: 18,
+
+    borderRadius: 16,
+
+    backgroundColor:
+      'rgba(255,255,255,0.10)',
+
     borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
+    borderColor:
+      'rgba(255,255,255,0.12)',
   },
-  infoLabel: {
+
+  infoText: {
     color: '#FFFFFF',
-    fontSize: 15,
-    fontFamily: 'Inter_600SemiBold',
+
+    fontSize: 14,
+    fontWeight: '600',
+  },
+
+  circleButton: {
+    width: 46,
+    height: 46,
+
+    borderRadius: 23,
+
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    backgroundColor:
+      'rgba(255,255,255,0.10)',
+
+    borderWidth: 1,
+    borderColor:
+      'rgba(255,255,255,0.12)',
+  },
+
+  buttonPressed: {
+    opacity: 0.7,
+
+    transform: [
+      {
+        scale: 0.96,
+      },
+    ],
   },
 });

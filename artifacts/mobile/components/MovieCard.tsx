@@ -1,35 +1,59 @@
 import React from 'react';
+
 import {
   Pressable,
   StyleSheet,
   Text,
   View,
-  Platform,
 } from 'react-native';
+
+import Feather from '@/components/FeatherCompat';
+
+import { LinearGradient } from 'expo-linear-gradient';
+
 import * as Haptics from 'expo-haptics';
-import { Feather } from '@expo/vector-icons';
+
 import { Movie } from '@/types';
+
 import { THEME } from '@/constants/theme';
 
 interface MovieCardProps {
   movie: Movie;
   onPress?: () => void;
   size?: 'sm' | 'md' | 'lg';
+  rank?: number;
 }
 
 const SIZES = {
-  sm: { width: 110, height: 165 },
-  md: { width: 140, height: 210 },
-  lg: { width: 170, height: 255 },
+  sm: {
+    width: 122,
+    height: 184,
+  },
+
+  md: {
+    width: 152,
+    height: 228,
+  },
+
+  lg: {
+    width: 178,
+    height: 260,
+  },
 };
 
-export function MovieCard({ movie, onPress, size = 'md' }: MovieCardProps) {
-  const { width, height } = SIZES[size];
-  const genreColor =
-    THEME.genreColors[movie.genre] ?? THEME.genreColors['Drama'];
+export function MovieCard({
+  movie,
+  onPress,
+  size = 'md',
+  rank,
+}: MovieCardProps) {
+  const dimensions = SIZES[size];
 
   const handlePress = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    Haptics.impactAsync(
+      Haptics.ImpactFeedbackStyle.Light
+    );
+
     onPress?.();
   };
 
@@ -37,128 +61,313 @@ export function MovieCard({ movie, onPress, size = 'md' }: MovieCardProps) {
     <Pressable
       onPress={handlePress}
       style={({ pressed }) => [
-        styles.container,
-        { width, height, backgroundColor: movie.posterColor },
+        styles.wrapper,
+
+        {
+          width: dimensions.width,
+          height: dimensions.height,
+        },
+
         pressed && styles.pressed,
       ]}
     >
-      {/* Abstract poster art */}
-      <View style={[styles.posterArt, { borderColor: movie.accentColor }]} />
-      <View style={[styles.accentStripe, { backgroundColor: movie.accentColor }]} />
+      <LinearGradient
+        colors={[
+          movie.posterColor,
+          '#151515',
+          '#050505',
+        ]}
+        style={StyleSheet.absoluteFill}
+      />
 
-      {/* Film icon */}
-      <View style={styles.iconContainer}>
-        <Feather name="film" size={28} color={movie.accentColor} style={{ opacity: 0.6 }} />
+      {/* Abstract cinematic artwork */}
+      <View
+        style={[
+          styles.posterCircle,
+          {
+            borderColor: movie.accentColor,
+          },
+        ]}
+      />
+
+      <View
+        style={[
+          styles.posterGlow,
+          {
+            backgroundColor: movie.accentColor,
+          },
+        ]}
+      />
+
+      <View style={styles.centerIcon}>
+        <Feather
+          name="film"
+          size={34}
+          color={movie.accentColor}
+        />
+
+        <Text style={styles.mboaText}>
+          MBOA
+        </Text>
       </View>
 
-      {/* Rating badge */}
+      <LinearGradient
+        colors={[
+          'transparent',
+          'rgba(0,0,0,0.15)',
+          'rgba(0,0,0,0.94)',
+        ]}
+        style={StyleSheet.absoluteFill}
+      />
+
+      {rank && (
+        <View style={styles.rankBadge}>
+          <Text style={styles.rankText}>
+            TOP {rank}
+          </Text>
+        </View>
+      )}
+
       <View style={styles.ratingBadge}>
-        <Feather name="star" size={9} color={THEME.gold} />
-        <Text style={styles.ratingText}>{movie.rating.toFixed(1)}</Text>
+        <Feather
+          name="star"
+          size={10}
+          color={THEME.goldLight}
+        />
+
+        <Text style={styles.ratingText}>
+          {movie.rating.toFixed(1)}
+        </Text>
       </View>
 
-      {/* Genre badge */}
-      <View style={[styles.genreBadge, { backgroundColor: genreColor }]}>
-        <Text style={styles.genreText}>{movie.genre}</Text>
-      </View>
+      <View style={styles.bottom}>
+        <View
+          style={[
+            styles.genreDot,
+            {
+              backgroundColor:
+                movie.accentColor,
+            },
+          ]}
+        />
 
-      {/* Bottom overlay */}
-      <View style={styles.bottomOverlay}>
-        <Text style={styles.title} numberOfLines={2}>
+        <Text
+          style={styles.title}
+          numberOfLines={2}
+        >
           {movie.title}
         </Text>
-        <Text style={styles.year}>{movie.year}</Text>
+
+        <View style={styles.meta}>
+          <Text style={styles.year}>
+            {movie.year}
+          </Text>
+
+          <Text style={styles.metaDot}>
+            •
+          </Text>
+
+          <Text style={styles.genre}>
+            {movie.genre}
+          </Text>
+        </View>
       </View>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    borderRadius: 10,
+  wrapper: {
+    marginRight: 13,
+
+    borderRadius: 20,
+
     overflow: 'hidden',
-    marginRight: 12,
+
     position: 'relative',
+
+    borderWidth: 1,
+    borderColor:
+      'rgba(255,255,255,0.09)',
   },
+
   pressed: {
-    opacity: 0.82,
-    transform: [{ scale: 0.97 }],
+    opacity: 0.84,
+
+    transform: [
+      {
+        scale: 0.97,
+      },
+    ],
   },
-  posterArt: {
+
+  posterCircle: {
     position: 'absolute',
-    top: 16,
-    right: 16,
-    width: 55,
-    height: 55,
-    borderRadius: 28,
-    borderWidth: 1.5,
-    opacity: 0.25,
+
+    width: 130,
+    height: 130,
+
+    borderRadius: 65,
+
+    borderWidth: 1.2,
+
+    top: 25,
+    right: -45,
+
+    opacity: 0.28,
   },
-  accentStripe: {
+
+  posterGlow: {
     position: 'absolute',
-    left: 0,
-    top: 0,
-    bottom: 0,
-    width: 3,
-    opacity: 0.8,
+
+    width: 75,
+    height: 75,
+
+    borderRadius: 40,
+
+    left: 15,
+    top: 55,
+
+    opacity: 0.08,
   },
-  iconContainer: {
+
+  centerIcon: {
     position: 'absolute',
-    top: 0,
+
     left: 0,
     right: 0,
-    bottom: 0,
+
+    top: '32%',
+
     alignItems: 'center',
-    justifyContent: 'center',
+
+    opacity: 0.58,
   },
+
+  mboaText: {
+    marginTop: 6,
+
+    color: 'rgba(255,255,255,0.35)',
+
+    fontSize: 9,
+    fontWeight: '800',
+
+    letterSpacing: 2,
+  },
+
+  rankBadge: {
+    position: 'absolute',
+
+    top: 10,
+    left: 10,
+
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+
+    borderRadius: 9,
+
+    backgroundColor:
+      'rgba(212,175,55,0.16)',
+
+    borderWidth: 1,
+    borderColor:
+      'rgba(212,175,55,0.32)',
+  },
+
+  rankText: {
+    color: THEME.goldLight,
+
+    fontSize: 9,
+    fontWeight: '800',
+
+    letterSpacing: 0.7,
+  },
+
   ratingBadge: {
     position: 'absolute',
-    top: 8,
-    left: 8,
+
+    top: 10,
+    right: 10,
+
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 3,
-    backgroundColor: 'rgba(0,0,0,0.65)',
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 6,
+
+    gap: 4,
+
+    paddingHorizontal: 7,
+    paddingVertical: 5,
+
+    borderRadius: 9,
+
+    backgroundColor:
+      'rgba(0,0,0,0.60)',
+
+    borderWidth: 1,
+    borderColor:
+      'rgba(255,255,255,0.08)',
   },
+
   ratingText: {
-    color: THEME.gold,
+    color: THEME.goldLight,
+
     fontSize: 10,
-    fontFamily: 'Inter_600SemiBold',
+    fontWeight: '700',
   },
-  genreBadge: {
+
+  bottom: {
     position: 'absolute',
-    top: 8,
-    right: 8,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
+
+    left: 12,
+    right: 12,
+    bottom: 12,
+  },
+
+  genreDot: {
+    width: 20,
+    height: 3,
+
     borderRadius: 5,
+
+    marginBottom: 7,
   },
-  genreText: {
-    color: '#FFFFFF',
-    fontSize: 9,
-    fontFamily: 'Inter_600SemiBold',
-  },
-  bottomOverlay: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'rgba(0,0,0,0.82)',
-    padding: 10,
-  },
+
   title: {
     color: '#FFFFFF',
-    fontSize: 12,
-    fontFamily: 'Inter_600SemiBold',
-    lineHeight: 16,
-    marginBottom: 2,
+
+    fontSize: 14,
+    fontWeight: '700',
+
+    lineHeight: 18,
   },
+
+  meta: {
+    flexDirection: 'row',
+
+    alignItems: 'center',
+
+    gap: 5,
+
+    marginTop: 5,
+  },
+
   year: {
-    color: THEME.textMuted,
+    color:
+      'rgba(255,255,255,0.48)',
+
     fontSize: 10,
-    fontFamily: 'Inter_400Regular',
+  },
+
+  genre: {
+    color:
+      'rgba(255,255,255,0.48)',
+
+    fontSize: 10,
+  },
+
+  metaDot: {
+    color:
+      'rgba(255,255,255,0.25)',
+
+    fontSize: 9,
   },
 });

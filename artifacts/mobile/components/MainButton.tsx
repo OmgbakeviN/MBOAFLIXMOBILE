@@ -6,7 +6,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import Feather from '@/components/FeatherCompat';
 import * as Haptics from 'expo-haptics';
 import { THEME } from '@/constants/theme';
 

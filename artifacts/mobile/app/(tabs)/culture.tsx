@@ -1,178 +1,331 @@
-import React from 'react';
+import React, {
+  useMemo,
+  useState,
+} from 'react';
+
 import {
-  Dimensions,
-  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather } from '@expo/vector-icons';
-import * as Haptics from 'expo-haptics';
+
+import Feather from '@/components/FeatherCompat';
 import { LinearGradient } from 'expo-linear-gradient';
-import { SectionTitle } from '@/components/SectionTitle';
-import { CULTURE_ITEMS, FOOD_ITEMS } from '@/data/culture';
+import { useRouter } from 'expo-router';
+import * as Haptics from 'expo-haptics';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 import { THEME } from '@/constants/theme';
+import { CULTURE_ITEMS } from '@/data/culture';
+import { CultureItem } from '@/types';
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+type CultureFilter =
+  | 'all'
+  | Exclude<
+      CultureItem['category'],
+      'food'
+    >;
 
-type FeatherIconName = keyof typeof Feather.glyphMap;
+type FeatherIconName =
+  keyof typeof Feather.glyphMap;
 
-const ICON_MAP: Record<string, FeatherIconName> = {
-  music: 'music',
-  activity: 'activity',
-  star: 'star',
-  image: 'image',
-  book: 'book',
-};
+const FILTERS: {
+  id: CultureFilter;
+  label: string;
+}[] = [
+  {
+    id: 'all',
+    label: 'All',
+  },
+  {
+    id: 'music',
+    label: 'Music',
+  },
+  {
+    id: 'dance',
+    label: 'Dance',
+  },
+  {
+    id: 'tradition',
+    label: 'Traditions',
+  },
+  {
+    id: 'art',
+    label: 'Art',
+  },
+];
 
 export default function CultureScreen() {
-  const musicItems = CULTURE_ITEMS.filter((c) => c.category === 'music');
-  const danceItems = CULTURE_ITEMS.filter((c) => c.category === 'dance');
-  const traditionItems = CULTURE_ITEMS.filter((c) => c.category === 'tradition');
-  const artItems = CULTURE_ITEMS.filter((c) => c.category === 'art');
+  const router = useRouter();
+
+  const [
+    activeFilter,
+    setActiveFilter,
+  ] =
+    useState<CultureFilter>(
+      'all'
+    );
+
+  const items = useMemo(() => {
+    if (activeFilter === 'all') {
+      return CULTURE_ITEMS.filter(
+        (item) =>
+          item.category !== 'food'
+      );
+    }
+
+    return CULTURE_ITEMS.filter(
+      (item) =>
+        item.category ===
+        activeFilter
+    );
+  }, [activeFilter]);
 
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <SafeAreaView
+      style={styles.safe}
+      edges={['top']}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={
+          styles.scrollContent
+        }
       >
-        {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.headerEyebrow}>CAMEROON</Text>
-          <Text style={styles.headerTitle}>Culture & Heritage</Text>
-          <Text style={styles.headerSub}>
-            Explore the rich traditions, rhythms, and flavors of Cameroon — Africa in miniature.
+          <Text style={styles.eyebrow}>
+            DISCOVER CAMEROON
+          </Text>
+
+          <Text style={styles.title}>
+            Culture
+          </Text>
+
+          <Text style={styles.subtitle}>
+            Explore music, dance, traditions,
+            art and the stories that connect
+            generations across Cameroon.
           </Text>
         </View>
 
-        {/* Culture Hero */}
-        <View style={[styles.cultureHero, { backgroundColor: THEME.card }]}>
+        <Pressable
+          onPress={() => {
+            Haptics.impactAsync(
+              Haptics
+                .ImpactFeedbackStyle
+                .Light
+            );
+
+            router.push('/food');
+          }}
+          style={({ pressed }) => [
+            styles.foodGateway,
+            pressed && styles.pressed,
+          ]}
+        >
           <LinearGradient
-            colors={['#1A0800', '#2E1500', '#0A0A0A']}
+            colors={[
+              '#2B1705',
+              '#151008',
+              '#080808',
+            ]}
+            start={{
+              x: 0,
+              y: 0,
+            }}
+            end={{
+              x: 1,
+              y: 1,
+            }}
             style={StyleSheet.absoluteFill}
           />
-          <View style={styles.heroContent}>
-            <Text style={styles.heroStat}>10</Text>
-            <Text style={styles.heroStatLabel}>Regions</Text>
+
+          <View style={styles.foodGlow} />
+
+          <View style={styles.foodIcon}>
+            <Feather
+              name="coffee"
+              size={25}
+              color={THEME.gold}
+            />
           </View>
-          <View style={styles.heroContent}>
-            <Text style={styles.heroStat}>280+</Text>
-            <Text style={styles.heroStatLabel}>Languages</Text>
+
+          <View style={styles.foodTextBlock}>
+            <Text style={styles.foodEyebrow}>
+              CAMEROONIAN CUISINE
+            </Text>
+
+            <Text style={styles.foodTitle}>
+              Taste Cameroon
+            </Text>
+
+            <Text style={styles.foodDescription}>
+              Ndolé, Eru, Koki, Kondré and
+              more regional dishes.
+            </Text>
           </View>
-          <View style={styles.heroContent}>
-            <Text style={styles.heroStat}>500+</Text>
-            <Text style={styles.heroStatLabel}>Ethnic Groups</Text>
+
+          <View style={styles.foodArrow}>
+            <Feather
+              name="arrow-up-right"
+              size={18}
+              color="#050505"
+            />
           </View>
+        </Pressable>
+
+        <View style={styles.sectionHeader}>
+          <Text style={styles.sectionTitle}>
+            Cultural Stories
+          </Text>
+
+          <Text style={styles.sectionCount}>
+            {items.length} stories
+          </Text>
         </View>
 
-        {/* Music Section */}
-        <View style={styles.section}>
-          <SectionTitle title="Music & Rhythms" />
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalScroll}
-          >
-            {musicItems.map((item) => (
-              <CultureCard key={item.id} item={item} />
-            ))}
-            {danceItems.map((item) => (
-              <CultureCard key={item.id} item={item} />
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Food Section */}
-        <View style={styles.section}>
-          <SectionTitle title="Cameroonian Cuisine" />
-          <View style={styles.foodGrid}>
-            {FOOD_ITEMS.map((food) => (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.filters}
+        >
+          {FILTERS.map(
+            (filter) => (
               <Pressable
-                key={food.id}
-                style={({ pressed }) => [
-                  styles.foodCard,
-                  { backgroundColor: food.color },
-                  pressed && { opacity: 0.85 },
+                key={filter.id}
+                onPress={() => {
+                  Haptics.selectionAsync();
+
+                  setActiveFilter(
+                    filter.id
+                  );
+                }}
+                style={[
+                  styles.filterButton,
+                  activeFilter ===
+                    filter.id &&
+                    styles.filterActive,
                 ]}
-                onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
+              >
+                <Text
+                  style={[
+                    styles.filterText,
+                    activeFilter ===
+                      filter.id &&
+                      styles.filterTextActive,
+                  ]}
+                >
+                  {filter.label}
+                </Text>
+              </Pressable>
+            )
+          )}
+        </ScrollView>
+
+        <View style={styles.list}>
+          {items.map((item) => {
+            const icon =
+              (
+                item.icon in
+                Feather.glyphMap
+                  ? item.icon
+                  : 'star'
+              ) as FeatherIconName;
+
+            return (
+              <Pressable
+                key={item.id}
+                onPress={() =>
+                  Haptics
+                    .impactAsync(
+                      Haptics
+                        .ImpactFeedbackStyle
+                        .Light
+                    )
+                }
+                style={({ pressed }) => [
+                  styles.cultureCard,
+                  pressed &&
+                    styles.pressed,
+                ]}
               >
                 <LinearGradient
-                  colors={['transparent', 'rgba(0,0,0,0.75)']}
-                  style={styles.foodGradient}
+                  colors={[
+                    item.color,
+                    '#15100B',
+                    '#080808',
+                  ]}
+                  start={{
+                    x: 0,
+                    y: 0,
+                  }}
+                  end={{
+                    x: 1,
+                    y: 1,
+                  }}
+                  style={
+                    StyleSheet.absoluteFill
+                  }
                 />
-                <View style={styles.foodContent}>
-                  <Text style={styles.foodName}>{food.name}</Text>
-                  <Text style={styles.foodRegion}>{food.region}</Text>
-                  <Text style={styles.foodDesc} numberOfLines={2}>
-                    {food.description}
+
+                <View
+                  style={[
+                    styles.cardGlow,
+                    {
+                      backgroundColor:
+                        item.color,
+                    },
+                  ]}
+                />
+
+                <View style={styles.cardIcon}>
+                  <Feather
+                    name={icon}
+                    size={23}
+                    color="#FFFFFF"
+                  />
+                </View>
+
+                <Text
+                  style={
+                    styles.cardCategory
+                  }
+                >
+                  {item.category.toUpperCase()}
+                </Text>
+
+                <Text style={styles.cardTitle}>
+                  {item.title}
+                </Text>
+
+                <Text
+                  style={
+                    styles.cardDescription
+                  }
+                  numberOfLines={3}
+                >
+                  {item.description}
+                </Text>
+
+                <View style={styles.discoverRow}>
+                  <Text style={styles.discoverText}>
+                    Discover
                   </Text>
+
+                  <Feather
+                    name="arrow-up-right"
+                    size={15}
+                    color={THEME.gold}
+                  />
                 </View>
               </Pressable>
-            ))}
-          </View>
+            );
+          })}
         </View>
-
-        {/* Traditions Section */}
-        <View style={styles.section}>
-          <SectionTitle title="Traditions & Festivals" />
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.horizontalScroll}
-          >
-            {traditionItems.map((item) => (
-              <CultureCard key={item.id} item={item} />
-            ))}
-            {artItems.map((item) => (
-              <CultureCard key={item.id} item={item} />
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Quote */}
-        <View style={styles.quoteBlock}>
-          <Text style={styles.quoteText}>
-            "Cameroon is Africa in miniature — every landscape, every language, every flavor of the continent."
-          </Text>
-          <Text style={styles.quoteAuthor}>— African Proverb</Text>
-        </View>
-
-        {Platform.OS === 'web' && <View style={{ height: 34 }} />}
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-function CultureCard({ item }: { item: (typeof CULTURE_ITEMS)[0] }) {
-  const iconName: FeatherIconName = ICON_MAP[item.icon] ?? 'star';
-
-  return (
-    <Pressable
-      style={({ pressed }) => [
-        styles.cultureCard,
-        { backgroundColor: item.color },
-        pressed && { opacity: 0.85 },
-      ]}
-      onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
-    >
-      <LinearGradient
-        colors={['transparent', 'rgba(0,0,0,0.72)']}
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={styles.cultureCardIcon}>
-        <Feather name={iconName} size={22} color="#FFFFFF" />
-      </View>
-      <View style={styles.cultureCardBottom}>
-        <Text style={styles.cultureCardTitle}>{item.title}</Text>
-        <Text style={styles.cultureCardDesc} numberOfLines={2}>
-          {item.description}
-        </Text>
-      </View>
-    </Pressable>
   );
 }
 
@@ -181,151 +334,235 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME.background,
   },
-  scroll: {
-    paddingBottom: 40,
+
+  scrollContent: {
+    paddingBottom: 135,
   },
+
   header: {
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 77 : 20,
+    paddingHorizontal: 18,
+    paddingTop: 10,
     paddingBottom: 20,
   },
-  headerEyebrow: {
+
+  eyebrow: {
     color: THEME.gold,
-    fontSize: 11,
-    fontFamily: 'Inter_700Bold',
-    letterSpacing: 3,
-    marginBottom: 6,
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 2,
   },
-  headerTitle: {
-    color: THEME.text,
-    fontSize: 28,
-    fontFamily: 'Inter_700Bold',
-    marginBottom: 10,
+
+  title: {
+    color: '#FFFFFF',
+    fontSize: 30,
+    fontWeight: '800',
+    marginTop: 5,
   },
-  headerSub: {
-    color: THEME.textSecondary,
-    fontSize: 14,
-    fontFamily: 'Inter_400Regular',
-    lineHeight: 21,
+
+  subtitle: {
+    color: 'rgba(255,255,255,0.44)',
+    fontSize: 13,
+    lineHeight: 20,
+    marginTop: 7,
+    maxWidth: 370,
   },
-  cultureHero: {
-    marginHorizontal: 20,
-    borderRadius: 16,
-    padding: 24,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 32,
+
+  foodGateway: {
+    minHeight: 180,
+    marginHorizontal: 18,
+    borderRadius: 28,
     overflow: 'hidden',
-    borderWidth: 1,
-    borderColor: THEME.cardBorder,
-  },
-  heroContent: {
+    flexDirection: 'row',
     alignItems: 'center',
+    padding: 19,
+    gap: 14,
+    borderWidth: 1,
+    borderColor: 'rgba(216,178,92,0.18)',
   },
-  heroStat: {
+
+  foodGlow: {
+    position: 'absolute',
+    width: 190,
+    height: 190,
+    borderRadius: 95,
+    right: -65,
+    top: -70,
+    backgroundColor: 'rgba(216,178,92,0.12)',
+  },
+
+  foodIcon: {
+    width: 54,
+    height: 54,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(216,178,92,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(216,178,92,0.18)',
+  },
+
+  foodTextBlock: {
+    flex: 1,
+  },
+
+  foodEyebrow: {
     color: THEME.gold,
-    fontSize: 32,
-    fontFamily: 'Inter_700Bold',
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 1.4,
   },
-  heroStatLabel: {
-    color: THEME.textSecondary,
-    fontSize: 12,
-    fontFamily: 'Inter_400Regular',
+
+  foodTitle: {
+    color: '#FFFFFF',
+    fontSize: 21,
+    fontWeight: '800',
     marginTop: 4,
   },
-  section: {
-    marginBottom: 32,
+
+  foodDescription: {
+    color: 'rgba(255,255,255,0.50)',
+    fontSize: 11,
+    lineHeight: 17,
+    marginTop: 6,
   },
-  horizontalScroll: {
-    paddingHorizontal: 20,
-    paddingRight: 20,
-  },
-  cultureCard: {
-    width: 200,
-    height: 140,
-    borderRadius: 14,
-    marginRight: 14,
-    overflow: 'hidden',
-    justifyContent: 'space-between',
-    padding: 14,
-  },
-  cultureCardIcon: {
+
+  foodArrow: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: 'rgba(255,255,255,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: THEME.gold,
   },
-  cultureCardBottom: {},
-  cultureCardTitle: {
-    color: '#FFFFFF',
-    fontSize: 15,
-    fontFamily: 'Inter_700Bold',
-    marginBottom: 4,
-  },
-  cultureCardDesc: {
-    color: 'rgba(255,255,255,0.75)',
-    fontSize: 11,
-    fontFamily: 'Inter_400Regular',
-    lineHeight: 15,
-  },
-  foodGrid: {
+
+  sectionHeader: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 14,
-    gap: 10,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
+    marginTop: 30,
   },
-  foodCard: {
-    width: (SCREEN_WIDTH - 48) / 2,
-    height: 150,
-    borderRadius: 14,
-    overflow: 'hidden',
-    justifyContent: 'flex-end',
-  },
-  foodGradient: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  foodContent: {
-    padding: 12,
-  },
-  foodName: {
+
+  sectionTitle: {
     color: '#FFFFFF',
-    fontSize: 14,
-    fontFamily: 'Inter_700Bold',
-    marginBottom: 2,
+    fontSize: 20,
+    fontWeight: '700',
   },
-  foodRegion: {
-    color: THEME.gold,
+
+  sectionCount: {
+    color: 'rgba(255,255,255,0.32)',
     fontSize: 10,
-    fontFamily: 'Inter_500Medium',
-    marginBottom: 4,
   },
-  foodDesc: {
-    color: 'rgba(255,255,255,0.72)',
+
+  filters: {
+    paddingHorizontal: 18,
+    paddingTop: 16,
+    paddingBottom: 20,
+    gap: 9,
+  },
+
+  filterButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.09)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+  },
+
+  filterActive: {
+    backgroundColor: THEME.gold,
+    borderColor: THEME.gold,
+  },
+
+  filterText: {
+    color: 'rgba(255,255,255,0.55)',
     fontSize: 11,
-    fontFamily: 'Inter_400Regular',
-    lineHeight: 15,
+    fontWeight: '600',
   },
-  quoteBlock: {
-    marginHorizontal: 20,
-    padding: 24,
-    borderLeftWidth: 3,
-    borderLeftColor: THEME.gold,
-    backgroundColor: THEME.card,
-    borderRadius: 12,
+
+  filterTextActive: {
+    color: '#050505',
+    fontWeight: '800',
   },
-  quoteText: {
-    color: THEME.textSecondary,
-    fontSize: 14,
-    fontFamily: 'Inter_400Regular',
-    fontStyle: 'italic',
-    lineHeight: 22,
-    marginBottom: 10,
+
+  list: {
+    paddingHorizontal: 18,
+    gap: 14,
   },
-  quoteAuthor: {
-    color: THEME.gold,
+
+  cultureCard: {
+    minHeight: 205,
+    borderRadius: 27,
+    overflow: 'hidden',
+    padding: 19,
+    justifyContent: 'flex-end',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.09)',
+  },
+
+  cardGlow: {
+    position: 'absolute',
+    width: 160,
+    height: 160,
+    borderRadius: 80,
+    right: -40,
+    top: -50,
+    opacity: 0.14,
+  },
+
+  cardIcon: {
+    width: 46,
+    height: 46,
+    borderRadius: 17,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.30)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.14)',
+    marginBottom: 18,
+  },
+
+  cardCategory: {
+    color: THEME.goldLight,
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 1.4,
+  },
+
+  cardTitle: {
+    color: '#FFFFFF',
+    fontSize: 21,
+    fontWeight: '800',
+    marginTop: 5,
+  },
+
+  cardDescription: {
+    color: 'rgba(255,255,255,0.60)',
     fontSize: 12,
-    fontFamily: 'Inter_600SemiBold',
+    lineHeight: 18,
+    marginTop: 7,
+  },
+
+  discoverRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 15,
+  },
+
+  discoverText: {
+    color: THEME.gold,
+    fontSize: 11,
+    fontWeight: '600',
+  },
+
+  pressed: {
+    opacity: 0.78,
+    transform: [
+      {
+        scale: 0.98,
+      },
+    ],
   },
 });

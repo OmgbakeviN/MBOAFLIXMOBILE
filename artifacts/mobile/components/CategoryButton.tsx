@@ -1,6 +1,13 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+} from 'react-native';
+
 import * as Haptics from 'expo-haptics';
+
 import { THEME } from '@/constants/theme';
 
 interface CategoryButtonProps {
@@ -9,9 +16,14 @@ interface CategoryButtonProps {
   onPress?: () => void;
 }
 
-export function CategoryButton({ label, active = false, onPress }: CategoryButtonProps) {
+export function CategoryButton({
+  label,
+  active = false,
+  onPress,
+}: CategoryButtonProps) {
   const handlePress = () => {
     Haptics.selectionAsync();
+
     onPress?.();
   };
 
@@ -20,11 +32,23 @@ export function CategoryButton({ label, active = false, onPress }: CategoryButto
       onPress={handlePress}
       style={({ pressed }) => [
         styles.button,
-        active ? styles.activeButton : styles.inactiveButton,
+
+        active
+          ? styles.active
+          : styles.inactive,
+
         pressed && styles.pressed,
       ]}
     >
-      <Text style={[styles.label, active ? styles.activeLabel : styles.inactiveLabel]}>
+      <Text
+        style={[
+          styles.text,
+
+          active
+            ? styles.activeText
+            : styles.inactiveText,
+        ]}
+      >
         {label}
       </Text>
     </Pressable>
@@ -33,31 +57,54 @@ export function CategoryButton({ label, active = false, onPress }: CategoryButto
 
 const styles = StyleSheet.create({
   button: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-    marginRight: 8,
+    height: 42,
+
+    justifyContent: 'center',
+
+    paddingHorizontal: 18,
+
+    borderRadius: 21,
+
+    marginRight: 9,
+
     borderWidth: 1,
   },
-  activeButton: {
+
+  active: {
     backgroundColor: THEME.gold,
+
     borderColor: THEME.gold,
   },
-  inactiveButton: {
-    backgroundColor: 'transparent',
-    borderColor: THEME.cardBorder,
+
+  inactive: {
+    backgroundColor:
+      'rgba(255,255,255,0.035)',
+
+    borderColor:
+      'rgba(255,255,255,0.10)',
   },
+
   pressed: {
-    opacity: 0.75,
+    opacity: 0.72,
+
+    transform: [
+      {
+        scale: 0.96,
+      },
+    ],
   },
-  label: {
+
+  text: {
     fontSize: 13,
-    fontFamily: 'Inter_500Medium',
+    fontWeight: '600',
   },
-  activeLabel: {
-    color: '#0A0A0A',
+
+  activeText: {
+    color: '#080808',
   },
-  inactiveLabel: {
-    color: THEME.textSecondary,
+
+  inactiveText: {
+    color:
+      'rgba(255,255,255,0.66)',
   },
 });

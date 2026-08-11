@@ -218,6 +218,19 @@ importers:
         version: 3.1.0
 
   artifacts/mobile:
+    dependencies:
+      expo-localization:
+        specifier: ~17.0.9
+        version: 17.0.9(expo@54.0.36)(react@19.1.0)
+      i18next:
+        specifier: ^26.3.6
+        version: 26.3.6(typescript@5.9.3)
+      lucide-react-native:
+        specifier: ^1.31.0
+        version: 1.31.0(react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
+      react-i18next:
+        specifier: ^17.0.11
+        version: 17.0.11(i18next@26.3.6(typescript@5.9.3))(react-dom@19.1.0(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
     devDependencies:
       '@babel/core':
         specifier: ^7.25.2
@@ -3374,6 +3387,12 @@ packages:
       react: '*'
       react-native: '*'
 
+  expo-localization@17.0.9:
+    resolution: {integrity: sha512-k5eYHr7iLMob3M8cHH6bgDrDRmqnZG8xKGLhpx8ST+LsFXmSgYpJ/t0VwWm0gz64C/K669XhObdG3D6QwCGqhw==}
+    peerDependencies:
+      expo: '*'
+      react: '*'
+
   expo-location@19.0.8:
     resolution: {integrity: sha512-H/FI75VuJ1coodJbbMu82pf+Zjess8X8Xkiv9Bv58ZgPKS/2ztjC1YO1/XMcGz7+s9DrbLuMIw22dFuP4HqneA==}
     peerDependencies:
@@ -3712,6 +3731,9 @@ packages:
     resolution: {integrity: sha512-puUZAUKT5m8Zzvs72XWy3HtvVbTWljRE66cP60bxJzAqf2DgICo7lYTY2IHUmLnNpjYvw5bvmoHvPc0QO2a62w==}
     engines: {node: ^16.14.0 || >=18.0.0}
 
+  html-parse-stringify@4.0.1:
+    resolution: {integrity: sha512-0zHsZJrK7S3K2aucXWL6ycoYJ/iNtIcFHC/nYQgFklPtrv5LpJctIiSCroWZWeuoXvuyFdzp6KzjJQ+OT5MfFw==}
+
   http-cache-semantics@4.2.0:
     resolution: {integrity: sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ==}
 
@@ -3733,6 +3755,14 @@ packages:
 
   hyphenate-style-name@1.1.0:
     resolution: {integrity: sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==}
+
+  i18next@26.3.6:
+    resolution: {integrity: sha512-Bu5Z2nAXgfVyM8xvW3jk9EKRIuX37PudsrBViThNFx7CR7aaYTpP01cxNB/E4c4UUzTDiAZRstEhsRfPOL/8xA==}
+    peerDependencies:
+      typescript: ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   iconv-lite@0.7.3:
     resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
@@ -4011,6 +4041,13 @@ packages:
 
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
+
+  lucide-react-native@1.31.0:
+    resolution: {integrity: sha512-PwqFe7jqEHaCQDQs5jp8+IeEMrXb/Uq0lBQH3na6iE27IVxW3YUsIArARzXbOvvrfDuYD4d/I+YqRTT7w6djJw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-native: '*'
+      react-native-svg: ^12.0.0 || ^13.0.0 || ^14.0.0 || ^15.0.0
 
   lucide-react@0.545.0:
     resolution: {integrity: sha512-7r1/yUuflQDSt4f1bpn5ZAocyIxcTyVyBBChSVtBKn5M+392cPmI5YJMWOJKk/HUWGm5wg83chlAZtCcGbEZtw==}
@@ -4698,6 +4735,22 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
 
+  react-i18next@17.0.11:
+    resolution: {integrity: sha512-cDtkXgxjuFTWUH6V+aQn1Ve5vDiUztCNPWW5GtSHDccsgRXO1nE6QFWCEmc1KAutrb3OUv87wFShJL5RhUwPXg==}
+    peerDependencies:
+      i18next: '>= 26.2.0'
+      react: '>= 16.8.0'
+      react-dom: '*'
+      react-native: '*'
+      typescript: ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+      typescript:
+        optional: true
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -4944,6 +4997,9 @@ packages:
   router@2.2.0:
     resolution: {integrity: sha512-nLTrUKm2UyiL7rlhapu/Zl45FwNgkZGaCpZbIHajDYgwlJCOzLSk+cIPAnsEqV955GjILJnKbdQC1nVPz+gAYQ==}
     engines: {node: '>= 18'}
+
+  rtl-detect@1.1.2:
+    resolution: {integrity: sha512-PGMBq03+TTG/p/cRB7HCLKJ1MgDIi07+QU1faSjiYRfmY5UsAttV9Hs08jDAHVwcOwmVLcSJkpwyfXszVjWfIQ==}
 
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
@@ -9148,6 +9204,12 @@ snapshots:
       - expo
       - supports-color
 
+  expo-localization@17.0.9(expo@54.0.36)(react@19.1.0):
+    dependencies:
+      expo: 54.0.36(@babel/core@7.29.7)(@expo/metro-runtime@6.1.2)(expo-router@6.0.24)(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
+      react: 19.1.0
+      rtl-detect: 1.1.2
+
   expo-location@19.0.8(expo@54.0.36):
     dependencies:
       expo: 54.0.36(@babel/core@7.29.7)(@expo/metro-runtime@6.1.2)(expo-router@6.0.24)(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3)
@@ -9557,6 +9619,8 @@ snapshots:
     dependencies:
       lru-cache: 10.4.3
 
+  html-parse-stringify@4.0.1: {}
+
   http-cache-semantics@4.2.0: {}
 
   http-errors@2.0.1:
@@ -9582,6 +9646,10 @@ snapshots:
   human-signals@8.0.1: {}
 
   hyphenate-style-name@1.1.0: {}
+
+  i18next@26.3.6(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
 
   iconv-lite@0.7.3:
     dependencies:
@@ -9843,6 +9911,12 @@ snapshots:
   lru-cache@5.1.1:
     dependencies:
       yallist: 3.1.1
+
+  lucide-react-native@1.31.0(react-native-svg@15.12.1(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0):
+    dependencies:
+      react: 19.1.0
+      react-native: 0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0)
+      react-native-svg: 15.12.1(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
 
   lucide-react@0.545.0(react@19.1.0):
     dependencies:
@@ -10743,6 +10817,18 @@ snapshots:
     dependencies:
       react: 19.1.0
 
+  react-i18next@17.0.11(i18next@26.3.6(typescript@5.9.3))(react-dom@19.1.0(react@19.1.0))(react-native@0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)(typescript@5.9.3):
+    dependencies:
+      '@babel/runtime': 7.29.7
+      html-parse-stringify: 4.0.1
+      i18next: 26.3.6(typescript@5.9.3)
+      react: 19.1.0
+      use-sync-external-store: 1.6.0(react@19.1.0)
+    optionalDependencies:
+      react-dom: 19.1.0(react@19.1.0)
+      react-native: 0.81.5(@babel/core@7.29.7)(@types/react@19.1.17)(react@19.1.0)
+      typescript: 5.9.3
+
   react-is@16.13.1: {}
 
   react-is@18.3.1: {}
@@ -11071,6 +11157,8 @@ snapshots:
       path-to-regexp: 8.4.2
     transitivePeerDependencies:
       - supports-color
+
+  rtl-detect@1.1.2: {}
 
   run-parallel@1.2.0:
     dependencies:

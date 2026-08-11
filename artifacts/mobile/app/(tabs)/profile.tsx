@@ -1,157 +1,323 @@
 import React from 'react';
+
 import {
-  Platform,
+  Alert,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Feather } from '@expo/vector-icons';
+
+import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { MainButton } from '@/components/MainButton';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
+
+import Feather from '@/components/FeatherCompat';
 import { THEME } from '@/constants/theme';
-
-type FeatherIconName = keyof typeof Feather.glyphMap;
-
-interface SettingRow {
-  icon: FeatherIconName;
-  label: string;
-  value?: string;
-}
-
-const SETTING_GROUPS: Array<{ title: string; rows: SettingRow[] }> = [
-  {
-    title: 'Account',
-    rows: [
-      { icon: 'user', label: 'Edit Profile' },
-      { icon: 'bell', label: 'Notifications' },
-      { icon: 'lock', label: 'Privacy & Security' },
-    ],
-  },
-  {
-    title: 'Preferences',
-    rows: [
-      { icon: 'globe', label: 'Language', value: 'English' },
-      { icon: 'download', label: 'Download Quality', value: 'HD' },
-      { icon: 'wifi', label: 'Data Usage', value: 'Auto' },
-    ],
-  },
-  {
-    title: 'Support',
-    rows: [
-      { icon: 'help-circle', label: 'Help Center' },
-      { icon: 'info', label: 'About MBOA FLIX' },
-      { icon: 'star', label: 'Rate the App' },
-    ],
-  },
-];
-
-const STATS = [
-  { label: 'Watched', value: '0' },
-  { label: 'Favorites', value: '0' },
-  { label: 'Watchlist', value: '0' },
-];
+import { useAuth } from '@/context/AuthContext';
+import {
+  LanguagePreference,
+  useLanguage,
+} from '@/context/LanguageContext';
 
 export default function ProfileScreen() {
+  const router = useRouter();
+  const { t } = useTranslation();
+
+  const {
+    language,
+    changeLanguage,
+  } = useLanguage();
+
+  const {
+    user,
+    isAuthenticated,
+    signOut,
+  } = useAuth();
+
+  const handleLogout = async () => {
+    Haptics.selectionAsync();
+
+    await signOut();
+
+    Alert.alert(
+      t('profile.signedOutTitle'),
+      t('profile.signedOutMessage')
+    );
+  };
+
   return (
-    <SafeAreaView style={styles.safe} edges={['top']}>
+    <SafeAreaView
+      style={styles.safe}
+      edges={['top']}
+    >
       <ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={styles.content}
       >
-        {/* Header */}
-        <View style={styles.topBar}>
-          <Text style={styles.topTitle}>Profile</Text>
-          <Pressable
-            onPress={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
-          >
-            <Feather name="settings" size={22} color={THEME.textSecondary} />
-          </Pressable>
-        </View>
+        <View style={styles.header}>
+          <Text style={styles.eyebrow}>
+            {t('profile.eyebrow')}
+          </Text>
 
-        {/* Avatar */}
-        <View style={styles.avatarSection}>
-          <View style={styles.avatarRing}>
-            <View style={styles.avatar}>
-              <Feather name="user" size={42} color={THEME.textMuted} />
-            </View>
-          </View>
-          <Text style={styles.userName}>Guest Viewer</Text>
-          <Text style={styles.userEmail}>Sign in to unlock your full experience</Text>
-
-          {/* CTA buttons */}
-          <View style={styles.authButtons}>
-            <MainButton label="Sign In" variant="primary" fullWidth />
-            <MainButton label="Create Account" variant="outline" fullWidth />
-          </View>
-        </View>
-
-        {/* Stats */}
-        <View style={styles.statsRow}>
-          {STATS.map((stat) => (
-            <View key={stat.label} style={styles.statBox}>
-              <Text style={styles.statValue}>{stat.value}</Text>
-              <Text style={styles.statLabel}>{stat.label}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Watchlist placeholder */}
-        <View style={styles.watchlistPlaceholder}>
-          <Feather name="bookmark" size={32} color={THEME.textMuted} />
-          <Text style={styles.watchlistTitle}>Your Watchlist is Empty</Text>
-          <Text style={styles.watchlistText}>
-            Sign in to save films and access them anytime.
+          <Text style={styles.title}>
+            {t('profile.title')}
           </Text>
         </View>
 
-        {/* Settings Groups */}
-        {SETTING_GROUPS.map((group) => (
-          <View key={group.title} style={styles.settingGroup}>
-            <Text style={styles.groupTitle}>{group.title}</Text>
-            <View style={styles.groupCard}>
-              {group.rows.map((row, idx) => (
-                <Pressable
-                  key={row.label}
-                  style={({ pressed }) => [
-                    styles.settingRow,
-                    idx < group.rows.length - 1 && styles.settingRowBorder,
-                    pressed && { opacity: 0.7 },
-                  ]}
-                  onPress={() =>
-                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-                  }
-                >
-                  <View style={styles.settingLeft}>
-                    <View style={styles.settingIconBox}>
-                      <Feather name={row.icon} size={16} color={THEME.gold} />
-                    </View>
-                    <Text style={styles.settingLabel}>{row.label}</Text>
-                  </View>
-                  <View style={styles.settingRight}>
-                    {row.value && (
-                      <Text style={styles.settingValue}>{row.value}</Text>
-                    )}
-                    <Feather
-                      name="chevron-right"
-                      size={16}
-                      color={THEME.textMuted}
-                    />
-                  </View>
-                </Pressable>
-              ))}
+        {!isAuthenticated ? (
+          <View style={styles.guestCard}>
+            <View style={styles.avatar}>
+              <Feather
+                name="user"
+                size={31}
+                color={THEME.gold}
+              />
             </View>
+
+            <Text style={styles.guestTitle}>
+              {t('profile.welcome')}
+            </Text>
+
+            <Text style={styles.guestText}>
+              {t('profile.guestText')}
+            </Text>
+
+            <Pressable
+              onPress={() =>
+                router.push('/login')
+              }
+              style={styles.primaryButton}
+            >
+              <Text style={styles.primaryText}>
+                {t('profile.signIn')}
+              </Text>
+
+              <Feather
+                name="arrow-right"
+                size={17}
+                color="#050505"
+              />
+            </Pressable>
+
+            <Pressable
+              onPress={() =>
+                router.push('/register')
+              }
+              style={styles.secondaryButton}
+            >
+              <Text style={styles.secondaryText}>
+                {t('profile.createAccount')}
+              </Text>
+            </Pressable>
           </View>
-        ))}
+        ) : (
+          <>
+            <View style={styles.memberCard}>
+              <View style={styles.avatar}>
+                <Text style={styles.initial}>
+                  {user?.name
+                    ?.charAt(0)
+                    .toUpperCase() ?? 'M'}
+                </Text>
+              </View>
 
-        {/* App version */}
-        <Text style={styles.version}>MBOA FLIX · v1.0.0</Text>
+              <View style={styles.memberInfo}>
+                <Text style={styles.memberName}>
+                  {user?.name}
+                </Text>
 
-        {Platform.OS === 'web' && <View style={{ height: 34 }} />}
+                <Text style={styles.memberEmail}>
+                  {user?.email}
+                </Text>
+
+                <View style={styles.memberBadge}>
+                  <Feather
+                    name="check-circle"
+                    size={12}
+                    color={THEME.gold}
+                  />
+
+                  <Text style={styles.memberBadgeText}>
+                    {t('profile.member')}
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <ProfileRow
+              icon="bookmark"
+              title={t('profile.myList')}
+              subtitle={t('profile.myListSubtitle')}
+            />
+
+            <ProfileRow
+              icon="credit-card"
+              title={t('profile.subscription')}
+              subtitle={t('profile.subscriptionSubtitle')}
+            />
+
+            <ProfileRow
+              icon="settings"
+              title={t('profile.settings')}
+              subtitle={t('profile.settingsSubtitle')}
+            />
+          </>
+        )}
+
+        <View style={styles.languageSection}>
+          <Text style={styles.languageTitle}>
+            {t('profile.languageTitle')}
+          </Text>
+
+          <LanguageOption
+            title={t('profile.system')}
+            value="system"
+            selected={language === 'system'}
+            onPress={changeLanguage}
+          />
+
+          <LanguageOption
+            title={t('profile.french')}
+            value="fr"
+            selected={language === 'fr'}
+            onPress={changeLanguage}
+          />
+
+          <LanguageOption
+            title={t('profile.english')}
+            value="en"
+            selected={language === 'en'}
+            onPress={changeLanguage}
+          />
+        </View>
+
+        {isAuthenticated && (
+          <Pressable
+            onPress={handleLogout}
+            style={styles.logoutButton}
+          >
+            <Feather
+              name="log-out"
+              size={17}
+              color="#E85A5A"
+            />
+
+            <Text style={styles.logoutText}>
+              {t('profile.signOut')}
+            </Text>
+          </Pressable>
+        )}
       </ScrollView>
     </SafeAreaView>
+  );
+}
+
+function LanguageOption({
+  title,
+  value,
+  selected,
+  onPress,
+}: {
+  title: string;
+  value: LanguagePreference;
+  selected: boolean;
+  onPress: (
+    value: LanguagePreference
+  ) => Promise<void>;
+}) {
+  return (
+    <Pressable
+      onPress={() => {
+        Haptics.selectionAsync();
+        onPress(value);
+      }}
+      style={[
+        styles.languageOption,
+        selected &&
+          styles.languageOptionSelected,
+      ]}
+    >
+      <View style={styles.languageIcon}>
+        <Feather
+          name="globe"
+          size={17}
+          color={
+            selected
+              ? THEME.gold
+              : 'rgba(255,255,255,0.48)'
+          }
+        />
+      </View>
+
+      <Text
+        style={[
+          styles.languageOptionText,
+          selected &&
+            styles.languageOptionTextSelected,
+        ]}
+      >
+        {title}
+      </Text>
+
+      {selected && (
+        <Feather
+          name="check"
+          size={18}
+          color={THEME.gold}
+        />
+      )}
+    </Pressable>
+  );
+}
+
+function ProfileRow({
+  icon,
+  title,
+  subtitle,
+}: {
+  icon: keyof typeof Feather.glyphMap;
+  title: string;
+  subtitle: string;
+}) {
+  return (
+    <Pressable
+      onPress={() =>
+        Haptics.selectionAsync()
+      }
+      style={({ pressed }) => [
+        styles.row,
+        pressed && {
+          opacity: 0.72,
+        },
+      ]}
+    >
+      <View style={styles.rowIcon}>
+        <Feather
+          name={icon}
+          size={18}
+          color={THEME.gold}
+        />
+      </View>
+
+      <View style={styles.rowText}>
+        <Text style={styles.rowTitle}>
+          {title}
+        </Text>
+
+        <Text style={styles.rowSubtitle}>
+          {subtitle}
+        </Text>
+      </View>
+
+      <Feather
+        name="chevron-right"
+        size={18}
+        color="rgba(255,255,255,0.28)"
+      />
+    </Pressable>
   );
 }
 
@@ -160,176 +326,253 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME.background,
   },
-  scroll: {
-    paddingBottom: 40,
+
+  content: {
+    paddingHorizontal: 18,
+    paddingBottom: 130,
   },
-  topBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: Platform.OS === 'web' ? 77 : 16,
-    paddingBottom: 8,
+
+  header: {
+    paddingTop: 10,
+    paddingBottom: 22,
   },
-  topTitle: {
-    color: THEME.text,
-    fontSize: 28,
-    fontFamily: 'Inter_700Bold',
-  },
-  avatarSection: {
-    alignItems: 'center',
-    paddingVertical: 28,
-    paddingHorizontal: 40,
-  },
-  avatarRing: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
-    borderWidth: 2,
-    borderColor: THEME.gold,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 14,
-  },
-  avatar: {
-    width: 84,
-    height: 84,
-    borderRadius: 42,
-    backgroundColor: THEME.card,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  userName: {
-    color: THEME.text,
-    fontSize: 20,
-    fontFamily: 'Inter_700Bold',
-    marginBottom: 4,
-  },
-  userEmail: {
-    color: THEME.textMuted,
-    fontSize: 13,
-    fontFamily: 'Inter_400Regular',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  authButtons: {
-    width: '100%',
-    gap: 10,
-  },
-  statsRow: {
-    flexDirection: 'row',
-    marginHorizontal: 20,
-    borderRadius: 14,
-    backgroundColor: THEME.card,
-    borderWidth: 1,
-    borderColor: THEME.cardBorder,
-    marginBottom: 24,
-    overflow: 'hidden',
-  },
-  statBox: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: 18,
-    borderRightWidth: 1,
-    borderRightColor: THEME.cardBorder,
-  },
-  statValue: {
+
+  eyebrow: {
     color: THEME.gold,
-    fontSize: 24,
-    fontFamily: 'Inter_700Bold',
-    marginBottom: 4,
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 2,
   },
-  statLabel: {
-    color: THEME.textMuted,
-    fontSize: 11,
-    fontFamily: 'Inter_400Regular',
+
+  title: {
+    color: '#FFFFFF',
+    fontSize: 30,
+    fontWeight: '800',
+    marginTop: 5,
   },
-  watchlistPlaceholder: {
-    alignItems: 'center',
-    padding: 28,
-    marginHorizontal: 20,
-    marginBottom: 28,
-    backgroundColor: THEME.card,
-    borderRadius: 14,
+
+  guestCard: {
+    borderRadius: 28,
+    padding: 22,
+    backgroundColor: 'rgba(255,255,255,0.035)',
     borderWidth: 1,
-    borderColor: THEME.cardBorder,
-    gap: 10,
+    borderColor: 'rgba(255,255,255,0.10)',
   },
-  watchlistTitle: {
-    color: THEME.text,
-    fontSize: 16,
-    fontFamily: 'Inter_600SemiBold',
-  },
-  watchlistText: {
-    color: THEME.textMuted,
-    fontSize: 13,
-    fontFamily: 'Inter_400Regular',
-    textAlign: 'center',
-    lineHeight: 19,
-  },
-  settingGroup: {
-    marginBottom: 24,
-    paddingHorizontal: 20,
-  },
-  groupTitle: {
-    color: THEME.textMuted,
-    fontSize: 11,
-    fontFamily: 'Inter_600SemiBold',
-    letterSpacing: 1.2,
-    marginBottom: 10,
-    textTransform: 'uppercase',
-  },
-  groupCard: {
-    backgroundColor: THEME.card,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: THEME.cardBorder,
-    overflow: 'hidden',
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-  },
-  settingRowBorder: {
-    borderBottomWidth: 1,
-    borderBottomColor: THEME.cardBorder,
-  },
-  settingLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  settingIconBox: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: 'rgba(212,175,55,0.12)',
+
+  avatar: {
+    width: 68,
+    height: 68,
+    borderRadius: 25,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'rgba(216,178,92,0.08)',
+    borderWidth: 1,
+    borderColor: 'rgba(216,178,92,0.18)',
   },
-  settingLabel: {
-    color: THEME.text,
-    fontSize: 15,
-    fontFamily: 'Inter_400Regular',
+
+  initial: {
+    color: THEME.gold,
+    fontSize: 27,
+    fontWeight: '800',
   },
-  settingRight: {
+
+  guestTitle: {
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontWeight: '800',
+    marginTop: 20,
+  },
+
+  guestText: {
+    color: 'rgba(255,255,255,0.48)',
+    fontSize: 12,
+    lineHeight: 19,
+    marginTop: 8,
+  },
+
+  primaryButton: {
+    height: 52,
+    borderRadius: 17,
+    backgroundColor: THEME.gold,
+    marginTop: 22,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 8,
   },
-  settingValue: {
-    color: THEME.textMuted,
+
+  primaryText: {
+    color: '#050505',
     fontSize: 13,
-    fontFamily: 'Inter_400Regular',
+    fontWeight: '800',
   },
-  version: {
-    color: THEME.textMuted,
+
+  secondaryButton: {
+    height: 52,
+    borderRadius: 17,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.11)',
+    backgroundColor: 'rgba(255,255,255,0.035)',
+  },
+
+  secondaryText: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+
+  memberCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 15,
+    borderRadius: 28,
+    padding: 20,
+    marginBottom: 20,
+    backgroundColor: 'rgba(216,178,92,0.05)',
+    borderWidth: 1,
+    borderColor: 'rgba(216,178,92,0.14)',
+  },
+
+  memberInfo: {
+    flex: 1,
+  },
+
+  memberName: {
+    color: '#FFFFFF',
+    fontSize: 19,
+    fontWeight: '800',
+  },
+
+  memberEmail: {
+    color: 'rgba(255,255,255,0.42)',
+    fontSize: 11,
+    marginTop: 4,
+  },
+
+  memberBadge: {
+    alignSelf: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 9,
+    paddingHorizontal: 9,
+    paddingVertical: 5,
+    borderRadius: 10,
+    backgroundColor: 'rgba(216,178,92,0.07)',
+  },
+
+  memberBadgeText: {
+    color: THEME.gold,
+    fontSize: 9,
+    fontWeight: '700',
+  },
+
+  row: {
+    minHeight: 78,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 13,
+    paddingHorizontal: 15,
+    marginBottom: 10,
+    borderRadius: 21,
+    backgroundColor: 'rgba(255,255,255,0.035)',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+  },
+
+  rowIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(216,178,92,0.07)',
+  },
+
+  rowText: {
+    flex: 1,
+  },
+
+  rowTitle: {
+    color: '#FFFFFF',
+    fontSize: 13,
+    fontWeight: '700',
+  },
+
+  rowSubtitle: {
+    color: 'rgba(255,255,255,0.36)',
+    fontSize: 10,
+    marginTop: 4,
+  },
+
+  languageSection: {
+    marginTop: 22,
+  },
+
+  languageTitle: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 12,
+  },
+
+  languageOption: {
+    minHeight: 58,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 11,
+    paddingHorizontal: 14,
+    marginBottom: 9,
+    borderRadius: 19,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+  },
+
+  languageOptionSelected: {
+    borderColor: 'rgba(216,178,92,0.30)',
+    backgroundColor: 'rgba(216,178,92,0.07)',
+  },
+
+  languageIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(255,255,255,0.035)',
+  },
+
+  languageOptionText: {
+    flex: 1,
+    color: 'rgba(255,255,255,0.65)',
     fontSize: 12,
-    fontFamily: 'Inter_400Regular',
-    textAlign: 'center',
-    marginTop: 8,
+    fontWeight: '600',
+  },
+
+  languageOptionTextSelected: {
+    color: THEME.goldLight,
+  },
+
+  logoutButton: {
+    height: 52,
+    borderRadius: 17,
+    marginTop: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderWidth: 1,
+    borderColor: 'rgba(232,90,90,0.18)',
+    backgroundColor: 'rgba(232,90,90,0.05)',
+  },
+
+  logoutText: {
+    color: '#E85A5A',
+    fontSize: 12,
+    fontWeight: '700',
   },
 });

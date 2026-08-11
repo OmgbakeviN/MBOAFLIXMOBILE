@@ -1,5 +1,14 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+
+import Feather from '@/components/FeatherCompat';
+
 import { THEME } from '@/constants/theme';
 
 interface SectionTitleProps {
@@ -7,16 +16,31 @@ interface SectionTitleProps {
   onSeeAll?: () => void;
 }
 
-export function SectionTitle({ title, onSeeAll }: SectionTitleProps) {
+export function SectionTitle({
+  title,
+  onSeeAll,
+}: SectionTitleProps) {
   return (
     <View style={styles.container}>
-      <View style={styles.left}>
-        <View style={styles.accent} />
-        <Text style={styles.title}>{title}</Text>
-      </View>
+      <Text style={styles.title}>
+        {title}
+      </Text>
+
       {onSeeAll && (
-        <Pressable onPress={onSeeAll} hitSlop={10}>
-          <Text style={styles.seeAll}>See All</Text>
+        <Pressable
+          onPress={onSeeAll}
+          style={styles.action}
+          hitSlop={10}
+        >
+          <Text style={styles.seeAll}>
+            See all
+          </Text>
+
+          <Feather
+            name="chevron-right"
+            size={16}
+            color={THEME.gold}
+          />
         </Pressable>
       )}
     </View>
@@ -26,31 +50,35 @@ export function SectionTitle({ title, onSeeAll }: SectionTitleProps) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 14,
-    paddingHorizontal: 20,
+
+    paddingHorizontal: 18,
+
+    marginBottom: 15,
   },
-  left: {
+
+  title: {
+    color: '#FFFFFF',
+
+    fontSize: 21,
+    fontWeight: '750',
+
+    letterSpacing: -0.35,
+  },
+
+  action: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 10,
+
+    gap: 2,
   },
-  accent: {
-    width: 3,
-    height: 18,
-    backgroundColor: THEME.gold,
-    borderRadius: 2,
-  },
-  title: {
-    color: THEME.text,
-    fontSize: 17,
-    fontFamily: 'Inter_700Bold',
-    letterSpacing: 0.3,
-  },
+
   seeAll: {
     color: THEME.gold,
-    fontSize: 13,
-    fontFamily: 'Inter_500Medium',
+
+    fontSize: 12,
+    fontWeight: '600',
   },
 });
