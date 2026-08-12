@@ -9,7 +9,7 @@ import {
   View,
 } from 'react-native';
 
-import Feather from '@expo/vector-icons/Feather';
+import Feather from '@/components/FeatherCompat';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
