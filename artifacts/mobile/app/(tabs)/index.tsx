@@ -24,6 +24,7 @@ import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 import { CategoryButton } from '@/components/CategoryButton';
 
@@ -36,14 +37,16 @@ import { SectionTitle } from '@/components/SectionTitle';
 import { CATEGORIES } from '@/data/categories';
 
 import {
-  DOCUMENTARIES,
   FEATURED_MOVIE,
   MOVIES,
   NEW_RELEASES,
+  SERIES_EPISODES,
+  SHORTS,
   TRENDING,
 } from '@/data/movies';
 
 import { THEME } from '@/constants/theme';
+import { categoryLabel } from '@/utils/localizedContent';
 
 interface GlassIconProps {
   icon:
@@ -97,6 +100,7 @@ function GlassIconButton({
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const insets = useSafeAreaInsets();
 
@@ -116,7 +120,12 @@ export default function HomeScreen() {
     const filtered = MOVIES.filter(
       (movie) =>
         movie.genre.toLowerCase() ===
-        activeCategory.toLowerCase()
+          activeCategory.toLowerCase() ||
+        movie.tags.some(
+          (tag) =>
+            tag.toLowerCase() ===
+            activeCategory.toLowerCase()
+        )
     );
 
     return filtered.length > 0
@@ -158,7 +167,7 @@ export default function HomeScreen() {
             </Text>
 
             <Text style={styles.tagline}>
-              Stories from Cameroon
+              {t('home.tagline')}
             </Text>
           </View>
 
@@ -210,7 +219,7 @@ export default function HomeScreen() {
             {CATEGORIES.map((category) => (
               <CategoryButton
                 key={category.id}
-                label={category.label}
+                label={categoryLabel(t, category.id, category.label)}
                 active={
                   activeCategory ===
                   category.id
@@ -231,14 +240,18 @@ export default function HomeScreen() {
           <SectionTitle
             title={
               activeCategory === 'all'
-                ? 'Trending in Cameroon'
-                : `${
-                    CATEGORIES.find(
-                      (item) =>
-                        item.id ===
-                        activeCategory
-                    )?.label
-                  } Movies`
+                ? t('home.trending')
+                : t('labels.categoryMovies', {
+                    category: categoryLabel(
+                      t,
+                      activeCategory,
+                      CATEGORIES.find(
+                        (item) =>
+                          item.id ===
+                          activeCategory
+                      )?.label ?? activeCategory
+                    ),
+                  })
             }
             onSeeAll={() =>
               router.push('/explore')
@@ -320,19 +333,17 @@ export default function HomeScreen() {
               <Text
                 style={styles.cultureEyebrow}
               >
-                DISCOVER CAMEROON
+                {t('home.discoverCameroon')}
               </Text>
 
               <Text style={styles.cultureTitle}>
-                More than movies.
+                {t('home.moreThanMovies')}
               </Text>
 
               <Text
                 style={styles.cultureDescription}
               >
-                Explore food, music,
-                traditions and stories from
-                across Cameroon.
+                {t('home.cultureDescription')}
               </Text>
             </View>
 
@@ -350,7 +361,7 @@ export default function HomeScreen() {
 
         <View style={styles.section}>
           <SectionTitle
-            title="New Releases"
+            title={t('home.newReleases')}
             onSeeAll={() =>
               router.push('/explore')
             }
@@ -407,14 +418,13 @@ export default function HomeScreen() {
 
           <View style={styles.heritageContent}>
             <Text style={styles.heritageTitle}>
-              Cameroonian Film Heritage
+              {t('home.productionSpotlightTitle')}
             </Text>
 
             <Text
               style={styles.heritageSubtitle}
             >
-              Classics that shaped our
-              cinema.
+              {t('home.productionSpotlightSubtitle')}
             </Text>
           </View>
 
@@ -425,47 +435,71 @@ export default function HomeScreen() {
           />
         </View>
 
-        {/* DOCUMENTARIES */}
+        {/* SERIES */}
 
-        <View style={styles.section}>
-          <SectionTitle
-            title="Documentaries"
-            onSeeAll={() =>
-              router.push('/explore')
-            }
-          />
+        {SERIES_EPISODES.length > 0 && (
+          <View style={styles.section}>
+            <SectionTitle
+              title={t('home.series')}
+              onSeeAll={() =>
+                router.push('/explore')
+              }
+            />
 
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={
-              false
-            }
-            contentContainerStyle={
-              styles.horizontalList
-            }
-          >
-            {DOCUMENTARIES.map(
-              (movie) => (
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.horizontalList}
+            >
+              {SERIES_EPISODES.map((movie) => (
                 <MovieCard
                   key={movie.id}
                   movie={movie}
                   size="lg"
                   onPress={() =>
-                    router.push(
-                      `/movie/${movie.id}`
-                    )
+                    router.push(`/movie/${movie.id}`)
                   }
                 />
-              )
-            )}
-          </ScrollView>
-        </View>
+              ))}
+            </ScrollView>
+          </View>
+        )}
+
+        {/* SHORT FILMS */}
+
+        {SHORTS.length > 0 && (
+          <View style={styles.section}>
+            <SectionTitle
+              title={t('home.shortFilms')}
+              onSeeAll={() =>
+                router.push('/explore')
+              }
+            />
+
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.horizontalList}
+            >
+              {SHORTS.map((movie) => (
+                <MovieCard
+                  key={movie.id}
+                  movie={movie}
+                  size="sm"
+                  onPress={() =>
+                    router.push(`/movie/${movie.id}`)
+                  }
+                />
+              ))}
+            </ScrollView>
+          </View>
+        )}
 
         {/* DISCOVER MORE */}
 
         <View style={styles.section}>
           <SectionTitle
-            title="Hidden Gems"
+            title={t('home.hiddenGems')}
             onSeeAll={() =>
               router.push('/explore')
             }
@@ -507,8 +541,7 @@ export default function HomeScreen() {
           </Text>
 
           <Text style={styles.footerText}>
-            Our stories. Our culture.
-            Our screen.
+            {t('home.footer')}
           </Text>
         </View>
       </ScrollView>

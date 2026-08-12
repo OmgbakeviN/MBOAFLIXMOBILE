@@ -1,197 +1,305 @@
-import { Movie } from '@/types';
+import catalogData from './catalog/nf-production.json';
 
-export const FEATURED_MOVIE: Movie = {
-  id: '1',
-  title: 'Les Fils du Wouri',
-  genre: 'Drama',
-  year: 2023,
-  rating: 8.4,
-  duration: '1h 52m',
-  description:
-    'An epic story of three brothers from Douala navigating identity, tradition, and modernity along the banks of the Wouri River. A timeless tale of family, loyalty, and Cameroonian heritage.',
-  posterColor: '#1A0A00',
-  accentColor: '#D4AF37',
-  tags: ['Drama', 'Family', 'Heritage'],
-  featured: true,
-  director: 'Jean-Pierre Bekolo',
-  cast: ['Cédric Fokoua', 'Merveille Nguemeni', 'Adèle Tabi'],
+import {
+  Movie,
+  YouTubeSource,
+} from '@/types';
+
+interface CatalogRecord {
+  id: string;
+  type: 'movie' | 'episode' | 'short';
+  title: string;
+  description: {
+    fr: string;
+    en: string;
+  };
+  year: number;
+  durationSeconds: number;
+  genres: string[];
+  productionId: string;
+  director: string | null;
+  cast: string[];
+  credits: Movie['credits'];
+  language: string;
+  youtube: YouTubeSource;
+  thumbnail: string;
+  featured: boolean;
+  trending: boolean;
+  newRelease: boolean;
+  series?: {
+    id: string;
+    title: string;
+    seasonNumber: number;
+    episodeNumber: number;
+  };
+  trailer?: {
+    id: string;
+    title: string;
+    youtube: YouTubeSource;
+    thumbnail: string;
+    durationSeconds: number;
+  };
+}
+
+const CATALOG =
+  catalogData as unknown as CatalogRecord[];
+
+const ACCENTS: Record<
+  string,
+  {
+    poster: string;
+    accent: string;
+  }
+> = {
+  drama: {
+    poster: '#170D08',
+    accent: '#D4AF37',
+  },
+  comedy: {
+    poster: '#171107',
+    accent: '#E8B84E',
+  },
+  romance: {
+    poster: '#190A11',
+    accent: '#D8899D',
+  },
+  family: {
+    poster: '#111408',
+    accent: '#B8C86A',
+  },
 };
 
-export const MOVIES: Movie[] = [
-  {
-    id: '1',
-    title: 'Les Fils du Wouri',
-    genre: 'Drama',
-    year: 2023,
-    rating: 8.4,
-    duration: '1h 52m',
-    description:
-      'An epic story of three brothers from Douala navigating identity, tradition, and modernity along the banks of the Wouri River.',
-    posterColor: '#1A0A00',
-    accentColor: '#D4AF37',
-    tags: ['Drama', 'Family'],
-    director: 'Jean-Pierre Bekolo',
-    cast: ['Cédric Fokoua', 'Merveille Nguemeni'],
-  },
-  {
-    id: '2',
-    title: "Quartier Mozart",
-    genre: 'Comedy',
-    year: 1992,
-    rating: 7.8,
-    duration: '1h 20m',
-    description:
-      'A young girl magically transforms into a man to discover the secrets of the male world in a lively Yaoundé neighborhood.',
-    posterColor: '#0A1A00',
-    accentColor: '#4CAF50',
-    tags: ['Comedy', 'Magic', 'Classic'],
-    director: 'Jean-Pierre Bekolo',
-    cast: ['Essindi Mindja', 'Jean-Roger Mireille'],
-  },
-  {
-    id: '3',
-    title: "L'Œil du Cyclone",
-    genre: 'Thriller',
-    year: 2015,
-    rating: 7.5,
-    duration: '1h 45m',
-    description:
-      'A gripping political thriller set in the corridors of power in Central Africa, where one journalist risks everything for the truth.',
-    posterColor: '#00001A',
-    accentColor: '#3F51B5',
-    tags: ['Thriller', 'Political'],
-    director: 'Sékou Traoré',
-  },
-  {
-    id: '4',
-    title: 'Nguyen',
-    genre: 'Drama',
-    year: 2021,
-    rating: 7.9,
-    duration: '1h 35m',
-    description:
-      'A Vietnamese-Cameroonian cultural love story set between Yaoundé and Hanoi. A rare cross-cultural romance.',
-    posterColor: '#1A0015',
-    accentColor: '#E91E63',
-    tags: ['Drama', 'Romance', 'Cross-cultural'],
-    director: 'Stéphane Huard',
-  },
-  {
-    id: '5',
-    title: 'Le Spectre de Boko Haram',
-    genre: 'Documentary',
-    year: 2020,
-    rating: 8.1,
-    duration: '1h 28m',
-    description:
-      'A powerful documentary exploring the resilience of communities in northern Cameroon facing the threat of extremist violence.',
-    posterColor: '#1A0800',
-    accentColor: '#FF5722',
-    tags: ['Documentary', 'Social'],
-    director: 'Cyrielle Raingou',
-  },
-  {
-    id: '6',
-    title: 'Afrique sur Seine',
-    genre: 'Drama',
-    year: 1955,
-    rating: 8.6,
-    duration: '0h 21m',
-    description:
-      'A pioneering short film considered one of the first Sub-Saharan African films ever made. A historic gem.',
-    posterColor: '#0D0D0D',
-    accentColor: '#9E9E9E',
-    tags: ['Classic', 'Short Film', 'Historic'],
-    director: 'Paulin Soumanou Vieyra',
-  },
-  {
-    id: '7',
-    title: 'Muna Moto',
-    genre: 'Drama',
-    year: 1975,
-    rating: 8.3,
-    duration: '1h 30m',
-    description:
-      "Cameroon's most celebrated film. A young man cannot marry the woman he loves because of the bride price tradition. A timeless classic.",
-    posterColor: '#1A1000',
-    accentColor: '#FFC107',
-    tags: ['Classic', 'Drama', 'Culture'],
-    director: 'Jean-Pierre Dikongué Pipa',
-  },
-  {
-    id: '8',
-    title: 'Boh Boys',
-    genre: 'Action',
-    year: 2023,
-    rating: 7.2,
-    duration: '1h 40m',
-    description:
-      'A raw and energetic street action film following young men navigating survival in the urban landscape of Douala.',
-    posterColor: '#100005',
-    accentColor: '#C62828',
-    tags: ['Action', 'Urban', 'Youth'],
-    director: 'Arcel Mongo',
-  },
-  {
-    id: '9',
-    title: 'Mont Cameroun',
-    genre: 'Documentary',
-    year: 2022,
-    rating: 8.0,
-    duration: '1h 15m',
-    description:
-      "A breathtaking nature documentary following the annual race up Africa's largest volcano, celebrated by local communities.",
-    posterColor: '#001A0A',
-    accentColor: '#00BCD4',
-    tags: ['Documentary', 'Nature', 'Sport'],
-    director: 'Nora Kameni',
-  },
-  {
-    id: '10',
-    title: 'Femmes du Cameroun',
-    genre: 'Documentary',
-    year: 2021,
-    rating: 8.5,
-    duration: '1h 10m',
-    description:
-      'Portraits of extraordinary Cameroonian women from all ten regions — farmers, artists, entrepreneurs, and healers.',
-    posterColor: '#1A001A',
-    accentColor: '#9C27B0',
-    tags: ['Documentary', 'Empowerment', 'Culture'],
-    director: 'Laurette Mbida',
-  },
-  {
-    id: '11',
-    title: 'Kribi Blues',
-    genre: 'Romance',
-    year: 2024,
-    rating: 7.6,
-    duration: '1h 48m',
-    description:
-      'A summer romance unfolds in the coastal town of Kribi, where two strangers discover love, loss, and the magic of the Atlantic coast.',
-    posterColor: '#00101A',
-    accentColor: '#03A9F4',
-    tags: ['Romance', 'Drama', 'Coast'],
-    director: 'Blaise Mbu',
-  },
-  {
-    id: '12',
-    title: 'Bakweri Echoes',
-    genre: 'Cultural',
-    year: 2023,
-    rating: 8.2,
-    duration: '1h 25m',
-    description:
-      'A visual journey into the Bakweri people of Mount Cameroon, their sacred rituals, masks, and the spirits that guide their lives.',
-    posterColor: '#0A1500',
-    accentColor: '#8BC34A',
-    tags: ['Cultural', 'Traditional', 'Spiritual'],
-    director: 'Epie Ndoumbe',
-  },
-];
+const titleCase = (
+  value: string
+) =>
+  value
+    .split(/[\s_-]+/)
+    .filter(Boolean)
+    .map(
+      (part) =>
+        part.charAt(0).toUpperCase() +
+        part.slice(1)
+    )
+    .join(' ');
 
-export const TRENDING: Movie[] = MOVIES.slice(0, 6);
-export const NEW_RELEASES: Movie[] = MOVIES.slice(5, 11);
-export const DOCUMENTARIES: Movie[] = MOVIES.filter(
-  (m) => m.genre === 'Documentary'
-);
+const formatDuration = (
+  seconds: number
+) => {
+  if (seconds < 60) {
+    return `${seconds}s`;
+  }
+
+  const totalMinutes =
+    Math.floor(seconds / 60);
+
+  const hours =
+    Math.floor(
+      totalMinutes / 60
+    );
+
+  const minutes =
+    totalMinutes % 60;
+
+  if (hours > 0) {
+    return minutes > 0
+      ? `${hours}h ${minutes}m`
+      : `${hours}h`;
+  }
+
+  return `${totalMinutes}m`;
+};
+
+const toMovie = (
+  item: CatalogRecord
+): Movie => {
+  const firstGenre =
+    item.genres[0] ?? 'drama';
+
+  const palette =
+    ACCENTS[firstGenre] ??
+    ACCENTS.drama;
+
+  return {
+    id: item.id,
+    title: item.title,
+
+    genre:
+      titleCase(firstGenre),
+
+    genres:
+      item.genres.map(
+        titleCase
+      ),
+
+    year: item.year,
+
+    duration:
+      formatDuration(
+        item.durationSeconds
+      ),
+
+    durationSeconds:
+      item.durationSeconds,
+
+    description:
+      item.description.en,
+
+    descriptionEn:
+      item.description.en,
+
+    descriptionFr:
+      item.description.fr,
+
+    posterColor:
+      palette.poster,
+
+    accentColor:
+      palette.accent,
+
+    tags:
+      item.genres.map(
+        titleCase
+      ),
+
+    featured:
+      item.featured,
+
+    trending:
+      item.trending,
+
+    newRelease:
+      item.newRelease,
+
+    director:
+      item.director ??
+      undefined,
+
+    cast:
+      item.cast,
+
+    credits:
+      item.credits,
+
+    contentType:
+      item.type,
+
+    productionId:
+      item.productionId,
+
+    productionName:
+      item.youtube.channelName ??
+      'NF PRODUCTION TV',
+
+    seriesId:
+      item.series?.id,
+
+    seriesTitle:
+      item.series?.title,
+
+    seasonNumber:
+      item.series?.seasonNumber,
+
+    episodeNumber:
+      item.series?.episodeNumber,
+
+    thumbnail:
+      item.thumbnail,
+
+    youtube:
+      item.youtube,
+
+    trailerYoutube:
+      item.trailer?.youtube,
+
+    trailerThumbnail:
+      item.trailer?.thumbnail,
+
+    viewCount:
+      item.youtube
+        .viewCountAtExtraction,
+
+    publishedAt:
+      item.youtube
+        .publishedAt,
+  };
+};
+
+export const MOVIES: Movie[] =
+  CATALOG.map(toMovie);
+
+export const MOVIES_ONLY =
+  MOVIES.filter(
+    (item) =>
+      item.contentType ===
+      'movie'
+  );
+
+export const SERIES_EPISODES =
+  MOVIES.filter(
+    (item) =>
+      item.contentType ===
+      'episode'
+  );
+
+export const SHORTS =
+  MOVIES.filter(
+    (item) =>
+      item.contentType ===
+      'short'
+  );
+
+export const FEATURED_MOVIE: Movie =
+  MOVIES_ONLY.find(
+    (item) => item.featured
+  ) ??
+  MOVIES.find(
+    (item) => item.featured
+  ) ??
+  MOVIES[0];
+
+const byViews = (
+  a: Movie,
+  b: Movie
+) =>
+  (b.viewCount ?? 0) -
+  (a.viewCount ?? 0);
+
+const curatedTrending =
+  MOVIES
+    .filter(
+      (item) =>
+        item.trending
+    )
+    .sort(byViews);
+
+const remainingByViews =
+  MOVIES
+    .filter(
+      (item) =>
+        !item.trending
+    )
+    .sort(byViews);
+
+export const TRENDING =
+  [
+    ...curatedTrending,
+    ...remainingByViews,
+  ].slice(0, 6);
+
+export const NEW_RELEASES =
+  [...MOVIES]
+    .sort((a, b) =>
+      (
+        b.publishedAt ?? ''
+      ).localeCompare(
+        a.publishedAt ?? ''
+      )
+    )
+    .slice(0, 8);
+
+export const DOCUMENTARIES =
+  MOVIES.filter(
+    (item) =>
+      item.genre.toLowerCase() ===
+      'documentary'
+  );

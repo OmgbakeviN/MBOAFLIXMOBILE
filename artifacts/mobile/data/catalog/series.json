@@ -1,0 +1,77 @@
+[
+  {
+    "id": "beneath-the-smile",
+    "title": "Beneath the Smile",
+    "productionId": "production-nf",
+    "year": 2026,
+    "genres": [
+      "drama",
+      "romance"
+    ],
+    "description": {
+      "fr": "Un jeune homme quitte son village pour chercher une vie meilleure en ville. Confronté à la pression, à la trahison et à la tentation, il doit choisir entre l'honnêteté et la survie.",
+      "en": "A young man leaves his village in search of a better life in the city. Faced with pressure, betrayal and temptation, he must choose between honesty and survival."
+    },
+    "thumbnail": "https://img.youtube.com/vi/CH9G15F0Ur4/maxresdefault.jpg",
+    "trailerVideoId": "TvBNILv7B9A",
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "episodeIds": [
+          "beneath-the-smile-episode-1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "troublesome-family",
+    "title": "Troublesome Family",
+    "productionId": "production-nf",
+    "year": 2025,
+    "genres": [
+      "comedy",
+      "family",
+      "drama"
+    ],
+    "description": {
+      "fr": "Une websérie de comédie dramatique consacrée aux tensions, aux disputes et aux situations cocasses d’une famille mouvementée.",
+      "en": "A comedy-drama web series about the tensions, arguments and comic situations inside a turbulent family."
+    },
+    "thumbnail": "https://img.youtube.com/vi/9f7_Zk8X85o/maxresdefault.jpg",
+    "trailerVideoId": "KM6FTEyKRpk",
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "episodeIds": [
+          "troublesome-family-part-1",
+          "troublesome-family-episode-2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "social-wahala",
+    "title": "Social Wahala",
+    "productionId": "production-nf",
+    "year": 2025,
+    "genres": [
+      "comedy",
+      "drama"
+    ],
+    "description": {
+      "fr": "Une websérie inspirée du quotidien de la communauté, racontée à travers des situations humoristiques et dramatiques.",
+      "en": "A web series inspired by everyday community life, told through humorous and dramatic situations."
+    },
+    "thumbnail": "https://img.youtube.com/vi/mFpla_2Osh0/maxresdefault.jpg",
+    "trailerVideoId": "pk-XMjaedE0",
+    "seasons": [
+      {
+        "seasonNumber": 1,
+        "episodeIds": [
+          "social-wahala-episode-1",
+          "social-wahala-episode-2"
+        ]
+      }
+    ]
+  }
+]

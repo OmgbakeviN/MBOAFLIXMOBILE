@@ -28,6 +28,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthField } from '@/components/AuthField';
 import { THEME } from '@/constants/theme';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 interface Errors {
   email?: string;
@@ -35,6 +36,7 @@ interface Errors {
 }
 
 export default function LoginScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const params =
@@ -69,24 +71,24 @@ export default function LoginScreen() {
 
     if (!cleanEmail) {
       nextErrors.email =
-        'Email is required.';
+        t('auth.errors.emailRequired');
     } else if (
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
         cleanEmail
       )
     ) {
       nextErrors.email =
-        'Enter a valid email.';
+        t('auth.errors.invalidEmail');
     }
 
     if (!password) {
       nextErrors.password =
-        'Password is required.';
+        t('auth.errors.passwordRequired');
     } else if (
       password.length < 6
     ) {
       nextErrors.password =
-        'Password must contain at least 6 characters.';
+        t('auth.errors.passwordLength');
     }
 
     setErrors(nextErrors);
@@ -142,8 +144,8 @@ export default function LoginScreen() {
       console.error(error);
 
       Alert.alert(
-        'Unable to sign in',
-        'Please try again.'
+        t('system.unableSignIn'),
+        t('system.pleaseTryAgain')
       );
     } finally {
       setSubmitting(false);
@@ -205,17 +207,15 @@ export default function LoginScreen() {
             </View>
 
             <Text style={styles.heroEyebrow}>
-              WELCOME BACK
+              {t('auth.welcomeBack')}
             </Text>
 
             <Text style={styles.heroTitle}>
-              Continue your journey.
+              {t('auth.continueJourney')}
             </Text>
 
             <Text style={styles.heroText}>
-              Sign in before opening movie details,
-              building your watchlist, and accessing
-              member features.
+              {t('auth.loginDescription')}
             </Text>
           </View>
 
@@ -228,14 +228,12 @@ export default function LoginScreen() {
               />
 
               <Text style={styles.demoText}>
-                Prototype authentication: only your
-                name/email session is stored locally.
-                Your password is never saved.
+                {t('auth.prototypeNotice')}
               </Text>
             </View>
 
             <AuthField
-              label="Email"
+              label={t('auth.email')}
               icon="mail"
               value={email}
               onChangeText={(value) => {
@@ -250,13 +248,13 @@ export default function LoginScreen() {
                   );
                 }
               }}
-              placeholder="you@example.com"
+              placeholder={t('auth.emailPlaceholder')}
               keyboardType="email-address"
               error={errors.email}
             />
 
             <AuthField
-              label="Password"
+              label={t('auth.password')}
               icon="lock"
               value={password}
               onChangeText={(value) => {
@@ -271,14 +269,14 @@ export default function LoginScreen() {
                   );
                 }
               }}
-              placeholder="Enter your password"
+              placeholder={t('auth.passwordPlaceholder')}
               secureTextEntry
               error={errors.password}
             />
 
             <Pressable style={styles.forgotButton}>
               <Text style={styles.forgotText}>
-                Forgot password?
+                {t('auth.forgotPassword')}
               </Text>
             </Pressable>
 
@@ -295,8 +293,8 @@ export default function LoginScreen() {
             >
               <Text style={styles.loginText}>
                 {submitting
-                  ? 'Signing in...'
-                  : 'Sign In'}
+                  ? t('auth.signingIn')
+                  : t('auth.signIn')}
               </Text>
 
               <Feather
@@ -308,7 +306,7 @@ export default function LoginScreen() {
 
             <View style={styles.registerRow}>
               <Text style={styles.registerQuestion}>
-                New to MBOA FLIX?
+                {t('auth.newToMboa')}
               </Text>
 
               <Pressable
@@ -322,7 +320,7 @@ export default function LoginScreen() {
                 }
               >
                 <Text style={styles.registerLink}>
-                  Create account
+                  {t('auth.createAccount')}
                 </Text>
               </Pressable>
             </View>

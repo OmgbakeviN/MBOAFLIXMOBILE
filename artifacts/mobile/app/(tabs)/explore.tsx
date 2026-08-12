@@ -25,6 +25,7 @@ import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
 
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 import { CategoryButton } from '@/components/CategoryButton';
 
@@ -35,14 +36,16 @@ import { MOVIES } from '@/data/movies';
 import { CATEGORIES } from '@/data/categories';
 
 import { THEME } from '@/constants/theme';
+import { categoryLabel, genreLabel, movieDescription, tagLabel } from '@/utils/localizedContent';
 
 type SortMode =
   | 'relevance'
-  | 'rating'
+  | 'views'
   | 'newest';
 
 export default function ExploreScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const { width } =
     useWindowDimensions();
@@ -95,9 +98,14 @@ export default function ExploreScreen() {
             const searchableText = [
               movie.title,
               movie.genre,
+              genreLabel(t, movie.genre),
               movie.director ?? '',
               movie.description,
+              movieDescription(t, movie),
               ...movie.tags,
+              ...movie.tags.map((tag) =>
+                tagLabel(t, tag)
+              ),
             ]
               .join(' ')
               .toLowerCase();
@@ -109,10 +117,11 @@ export default function ExploreScreen() {
         );
       }
 
-      if (sortMode === 'rating') {
+      if (sortMode === 'views') {
         result.sort(
           (a, b) =>
-            b.rating - a.rating
+            (b.viewCount ?? 0) -
+            (a.viewCount ?? 0)
         );
       }
 
@@ -128,6 +137,7 @@ export default function ExploreScreen() {
       search,
       activeCategory,
       sortMode,
+      t,
     ]);
 
   const cycleSortMode = () => {
@@ -137,11 +147,11 @@ export default function ExploreScreen() {
       if (
         current === 'relevance'
       ) {
-        return 'rating';
+        return 'views';
       }
 
       if (
-        current === 'rating'
+        current === 'views'
       ) {
         return 'newest';
       }
@@ -151,11 +161,11 @@ export default function ExploreScreen() {
   };
 
   const sortLabel =
-    sortMode === 'rating'
-      ? 'Top rated'
+    sortMode === 'views'
+      ? t('explore.mostViewed')
       : sortMode === 'newest'
-        ? 'Newest'
-        : 'Recommended';
+        ? t('explore.newest')
+        : t('explore.recommended');
 
   return (
     <SafeAreaView
@@ -191,7 +201,7 @@ export default function ExploreScreen() {
                     styles.eyebrow
                   }
                 >
-                  MBOA FLIX
+                  {t('explore.eyebrow')}
                 </Text>
 
                 <Text
@@ -199,7 +209,7 @@ export default function ExploreScreen() {
                     styles.title
                   }
                 >
-                  Explore
+                  {t('explore.title')}
                 </Text>
 
                 <Text
@@ -207,8 +217,7 @@ export default function ExploreScreen() {
                     styles.subtitle
                   }
                 >
-                  Discover stories from
-                  Cameroon
+                  {t('explore.subtitle')}
                 </Text>
               </View>
 
@@ -263,7 +272,7 @@ export default function ExploreScreen() {
               <TextInput
                 value={search}
                 onChangeText={setSearch}
-                placeholder="Search movies, genres, directors..."
+                placeholder={t('explore.placeholder')}
                 placeholderTextColor="rgba(255,255,255,0.30)"
                 returnKeyType="search"
                 autoCapitalize="none"
@@ -313,7 +322,7 @@ export default function ExploreScreen() {
               }) => (
                 <CategoryButton
                   label={
-                    item.label
+                    categoryLabel(t, item.id, item.label)
                   }
                   active={
                     activeCategory ===
@@ -342,8 +351,10 @@ export default function ExploreScreen() {
                   }
                 >
                   {search
-                    ? `Results for "${search}"`
-                    : 'Browse movies'}
+                    ? t('explore.resultsFor', {
+                        query: search,
+                      })
+                    : t('explore.browse')}
                 </Text>
 
                 <Text
@@ -351,13 +362,10 @@ export default function ExploreScreen() {
                     styles.resultCount
                   }
                 >
-                  {
-                    filteredMovies.length
-                  }{' '}
-                  {filteredMovies.length ===
-                  1
-                    ? 'movie'
-                    : 'movies'}
+                  {t('explore.movie', {
+                    count:
+                      filteredMovies.length,
+                  })}
                 </Text>
               </View>
 
@@ -428,7 +436,7 @@ export default function ExploreScreen() {
                 styles.emptyTitle
               }
             >
-              Nothing found
+              {t('explore.nothingFound')}
             </Text>
 
             <Text
@@ -436,8 +444,7 @@ export default function ExploreScreen() {
                 styles.emptyText
               }
             >
-              Try another title,
-              director or category.
+              {t('explore.nothingFoundText')}
             </Text>
 
             <Pressable
@@ -459,7 +466,7 @@ export default function ExploreScreen() {
                   styles.resetText
                 }
               >
-                Reset filters
+                {t('explore.reset')}
               </Text>
             </Pressable>
           </View>

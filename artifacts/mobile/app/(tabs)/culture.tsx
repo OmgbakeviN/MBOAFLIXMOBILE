@@ -15,9 +15,11 @@ import Feather from '@/components/FeatherCompat';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { THEME } from '@/constants/theme';
+import { cultureCategoryLabel, cultureDescription, cultureTitle } from '@/utils/localizedContent';
 import { CULTURE_ITEMS } from '@/data/culture';
 import { CultureItem } from '@/types';
 
@@ -59,6 +61,7 @@ const FILTERS: {
 
 export default function CultureScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [
     activeFilter,
@@ -96,17 +99,15 @@ export default function CultureScreen() {
       >
         <View style={styles.header}>
           <Text style={styles.eyebrow}>
-            DISCOVER CAMEROON
+            {t('culture.eyebrow')}
           </Text>
 
           <Text style={styles.title}>
-            Culture
+            {t('culture.title')}
           </Text>
 
           <Text style={styles.subtitle}>
-            Explore music, dance, traditions,
-            art and the stories that connect
-            generations across Cameroon.
+            {t('culture.subtitle')}
           </Text>
         </View>
 
@@ -154,16 +155,15 @@ export default function CultureScreen() {
 
           <View style={styles.foodTextBlock}>
             <Text style={styles.foodEyebrow}>
-              CAMEROONIAN CUISINE
+              {t('culture.cuisineEyebrow')}
             </Text>
 
             <Text style={styles.foodTitle}>
-              Taste Cameroon
+              {t('culture.tasteCameroon')}
             </Text>
 
             <Text style={styles.foodDescription}>
-              Ndolé, Eru, Koki, Kondré and
-              more regional dishes.
+              {t('culture.cuisineDescription')}
             </Text>
           </View>
 
@@ -178,11 +178,11 @@ export default function CultureScreen() {
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>
-            Cultural Stories
+            {t('culture.culturalStories')}
           </Text>
 
           <Text style={styles.sectionCount}>
-            {items.length} stories
+            {t('culture.stories', { count: items.length })}
           </Text>
         </View>
 
@@ -217,7 +217,7 @@ export default function CultureScreen() {
                       styles.filterTextActive,
                   ]}
                 >
-                  {filter.label}
+                  {t(`culture.filters.${filter.id === 'tradition' ? 'traditions' : filter.id}`)}
                 </Text>
               </Pressable>
             )
@@ -293,11 +293,11 @@ export default function CultureScreen() {
                     styles.cardCategory
                   }
                 >
-                  {item.category.toUpperCase()}
+                  {cultureCategoryLabel(t, item.category).toUpperCase()}
                 </Text>
 
                 <Text style={styles.cardTitle}>
-                  {item.title}
+                  {cultureTitle(t, item)}
                 </Text>
 
                 <Text
@@ -306,12 +306,12 @@ export default function CultureScreen() {
                   }
                   numberOfLines={3}
                 >
-                  {item.description}
+                  {cultureDescription(t, item)}
                 </Text>
 
                 <View style={styles.discoverRow}>
                   <Text style={styles.discoverText}>
-                    Discover
+                    {t('culture.discover')}
                   </Text>
 
                   <Feather

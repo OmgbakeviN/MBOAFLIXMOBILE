@@ -11,16 +11,18 @@ import {
 import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 import { THEME } from '@/constants/theme';
 
 export function NkapFloatingButton() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="Open Nkap AI"
+      accessibilityLabel={t('ai.open', { defaultValue: 'Open Nkap AI' })}
       onPress={() => {
         Haptics.impactAsync(
           Haptics.ImpactFeedbackStyle.Light

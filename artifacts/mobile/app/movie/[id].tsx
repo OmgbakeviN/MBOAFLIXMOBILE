@@ -13,9 +13,11 @@ import {
   View,
 } from 'react-native';
 
-import Feather from '@expo/vector-icons/Feather';
+import Feather from '@/components/FeatherCompat';
 
 import { BlurView } from 'expo-blur';
+
+import { Image } from 'expo-image';
 
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -29,12 +31,14 @@ import {
 } from 'react-native-safe-area-context';
 
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 
 import { MovieCard } from '@/components/MovieCard';
 
 import { MOVIES } from '@/data/movies';
 
 import { THEME } from '@/constants/theme';
+import { formatViews, genreLabel, movieDescription, tagLabel } from '@/utils/localizedContent';
 
 
 /* ----------------------------------
@@ -139,6 +143,7 @@ function DetailItem({
 ----------------------------------- */
 
 export default function MovieDetailScreen() {
+  const { t } = useTranslation();
   const params =
     useLocalSearchParams<{
       id?: string | string[];
@@ -259,6 +264,25 @@ export default function MovieDetailScreen() {
             style={StyleSheet.absoluteFill}
           />
 
+          {movie.thumbnail && (
+            <Image
+              source={{ uri: movie.thumbnail }}
+              style={StyleSheet.absoluteFill}
+              contentFit="cover"
+              transition={220}
+            />
+          )}
+
+          <LinearGradient
+            colors={[
+              'rgba(0,0,0,0.12)',
+              'rgba(0,0,0,0.22)',
+              'rgba(0,0,0,0.56)',
+            ]}
+            locations={[0, 0.5, 1]}
+            style={StyleSheet.absoluteFill}
+          />
+
 
           {/* Decorative circles */}
 
@@ -287,7 +311,7 @@ export default function MovieDetailScreen() {
 
           {/* Film artwork */}
 
-          <View style={styles.heroArtwork}>
+          <View style={[styles.heroArtwork, movie.thumbnail && { opacity: 0 }]}>
             <View
               style={[
                 styles.artworkCircle,
@@ -411,7 +435,7 @@ export default function MovieDetailScreen() {
                   styles.originalText
                 }
               >
-                MBOA ORIGINAL
+                {movie.productionName ?? t('movie.original')}
               </Text>
             </View>
 
@@ -420,29 +444,39 @@ export default function MovieDetailScreen() {
             </Text>
 
             <View style={styles.heroMeta}>
-              <View
-                style={styles.rating}
-              >
-                <Feather
-                  name="star"
-                  size={13}
-                  color={
-                    THEME.goldLight
-                  }
-                />
+              {movie.viewCount !== undefined ? (
+                <>
+                  <View style={styles.rating}>
+                    <Feather
+                      name="eye"
+                      size={13}
+                      color={THEME.goldLight}
+                    />
 
-                <Text
-                  style={
-                    styles.ratingText
-                  }
-                >
-                  {movie.rating.toFixed(
-                    1
-                  )}
-                </Text>
-              </View>
+                    <Text style={styles.ratingText}>
+                      {formatViews(movie.viewCount)}
+                    </Text>
+                  </View>
 
-              <View style={styles.dot} />
+                  <View style={styles.dot} />
+                </>
+              ) : movie.rating !== undefined ? (
+                <>
+                  <View style={styles.rating}>
+                    <Feather
+                      name="star"
+                      size={13}
+                      color={THEME.goldLight}
+                    />
+
+                    <Text style={styles.ratingText}>
+                      {movie.rating.toFixed(1)}
+                    </Text>
+                  </View>
+
+                  <View style={styles.dot} />
+                </>
+              ) : null}
 
               <Text
                 style={styles.metaText}
@@ -487,7 +521,7 @@ export default function MovieDetailScreen() {
                 <Text
                   style={styles.tagText}
                 >
-                  {tag}
+                  {tagLabel(t, tag)}
                 </Text>
               </View>
             ))}
@@ -519,7 +553,7 @@ export default function MovieDetailScreen() {
                   styles.watchButtonText
                 }
               >
-                Watch Now
+                {t('movie.watchNow')}
               </Text>
             </Pressable>
 
@@ -544,7 +578,7 @@ export default function MovieDetailScreen() {
             <Text
               style={styles.sectionTitle}
             >
-              Synopsis
+              {t('movie.synopsis')}
             </Text>
 
             <Text
@@ -552,7 +586,7 @@ export default function MovieDetailScreen() {
                 styles.description
               }
             >
-              {movie.description}
+              {movieDescription(t, movie)}
             </Text>
           </View>
 
@@ -586,25 +620,33 @@ export default function MovieDetailScreen() {
               style={styles.infoGrid}
             >
               <DetailItem
-                label="Year"
+                label={t('movie.year')}
                 value={`${movie.year}`}
               />
 
               <DetailItem
-                label="Duration"
+                label={t('movie.duration')}
                 value={movie.duration}
               />
 
               <DetailItem
-                label="Genre"
-                value={movie.genre}
+                label={t('movie.genre')}
+                value={genreLabel(t, movie.genre)}
               />
 
               <DetailItem
-                label="Rating"
-                value={`${movie.rating.toFixed(
-                  1
-                )}/10`}
+                label={
+                  movie.viewCount !== undefined
+                    ? t('movie.views')
+                    : t('movie.rating')
+                }
+                value={
+                  movie.viewCount !== undefined
+                    ? formatViews(movie.viewCount)
+                    : movie.rating !== undefined
+                      ? `${movie.rating.toFixed(1)}/10`
+                      : '—'
+                }
               />
             </View>
           </View>
@@ -621,7 +663,7 @@ export default function MovieDetailScreen() {
                   styles.sectionTitle
                 }
               >
-                Director
+                {t('movie.director')}
               </Text>
 
               <View
@@ -659,7 +701,7 @@ export default function MovieDetailScreen() {
                       styles.directorRole
                     }
                   >
-                    Film Director
+                    {t('movie.filmDirector')}
                   </Text>
                 </View>
 
@@ -689,7 +731,7 @@ export default function MovieDetailScreen() {
                     styles.sectionTitle
                   }
                 >
-                  Cast
+                  {t('movie.cast')}
                 </Text>
 
                 <ScrollView
@@ -752,11 +794,12 @@ export default function MovieDetailScreen() {
               TRAILER
           ============================== */}
 
+          {movie.trailerYoutube && (
           <View style={styles.section}>
             <Text
               style={styles.sectionTitle}
             >
-              Trailer
+              {t('movie.trailer')}
             </Text>
 
             <Pressable
@@ -788,6 +831,25 @@ export default function MovieDetailScreen() {
                 style={
                   StyleSheet.absoluteFill
                 }
+              />
+
+              {movie.trailerThumbnail && (
+                <Image
+                  source={{
+                    uri: movie.trailerThumbnail,
+                  }}
+                  style={StyleSheet.absoluteFill}
+                  contentFit="cover"
+                  transition={180}
+                />
+              )}
+
+              <LinearGradient
+                colors={[
+                  'rgba(0,0,0,0.24)',
+                  'rgba(0,0,0,0.72)',
+                ]}
+                style={StyleSheet.absoluteFill}
               />
 
               <View
@@ -823,7 +885,7 @@ export default function MovieDetailScreen() {
                     styles.trailerTitle
                   }
                 >
-                  Official Trailer
+                  {t('movie.officialTrailer')}
                 </Text>
 
                 <Text
@@ -831,11 +893,12 @@ export default function MovieDetailScreen() {
                     styles.trailerSubtitle
                   }
                 >
-                  Watch preview
+                  {t('movie.watchPreview')}
                 </Text>
               </View>
             </Pressable>
           </View>
+          )}
 
 
           {/* ==============================
@@ -853,7 +916,7 @@ export default function MovieDetailScreen() {
                   styles.sectionTitle
                 }
               >
-                More Like This
+                {t('movie.moreLikeThis')}
               </Text>
 
               <Pressable
@@ -868,7 +931,7 @@ export default function MovieDetailScreen() {
                     styles.seeAll
                   }
                 >
-                  See all
+                  {t('common.seeAll')}
                 </Text>
               </Pressable>
             </View>
@@ -918,7 +981,7 @@ export default function MovieDetailScreen() {
             <Text
               style={styles.footerText}
             >
-              Stories from Cameroon
+              {t('home.tagline')}
             </Text>
           </View>
 

@@ -27,6 +27,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { AuthField } from '@/components/AuthField';
 import { THEME } from '@/constants/theme';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 interface Errors {
   name?: string;
@@ -37,6 +38,7 @@ interface Errors {
 }
 
 export default function RegisterScreen() {
+  const { t } = useTranslation();
   const router = useRouter();
 
   const params =
@@ -81,7 +83,7 @@ export default function RegisterScreen() {
 
     if (name.trim().length < 2) {
       nextErrors.name =
-        'Enter your full name.';
+        t('auth.errors.fullName');
     }
 
     if (
@@ -90,12 +92,12 @@ export default function RegisterScreen() {
       )
     ) {
       nextErrors.email =
-        'Enter a valid email address.';
+        t('auth.errors.invalidEmail');
     }
 
     if (password.length < 6) {
       nextErrors.password =
-        'Use at least 6 characters.';
+        t('auth.errors.passwordShort');
     }
 
     if (
@@ -103,12 +105,12 @@ export default function RegisterScreen() {
       confirmPassword
     ) {
       nextErrors.confirmPassword =
-        'Passwords do not match.';
+        t('auth.errors.passwordMismatch');
     }
 
     if (!acceptedTerms) {
       nextErrors.terms =
-        'You must accept the terms.';
+        t('auth.errors.acceptTerms');
     }
 
     setErrors(nextErrors);
@@ -151,8 +153,8 @@ export default function RegisterScreen() {
       console.error(error);
 
       Alert.alert(
-        'Unable to create account',
-        'Please try again.'
+        t('system.unableCreateAccount'),
+        t('system.pleaseTryAgain')
       );
     } finally {
       setSubmitting(false);
@@ -203,23 +205,21 @@ export default function RegisterScreen() {
             </View>
 
             <Text style={styles.eyebrow}>
-              JOIN MBOA FLIX
+              {t('auth.join')}
             </Text>
 
             <Text style={styles.title}>
-              Create your account.
+              {t('auth.createTitle')}
             </Text>
 
             <Text style={styles.subtitle}>
-              Create your profile once, then return
-              automatically to the movie you wanted
-              to open.
+              {t('auth.createDescription')}
             </Text>
           </View>
 
           <View style={styles.form}>
             <AuthField
-              label="Full name"
+              label={t('auth.fullName')}
               icon="user"
               value={name}
               onChangeText={(value) => {
@@ -233,12 +233,12 @@ export default function RegisterScreen() {
                 );
               }}
               autoCapitalize="words"
-              placeholder="Your full name"
+              placeholder={t('auth.fullNamePlaceholder')}
               error={errors.name}
             />
 
             <AuthField
-              label="Email"
+              label={t('auth.email')}
               icon="mail"
               value={email}
               onChangeText={(value) => {
@@ -252,12 +252,12 @@ export default function RegisterScreen() {
                 );
               }}
               keyboardType="email-address"
-              placeholder="you@example.com"
+              placeholder={t('auth.emailPlaceholder')}
               error={errors.email}
             />
 
             <AuthField
-              label="Password"
+              label={t('auth.password')}
               icon="lock"
               value={password}
               onChangeText={(value) => {
@@ -271,12 +271,12 @@ export default function RegisterScreen() {
                 );
               }}
               secureTextEntry
-              placeholder="Create a password"
+              placeholder={t('auth.createPassword')}
               error={errors.password}
             />
 
             <AuthField
-              label="Confirm password"
+              label={t('auth.confirmPassword')}
               icon="shield"
               value={confirmPassword}
               onChangeText={(value) => {
@@ -290,7 +290,7 @@ export default function RegisterScreen() {
                 );
               }}
               secureTextEntry
-              placeholder="Repeat your password"
+              placeholder={t('auth.repeatPassword')}
               error={errors.confirmPassword}
             />
 
@@ -328,13 +328,13 @@ export default function RegisterScreen() {
               </View>
 
               <Text style={styles.termsText}>
-                I agree to the{' '}
+                {t('auth.termsBefore')}{' '}
                 <Text style={styles.termsLink}>
-                  Terms of Service
+                  {t('auth.terms')}
                 </Text>{' '}
-                and{' '}
+                {t('auth.and')}{' '}
                 <Text style={styles.termsLink}>
-                  Privacy Policy
+                  {t('auth.privacy')}
                 </Text>
                 .
               </Text>
@@ -359,8 +359,8 @@ export default function RegisterScreen() {
             >
               <Text style={styles.registerButtonText}>
                 {submitting
-                  ? 'Creating account...'
-                  : 'Create Account'}
+                  ? t('auth.creating')
+                  : t('auth.createButton')}
               </Text>
 
               <Feather
@@ -372,7 +372,7 @@ export default function RegisterScreen() {
 
             <View style={styles.loginRow}>
               <Text style={styles.loginQuestion}>
-                Already have an account?
+                {t('auth.alreadyAccount')}
               </Text>
 
               <Pressable
@@ -386,7 +386,7 @@ export default function RegisterScreen() {
                 }
               >
                 <Text style={styles.loginLink}>
-                  Sign in
+                  {t('auth.signInLower')}
                 </Text>
               </Pressable>
             </View>

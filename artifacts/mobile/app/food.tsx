@@ -13,14 +13,17 @@ import Feather from '@/components/FeatherCompat';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { THEME } from '@/constants/theme';
+import { foodDescription, foodRegion } from '@/utils/localizedContent';
 import { FOOD_ITEMS } from '@/data/culture';
 import { FoodItem } from '@/types';
 
 export default function FoodScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const [selectedId, setSelectedId] =
     useState(FOOD_ITEMS[0]?.id ?? '');
@@ -75,16 +78,15 @@ export default function FoodScreen() {
 
         <View style={styles.header}>
           <Text style={styles.eyebrow}>
-            CAMEROONIAN CUISINE
+            {t('food.eyebrow')}
           </Text>
 
           <Text style={styles.title}>
-            Taste Cameroon
+            {t('food.title')}
           </Text>
 
           <Text style={styles.subtitle}>
-            Discover iconic dishes from
-            different regions of Cameroon.
+            {t('food.subtitle')}
           </Text>
         </View>
 
@@ -119,7 +121,7 @@ export default function FoodScreen() {
           </View>
 
           <Text style={styles.heroEyebrow}>
-            FEATURED DISH
+            {t('food.featuredDish')}
           </Text>
 
           <Text style={styles.heroTitle}>
@@ -134,12 +136,12 @@ export default function FoodScreen() {
             />
 
             <Text style={styles.regionText}>
-              {selectedFood.region}
+              {foodRegion(t, selectedFood)}
             </Text>
           </View>
 
           <Text style={styles.description}>
-            {selectedFood.description}
+            {foodDescription(t, selectedFood)}
           </Text>
 
           <Pressable
@@ -160,18 +162,18 @@ export default function FoodScreen() {
             />
 
             <Text style={styles.recipeText}>
-              Recipe details coming soon
+              {t('food.recipeSoon')}
             </Text>
           </Pressable>
         </View>
 
         <View style={styles.sectionHeader}>
           <Text style={styles.sectionTitle}>
-            Dishes
+            {t('food.dishes')}
           </Text>
 
           <Text style={styles.sectionCount}>
-            {FOOD_ITEMS.length} dishes
+            {t('food.dishCount', { count: FOOD_ITEMS.length })}
           </Text>
         </View>
 
@@ -205,7 +207,7 @@ export default function FoodScreen() {
           </Text>
 
           <Text style={styles.footerText}>
-            Our culture. Our flavors.
+            {t('food.footer')}
           </Text>
         </View>
       </ScrollView>
@@ -222,6 +224,8 @@ function FoodCard({
   selected: boolean;
   onPress: () => void;
 }) {
+  const { t } = useTranslation();
+
   return (
     <Pressable
       onPress={onPress}
@@ -272,7 +276,7 @@ function FoodCard({
             style={styles.foodRegion}
             numberOfLines={1}
           >
-            {food.region}
+            {foodRegion(t, food)}
           </Text>
         </View>
       </View>

@@ -1,0 +1,15 @@
+[
+  {
+    "id": "production-nf",
+    "name": "NF PRODUCTION TV",
+    "country": "Cameroon",
+    "youtube": {
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV"
+    },
+    "authorizedForMboaFlix": true,
+    "authorizationNote": "Usage permission reported by the MBOA FLIX project owner.",
+    "catalogSource": "YouTube",
+    "dataRetrievedAt": "2026-08-12"
+  }
+]

@@ -15,8 +15,10 @@ import {
 
 import { THEME } from '@/constants/theme';
 import { useAuth } from '@/context/AuthContext';
+import { useTranslation } from 'react-i18next';
 
 export default function MovieLayout() {
+  const { t } = useTranslation();
   const pathname = usePathname();
 
   const {
@@ -33,7 +35,7 @@ export default function MovieLayout() {
         />
 
         <Text style={styles.loadingText}>
-          Preparing MBOA FLIX...
+          {t('system.preparing')}
         </Text>
       </View>
     );

@@ -1,0 +1,663 @@
+[
+  {
+    "id": "the-cost-of-living",
+    "type": "movie",
+    "title": "The Cost of Living",
+    "description": {
+      "fr": "Après la mort de leur père, Bih et Che partent vivre chez leur oncle James à Yaoundé. Entre pauvreté, pression familiale, apparences sur les réseaux sociaux, trahison et traumatisme, ils cherchent à survivre et à obtenir justice.",
+      "en": "After their father's death, Bih and Che move in with Uncle James in Yaoundé. Poverty, family pressure, social-media appearances, betrayal and trauma test their struggle for survival and justice."
+    },
+    "year": 2026,
+    "durationSeconds": 2114,
+    "genres": [
+      "drama",
+      "family"
+    ],
+    "productionId": "production-nf",
+    "director": "CHE BLESS",
+    "cast": [],
+    "credits": {
+      "producer": "NF PRODUCTION",
+      "writer": "MAITE LORELLA",
+      "cinematography": "NDONG GHISLAIN",
+      "assistant": "KEMOKA KELLYDIAN"
+    },
+    "language": "en",
+    "youtube": {
+      "videoId": "ckmjQcQ5Rsk",
+      "url": "https://youtube.com/watch?v=ckmjQcQ5Rsk",
+      "publishedAt": "2026-07-02T13:21:51-07:00",
+      "viewCountAtExtraction": 399,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "TheCostOfLiving",
+        "NFProductionTV",
+        "NFProduction",
+        "FullMovie",
+        "AfricanMovie",
+        "CameroonMovie",
+        "CameroonFilm",
+        "AfricanCinema",
+        "DramaMovie",
+        "FamilyDrama",
+        "ShortFilm",
+        "EmotionalMovie",
+        "MoviePremiere",
+        "YouTubeMovie",
+        "SupportAfricanCinema"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/ckmjQcQ5Rsk/maxresdefault.jpg",
+    "featured": true,
+    "trending": false,
+    "newRelease": true,
+    "dataRetrievedAt": "2026-08-12",
+    "trailer": {
+      "id": "the-cost-of-living-official-trailer",
+      "title": "The Cost of Living — Official Trailer",
+      "youtube": {
+        "videoId": "lLmYffH8gaQ",
+        "url": "https://youtube.com/watch?v=lLmYffH8gaQ",
+        "publishedAt": "2026-07-01T10:00:20-07:00",
+        "viewCountAtExtraction": 45,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": [
+          "TheCostOfLiving",
+          "OfficialTrailer",
+          "NFProductionTV",
+          "NFProduction",
+          "CameroonMovie",
+          "AfricanMovie",
+          "CameroonFilm",
+          "ShortFilm",
+          "DramaMovie",
+          "FamilyDrama",
+          "MovieTrailer",
+          "ComingSoon",
+          "AfricanCinema",
+          "CameroonEntertainment",
+          "YouTubeMovie"
+        ]
+      },
+      "thumbnail": "https://img.youtube.com/vi/lLmYffH8gaQ/maxresdefault.jpg",
+      "durationSeconds": 47
+    }
+  },
+  {
+    "id": "beneath-the-smile-episode-1",
+    "type": "episode",
+    "title": "Beneath the Smile — Episode 1",
+    "description": {
+      "fr": "Un jeune homme quitte son village pour chercher une vie meilleure en ville. Confronté à la pression, à la trahison et à la tentation, il doit choisir entre l'honnêteté et la survie.",
+      "en": "A young man leaves his village in search of a better life in the city. Faced with pressure, betrayal and temptation, he must choose between honesty and survival."
+    },
+    "year": 2026,
+    "durationSeconds": 1746,
+    "genres": [
+      "drama",
+      "romance"
+    ],
+    "productionId": "production-nf",
+    "director": "CHE BLESS",
+    "cast": [],
+    "credits": {
+      "producer": "NF PRODUCTION",
+      "writer": "LORELLA",
+      "cinematography": "GHISLAIN CHE"
+    },
+    "language": "en",
+    "youtube": {
+      "videoId": "CH9G15F0Ur4",
+      "url": "https://youtube.com/watch?v=CH9G15F0Ur4",
+      "publishedAt": "2026-05-02T10:13:18-07:00",
+      "viewCountAtExtraction": 1514,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "beneath the smile",
+        "african movie",
+        "short film",
+        "african drama",
+        "youtube movie",
+        "cameroon movie",
+        "nollywood style",
+        "emotional film",
+        "drama film",
+        "betrayal story",
+        "love and pain",
+        "life choices",
+        "village to city story",
+        "indie film",
+        "nf production",
+        "BeneathTheSmile",
+        "AfricanMovie",
+        "ShortFilm",
+        "CameroonCreators",
+        "YouTubeFilm",
+        "AfricanCinema",
+        "DramaFilm",
+        "NFProduction",
+        "Storytelling",
+        "IndieFilm"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/CH9G15F0Ur4/maxresdefault.jpg",
+    "featured": true,
+    "trending": true,
+    "newRelease": true,
+    "dataRetrievedAt": "2026-08-12",
+    "series": {
+      "id": "beneath-the-smile",
+      "title": "Beneath the Smile",
+      "seasonNumber": 1,
+      "episodeNumber": 1
+    },
+    "trailer": {
+      "id": "beneath-the-smile-episode-1-trailer",
+      "title": "Beneath the Smile — Episode 1 Trailer",
+      "youtube": {
+        "videoId": "TvBNILv7B9A",
+        "url": "https://youtube.com/watch?v=TvBNILv7B9A",
+        "publishedAt": "2026-04-27T12:07:25-07:00",
+        "viewCountAtExtraction": 160,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": [
+          "BeneathTheSmile",
+          "NFProduction",
+          "ShortFilm",
+          "AfricanCinema",
+          "CameroonCreators",
+          "YouTubeMovies",
+          "FilmTrailer",
+          "IndieFilm",
+          "Storytelling",
+          "DramaFilm",
+          "LifeChoices",
+          "Betrayal",
+          "LoveAndPain",
+          "RiseOrFall",
+          "NewMovie",
+          "ContentCreators",
+          "Filmmaking",
+          "YoungCreators",
+          "ViralVideos",
+          "WatchThis"
+        ]
+      },
+      "thumbnail": "https://img.youtube.com/vi/TvBNILv7B9A/maxresdefault.jpg",
+      "durationSeconds": 56
+    }
+  },
+  {
+    "id": "when-the-fast-ends",
+    "type": "short",
+    "title": "When the Fast Ends",
+    "description": {
+      "fr": "Court métrage original mêlant comédie et drame autour des situations qui surviennent lorsque le jeûne prend fin.",
+      "en": "An original short blending comedy and drama around the situations that unfold when a fast comes to an end."
+    },
+    "year": 2026,
+    "durationSeconds": 620,
+    "genres": [
+      "comedy",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "TgiitJWPUEY",
+      "url": "https://youtube.com/watch?v=TgiitJWPUEY",
+      "publishedAt": "2026-03-20T01:29:02-07:00",
+      "viewCountAtExtraction": 265,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "acting",
+        "action",
+        "funny",
+        "comediedramatique",
+        "comedy",
+        "cuisine",
+        "series",
+        "film"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/TgiitJWPUEY/hqdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12"
+  },
+  {
+    "id": "one-girl-for-two-brothers",
+    "type": "short",
+    "title": "One Girl for Two Brothers",
+    "description": {
+      "fr": "Courte scène de comédie dramatique mettant en jeu une jeune femme et deux frères.",
+      "en": "A short comedy-drama scene involving one young woman and two brothers."
+    },
+    "year": 2026,
+    "durationSeconds": 69,
+    "genres": [
+      "comedy",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "gV2xMwoR4tY",
+      "url": "https://youtube.com/watch?v=gV2xMwoR4tY",
+      "publishedAt": "2026-03-07T23:00:41-08:00",
+      "viewCountAtExtraction": 30,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "funny",
+        "comediedramatique",
+        "acting",
+        "series",
+        "nfentertainment"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/gV2xMwoR4tY/maxresdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12"
+  },
+  {
+    "id": "bella-wahala",
+    "type": "short",
+    "title": "Bella Wahala",
+    "description": {
+      "fr": "Très courte scène humoristique centrée sur Bella et une situation de « wahala », c'est-à-dire de problème ou de désordre.",
+      "en": "A very short comedy scene centered on Bella and a moment of “wahala,” meaning trouble or commotion."
+    },
+    "year": 2026,
+    "durationSeconds": 31,
+    "genres": [
+      "comedy"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "MazdXxOCtsY",
+      "url": "https://youtube.com/watch?v=MazdXxOCtsY",
+      "publishedAt": "2026-03-07T16:57:29-08:00",
+      "viewCountAtExtraction": 28,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "comedy",
+        "comediedramatique",
+        "funny"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/MazdXxOCtsY/maxresdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12"
+  },
+  {
+    "id": "two-timing-one-location",
+    "type": "movie",
+    "title": "Two Timing One Location",
+    "description": {
+      "fr": "Deux jeunes femmes pensent pouvoir fréquenter plusieurs garçons en ligne sans être découvertes. Leurs conversations, promesses et relations séparées finissent par se croiser.",
+      "en": "Two young women believe they can date multiple boys online without being discovered. Their separate conversations, promises and relationships eventually collide."
+    },
+    "year": 2026,
+    "durationSeconds": 599,
+    "genres": [
+      "comedy",
+      "romance",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "NAjOlUGU3RE",
+      "url": "https://youtube.com/watch?v=NAjOlUGU3RE",
+      "publishedAt": "2026-02-13T09:00:43-08:00",
+      "viewCountAtExtraction": 193,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "TwoTimingsOneLocation",
+        "NFEntertainment",
+        "ValentineDrama",
+        "AfricanShortFilm",
+        "CameroonYouTube"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/NAjOlUGU3RE/maxresdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12",
+    "trailer": {
+      "id": "two-timing-one-location-trailer",
+      "title": "Two Timing One Location — Trailer",
+      "youtube": {
+        "videoId": "V8fEQMWewJA",
+        "url": "https://youtube.com/watch?v=V8fEQMWewJA",
+        "publishedAt": "2026-02-13T05:37:17-08:00",
+        "viewCountAtExtraction": 66,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": []
+      },
+      "thumbnail": "https://img.youtube.com/vi/V8fEQMWewJA/hqdefault.jpg",
+      "durationSeconds": 57
+    }
+  },
+  {
+    "id": "troublesome-family-episode-2",
+    "type": "episode",
+    "title": "Troublesome Family — Episode 2",
+    "description": {
+      "fr": "Deuxième épisode de Troublesome Family, une websérie de comédie dramatique consacrée aux tensions et situations cocasses d'une famille mouvementée.",
+      "en": "The second episode of Troublesome Family, a comedy-drama web series about the tensions and comic situations within a turbulent family."
+    },
+    "year": 2026,
+    "durationSeconds": 239,
+    "genres": [
+      "comedy",
+      "family",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "B3uRT09ea5g",
+      "url": "https://youtube.com/watch?v=B3uRT09ea5g",
+      "publishedAt": "2026-02-07T02:00:12-08:00",
+      "viewCountAtExtraction": 194,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "drama",
+        "series",
+        "troublesomefamily",
+        "viral"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/B3uRT09ea5g/hqdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12",
+    "series": {
+      "id": "troublesome-family",
+      "title": "Troublesome Family",
+      "seasonNumber": 1,
+      "episodeNumber": 2
+    },
+    "trailer": {
+      "id": "troublesome-family-episode-2-trailer",
+      "title": "Troublesome Family — Episode 2 Trailer",
+      "youtube": {
+        "videoId": "gyz8nFwIHhY",
+        "url": "https://youtube.com/watch?v=gyz8nFwIHhY",
+        "publishedAt": "2026-01-14T15:51:52-08:00",
+        "viewCountAtExtraction": 79,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": [
+          "comedy",
+          "comediedramatique",
+          "funny",
+          "troublesomefamily",
+          "series"
+        ]
+      },
+      "thumbnail": "https://img.youtube.com/vi/gyz8nFwIHhY/maxresdefault.jpg",
+      "durationSeconds": 47
+    }
+  },
+  {
+    "id": "troublesome-family-part-1",
+    "type": "episode",
+    "title": "Troublesome Family — Episode 1",
+    "description": {
+      "fr": "Première partie de Troublesome Family, une création collective de jeunes passionnés mêlant humour, famille et comédie dramatique.",
+      "en": "The first part of Troublesome Family, a collaborative production by young creators blending humor, family life and comedy-drama."
+    },
+    "year": 2025,
+    "durationSeconds": 630,
+    "genres": [
+      "comedy",
+      "family",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "9f7_Zk8X85o",
+      "url": "https://youtube.com/watch?v=9f7_Zk8X85o",
+      "publishedAt": "2025-12-21T15:25:06-08:00",
+      "viewCountAtExtraction": 250,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "comedyfilms",
+        "comedy",
+        "comediedramatique",
+        "comingsoon",
+        "funny",
+        "humoristefrancais",
+        "memes",
+        "movie",
+        "troublesomefamily"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/9f7_Zk8X85o/maxresdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12",
+    "series": {
+      "id": "troublesome-family",
+      "title": "Troublesome Family",
+      "seasonNumber": 1,
+      "episodeNumber": 1
+    },
+    "trailer": {
+      "id": "troublesome-family-movie-trailer",
+      "title": "Troublesome Family — Trailer",
+      "youtube": {
+        "videoId": "KM6FTEyKRpk",
+        "url": "https://youtube.com/watch?v=KM6FTEyKRpk",
+        "publishedAt": "2025-12-19T00:56:51-08:00",
+        "viewCountAtExtraction": 30,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": [
+          "comedy",
+          "movie",
+          "trailer",
+          "comingsoon"
+        ]
+      },
+      "thumbnail": "https://img.youtube.com/vi/KM6FTEyKRpk/maxresdefault.jpg",
+      "durationSeconds": 52
+    }
+  },
+  {
+    "id": "social-wahala-episode-2",
+    "type": "episode",
+    "title": "Social Wahala — Episode 2",
+    "description": {
+      "fr": "Deuxième épisode de Social Wahala, une websérie humoristique inspirée du quotidien de la communauté et de ses situations mouvementées.",
+      "en": "The second episode of Social Wahala, a comedy web series inspired by everyday community life and its eventful situations."
+    },
+    "year": 2025,
+    "durationSeconds": 557,
+    "genres": [
+      "comedy",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "tXF4OlE_FF8",
+      "url": "https://youtube.com/watch?v=tXF4OlE_FF8",
+      "publishedAt": "2025-08-15T10:01:21-07:00",
+      "viewCountAtExtraction": 60,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "viral",
+        "movie",
+        "webseries",
+        "skit",
+        "trendingvideo",
+        "socialwahala"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/tXF4OlE_FF8/maxresdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12",
+    "series": {
+      "id": "social-wahala",
+      "title": "Social Wahala",
+      "seasonNumber": 1,
+      "episodeNumber": 2
+    },
+    "trailer": {
+      "id": "social-wahala-episode-2-trailer",
+      "title": "Social Wahala — Episode 2 Trailer",
+      "youtube": {
+        "videoId": "F06NxZtQEl4",
+        "url": "https://youtube.com/watch?v=F06NxZtQEl4",
+        "publishedAt": "2025-08-12T10:00:29-07:00",
+        "viewCountAtExtraction": 37,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": [
+          "viral",
+          "skit",
+          "webseries",
+          "series",
+          "comedy",
+          "comedyskits",
+          "drama"
+        ]
+      },
+      "thumbnail": "https://img.youtube.com/vi/F06NxZtQEl4/maxresdefault.jpg",
+      "durationSeconds": 43
+    }
+  },
+  {
+    "id": "social-wahala-episode-1",
+    "type": "episode",
+    "title": "Social Wahala — Episode 1",
+    "description": {
+      "fr": "Premier épisode de Social Wahala, une websérie créée pour illustrer le quotidien de la communauté à travers le drame et la comédie.",
+      "en": "The first episode of Social Wahala, a web series created to portray everyday community life through drama and comedy."
+    },
+    "year": 2025,
+    "durationSeconds": 568,
+    "genres": [
+      "comedy",
+      "drama"
+    ],
+    "productionId": "production-nf",
+    "director": null,
+    "cast": [],
+    "credits": {},
+    "language": "en",
+    "youtube": {
+      "videoId": "mFpla_2Osh0",
+      "url": "https://youtube.com/watch?v=mFpla_2Osh0",
+      "publishedAt": "2025-08-11T12:14:26-07:00",
+      "viewCountAtExtraction": 396,
+      "category": "Comedy",
+      "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+      "channelName": "NF PRODUCTION TV",
+      "tags": [
+        "viral",
+        "drama",
+        "webseries",
+        "fousrires",
+        "comedy",
+        "funny"
+      ]
+    },
+    "thumbnail": "https://img.youtube.com/vi/mFpla_2Osh0/maxresdefault.jpg",
+    "featured": false,
+    "trending": false,
+    "newRelease": false,
+    "dataRetrievedAt": "2026-08-12",
+    "series": {
+      "id": "social-wahala",
+      "title": "Social Wahala",
+      "seasonNumber": 1,
+      "episodeNumber": 1
+    },
+    "trailer": {
+      "id": "social-wahala-trailer",
+      "title": "Social Wahala — Trailer",
+      "youtube": {
+        "videoId": "pk-XMjaedE0",
+        "url": "https://youtube.com/watch?v=pk-XMjaedE0",
+        "publishedAt": "2025-08-11T10:04:48-07:00",
+        "viewCountAtExtraction": 33,
+        "category": "Comedy",
+        "channelId": "UCdIxoXFCB5GLCm_oMEm_TtQ",
+        "channelName": "NF PRODUCTION TV",
+        "tags": [
+          "viral",
+          "comedy",
+          "series",
+          "drama",
+          "comedyskits"
+        ]
+      },
+      "thumbnail": "https://img.youtube.com/vi/pk-XMjaedE0/maxresdefault.jpg",
+      "durationSeconds": 63
+    }
+  }
+]

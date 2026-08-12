@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import {
   Pressable,
@@ -20,6 +21,8 @@ export function SectionTitle({
   title,
   onSeeAll,
 }: SectionTitleProps) {
+  const { t } = useTranslation();
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
@@ -33,7 +36,7 @@ export function SectionTitle({
           hitSlop={10}
         >
           <Text style={styles.seeAll}>
-            See all
+            {t('common.seeAll')}
           </Text>
 
           <Feather

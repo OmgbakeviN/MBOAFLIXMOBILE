@@ -1,5 +1,6 @@
 import React, {
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -26,6 +27,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import { THEME } from '@/constants/theme';
 import {
@@ -39,19 +41,6 @@ interface UiMessage {
   content: string;
 }
 
-const SUGGESTIONS = [
-  'Que visiter à Buea ?',
-  'Parle-moi du Ndolé',
-  'Who are some Cameroonian filmmakers?',
-  'Explain the cultural diversity of Cameroon',
-];
-
-const WELCOME_MESSAGE: UiMessage = {
-  id: 'welcome',
-  role: 'assistant',
-  content:
-    "Hi! I'm Nkap, your Cameroon AI Guide. Ask me about Cameroonian cinema, food, history, cities, music, traditions or places to discover.",
-};
 
 function makeId() {
   return `${Date.now()}-${Math.random()
@@ -61,13 +50,48 @@ function makeId() {
 
 export default function NkapScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   const listRef = useRef<FlatList<UiMessage>>(null);
 
+  const welcomeMessage = useMemo<UiMessage>(
+    () => ({
+      id: 'welcome',
+      role: 'assistant',
+      content: t('ai.welcome'),
+    }),
+    [t]
+  );
+
+  const suggestions = useMemo(
+    () =>
+      t('ai.suggestions', {
+        returnObjects: true,
+      }) as string[],
+    [t]
+  );
+
   const [messages, setMessages] = useState<UiMessage[]>([
-    WELCOME_MESSAGE,
+    {
+      id: 'welcome',
+      role: 'assistant',
+      content: t('ai.welcome'),
+    },
   ]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    setMessages((current) => {
+      if (
+        current.length === 1 &&
+        current[0]?.id === 'welcome'
+      ) {
+        return [welcomeMessage];
+      }
+
+      return current;
+    });
+  }, [welcomeMessage]);
 
   const conversation = useMemo<NkapChatMessage[]>(
     () =>
@@ -134,14 +158,14 @@ export default function NkapScreen() {
         const text =
           error instanceof Error
             ? error.message
-            : 'Nkap could not answer right now.';
+            : t('ai.couldNotConnect');
 
         setMessages((current) => [
           ...current,
           {
             id: makeId(),
             role: 'assistant',
-            content: `I couldn't connect right now.\n\n${text}`,
+            content: `${t('ai.couldNotConnect')}\n\n${text}`,
           },
         ]);
 
@@ -152,7 +176,7 @@ export default function NkapScreen() {
         setSending(false);
         scrollToBottom();
       }
-    }, [conversation, input, sending, scrollToBottom]
+    }, [conversation, input, sending, scrollToBottom, t]
   );
 
   return (
@@ -185,17 +209,17 @@ export default function NkapScreen() {
               <View style={styles.nameRow}>
                 <Text style={styles.name}>Nkap</Text>
                 <View style={styles.aiBadge}>
-                  <Text style={styles.aiBadgeText}>AI</Text>
+                  <Text style={styles.aiBadgeText}>{t('ai.badge')}</Text>
                 </View>
               </View>
-              <Text style={styles.tagline}>Your Cameroon AI Guide</Text>
+              <Text style={styles.tagline}>{t('ai.tagline')}</Text>
             </View>
           </View>
 
           <Pressable
             onPress={() => {
               Haptics.selectionAsync();
-              setMessages([WELCOME_MESSAGE]);
+              setMessages([welcomeMessage]);
               setInput('');
             }}
             style={styles.headerButton}
@@ -222,15 +246,10 @@ export default function NkapScreen() {
                 style={StyleSheet.absoluteFill}
               />
               <View style={styles.introGlow} />
-              <Text style={styles.introEyebrow}>MBOA FLIX AI</Text>
-              <Text style={styles.introTitle}>Ask about Cameroon.</Text>
-              <Text style={styles.introText}>
-                Cinema, food, history, cities, languages, music,
-                traditions and places to discover.
-              </Text>
-              <Text style={styles.disclaimer}>
-                AI can make mistakes. Verify important facts.
-              </Text>
+              <Text style={styles.introEyebrow}>{t('ai.eyebrow')}</Text>
+              <Text style={styles.introTitle}>{t('ai.askAbout')}</Text>
+              <Text style={styles.introText}>{t('ai.description')}</Text>
+              <Text style={styles.disclaimer}>{t('ai.disclaimer')}</Text>
             </View>
           }
           renderItem={({ item }) => (
@@ -245,15 +264,15 @@ export default function NkapScreen() {
                   </View>
                   <View style={styles.typingBubble}>
                     <ActivityIndicator size="small" color={THEME.gold} />
-                    <Text style={styles.typingText}>Nkap is thinking...</Text>
+                    <Text style={styles.typingText}>{t('ai.thinking')}</Text>
                   </View>
                 </View>
               )}
 
               {messages.length <= 1 && !sending && (
                 <View style={styles.suggestions}>
-                  <Text style={styles.suggestionLabel}>TRY ASKING</Text>
-                  {SUGGESTIONS.map((suggestion) => (
+                  <Text style={styles.suggestionLabel}>{t('ai.tryAsking')}</Text>
+                  {suggestions.map((suggestion) => (
                     <Pressable
                       key={suggestion}
                       onPress={() => sendMessage(suggestion)}
@@ -287,7 +306,7 @@ export default function NkapScreen() {
             <TextInput
               value={input}
               onChangeText={setInput}
-              placeholder="Ask Nkap about Cameroon..."
+              placeholder={t('ai.placeholder')}
               placeholderTextColor="rgba(255,255,255,0.30)"
               multiline
               maxLength={1000}

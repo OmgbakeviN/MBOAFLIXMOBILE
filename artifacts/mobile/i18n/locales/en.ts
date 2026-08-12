@@ -27,6 +27,8 @@ export const en = {
     trending: 'Trending in Cameroon',
     newReleases: 'New Releases',
     documentaries: 'Documentaries',
+    series: 'Series',
+    shortFilms: 'Short Films',
     hiddenGems: 'Hidden Gems',
     discoverCameroon: 'DISCOVER CAMEROON',
     moreThanMovies: 'More than movies.',
@@ -34,6 +36,8 @@ export const en = {
       'Explore food, music, traditions and stories from across Cameroon.',
     heritageTitle: 'Cameroonian Film Heritage',
     heritageSubtitle: 'Classics that shaped our cinema.',
+    productionSpotlightTitle: 'NF PRODUCTION TV',
+    productionSpotlightSubtitle: 'Cameroonian stories available on YouTube.',
     footer: 'Our stories. Our culture. Our screen.',
   },
 
@@ -48,6 +52,7 @@ export const en = {
     movie_other: '{{count}} movies',
     recommended: 'Recommended',
     topRated: 'Top rated',
+    mostViewed: 'Most viewed',
     newest: 'Newest',
     nothingFound: 'Nothing found',
     nothingFoundText: 'Try another title, director or category.',
@@ -161,6 +166,7 @@ export const en = {
 
   ai: {
     title: 'Nkap',
+    open: 'Open Nkap AI',
     tagline: 'Your Cameroon AI Guide',
     badge: 'AI',
     eyebrow: 'MBOA FLIX AI',
@@ -190,6 +196,10 @@ export const en = {
     duration: 'Duration',
     genre: 'Genre',
     rating: 'Rating',
+    views: 'Views',
+    movieBadge: 'MOVIE',
+    shortBadge: 'SHORT',
+    episodeBadge: 'EP {{number}}',
     director: 'Director',
     filmDirector: 'Film Director',
     cast: 'Cast',
@@ -198,4 +208,35 @@ export const en = {
     watchPreview: 'Watch preview',
     moreLikeThis: 'More Like This',
   },
+  labels: {
+    categories: { all: 'All', drama: 'Drama', documentary: 'Documentary', comedy: 'Comedy', thriller: 'Thriller', action: 'Action', romance: 'Romance', cultural: 'Cultural', classic: 'Classic' },
+    genres: { drama: 'Drama', documentary: 'Documentary', comedy: 'Comedy', thriller: 'Thriller', action: 'Action', romance: 'Romance', cultural: 'Cultural', classic: 'Classic' },
+    tags: {
+      drama: 'Drama', family: 'Family', heritage: 'Heritage', comedy: 'Comedy', magic: 'Magic', classic: 'Classic',
+      thriller: 'Thriller', political: 'Political', romance: 'Romance', crossCultural: 'Cross-cultural',
+      documentary: 'Documentary', social: 'Social', shortFilm: 'Short Film', historic: 'Historic',
+      culture: 'Culture', action: 'Action', urban: 'Urban', youth: 'Youth', nature: 'Nature', sport: 'Sport',
+      empowerment: 'Empowerment', coast: 'Coast', cultural: 'Cultural', traditional: 'Traditional', spiritual: 'Spiritual',
+    },
+    categoryMovies: '{{category}} Movies',
+  },
+
+  system: {
+    preparing: 'Preparing MBOA FLIX...',
+    notFoundTitle: 'Oops!',
+    notFoundMessage: "This screen doesn't exist.",
+    goHome: 'Go to home screen',
+    errorTitle: 'Something went wrong',
+    errorMessage: 'An unexpected error occurred.',
+    restart: 'Restart app',
+    errorDetails: 'Error details',
+    viewErrorDetails: 'View error details',
+    closeErrorDetails: 'Close error details',
+    unableSignIn: 'Unable to sign in',
+    unableCreateAccount: 'Unable to create account',
+    pleaseTryAgain: 'Please try again.',
+  },
+
+  content: { movies: {}, culture: {}, food: {} },
+
 };
