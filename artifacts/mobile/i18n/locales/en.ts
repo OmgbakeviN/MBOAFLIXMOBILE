@@ -72,12 +72,17 @@ export const en = {
     stories_one: '{{count}} story',
     stories_other: '{{count}} stories',
     discover: 'Discover',
+    photoCredit: 'Photo: {{author}} · {{license}}',
+    unknownAuthor: 'unknown author',
     filters: {
       all: 'All',
       music: 'Music',
       dance: 'Dance',
       traditions: 'Traditions',
       art: 'Art',
+      festival: 'Festivals',
+      heritage: 'Heritage',
+      historical_place: 'Historic places',
     },
   },
 
@@ -87,10 +92,24 @@ export const en = {
     subtitle: 'Discover iconic dishes from different regions of Cameroon.',
     featuredDish: 'FEATURED DISH',
     recipeSoon: 'Recipe details coming soon',
+    ingredients: 'REPRESENTATIVE INGREDIENTS',
     dishes: 'Dishes',
     dishCount_one: '{{count}} dish',
     dishCount_other: '{{count}} dishes',
     footer: 'Our culture. Our flavors.',
+  },
+
+  documentaries: {
+    eyebrow: 'EDITORIAL COLLECTION',
+    title: 'Cameroon in Focus',
+    subtitle: 'History, landscapes, wildlife, arts, cinema and living heritage.',
+    catalogueOnly: 'Editorial catalogue · video coming later',
+    count_one: '{{count}} feature',
+    count_other: '{{count}} features',
+    categories: {
+      history: 'History', geography: 'Geography', wildlife: 'Wildlife',
+      arts: 'Arts', cinema: 'Cinema', heritage: 'Heritage',
+    },
   },
 
   auth: {

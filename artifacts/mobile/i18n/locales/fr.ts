@@ -72,12 +72,17 @@ export const fr = {
     stories_one: '{{count}} histoire',
     stories_other: '{{count}} histoires',
     discover: 'Découvrir',
+    photoCredit: 'Photo : {{author}} · {{license}}',
+    unknownAuthor: 'auteur inconnu',
     filters: {
       all: 'Tout',
       music: 'Musique',
       dance: 'Danse',
       traditions: 'Traditions',
       art: 'Art',
+      festival: 'Festivals',
+      heritage: 'Patrimoine',
+      historical_place: 'Lieux historiques',
     },
   },
 
@@ -87,10 +92,24 @@ export const fr = {
     subtitle: 'Découvrez les plats emblématiques des différentes régions du Cameroun.',
     featuredDish: 'PLAT À LA UNE',
     recipeSoon: 'Les détails de la recette arrivent bientôt',
+    ingredients: 'INGRÉDIENTS REPRÉSENTATIFS',
     dishes: 'Plats',
     dishCount_one: '{{count}} plat',
     dishCount_other: '{{count}} plats',
     footer: 'Notre culture. Nos saveurs.',
+  },
+
+  documentaries: {
+    eyebrow: 'COLLECTION ÉDITORIALE',
+    title: 'Le Cameroun en lumière',
+    subtitle: 'Histoire, paysages, faune, arts, cinéma et patrimoine vivant.',
+    catalogueOnly: 'Catalogue éditorial · vidéo à venir',
+    count_one: '{{count}} dossier',
+    count_other: '{{count}} dossiers',
+    categories: {
+      history: 'Histoire', geography: 'Géographie', wildlife: 'Faune',
+      arts: 'Arts', cinema: 'Cinéma', heritage: 'Patrimoine',
+    },
   },
 
   auth: {

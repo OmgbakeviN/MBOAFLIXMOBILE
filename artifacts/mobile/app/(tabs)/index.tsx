@@ -27,6 +27,7 @@ import * as Haptics from 'expo-haptics';
 import { useTranslation } from 'react-i18next';
 
 import { CategoryButton } from '@/components/CategoryButton';
+import { DocumentaryCard } from '@/components/DocumentaryCard';
 
 import { HeroBanner } from '@/components/HeroBanner';
 
@@ -35,6 +36,7 @@ import { MovieCard } from '@/components/MovieCard';
 import { SectionTitle } from '@/components/SectionTitle';
 
 import { CATEGORIES } from '@/data/categories';
+import { DOCUMENTARIES } from '@/data/documentaries';
 
 import {
   FEATURED_MOVIE,
@@ -385,6 +387,25 @@ export default function HomeScreen() {
                     `/movie/${movie.id}`
                   )
                 }
+              />
+            ))}
+          </ScrollView>
+        </View>
+
+        {/* EDITORIAL DOCUMENTARIES */}
+
+        <View style={styles.section}>
+          <SectionTitle title={t('home.documentaries')} />
+
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.horizontalList}
+          >
+            {DOCUMENTARIES.map((documentary) => (
+              <DocumentaryCard
+                key={documentary.id}
+                documentary={documentary}
               />
             ))}
           </ScrollView>

@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import Feather from '@/components/FeatherCompat';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -17,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { THEME } from '@/constants/theme';
-import { foodDescription, foodRegion } from '@/utils/localizedContent';
+import { foodDescription, foodIngredients, foodRegion } from '@/utils/localizedContent';
 import { FOOD_ITEMS } from '@/data/culture';
 import { FoodItem } from '@/types';
 
@@ -99,10 +100,17 @@ export default function FoodScreen() {
             },
           ]}
         >
+          <Image
+            source={selectedFood.image}
+            contentFit="cover"
+            transition={180}
+            style={StyleSheet.absoluteFill}
+          />
+
           <LinearGradient
             colors={[
-              selectedFood.color,
-              '#161009',
+              'rgba(0,0,0,0.08)',
+              'rgba(22,16,9,0.76)',
               '#060606',
             ]}
             style={
@@ -142,6 +150,21 @@ export default function FoodScreen() {
 
           <Text style={styles.description}>
             {foodDescription(t, selectedFood)}
+          </Text>
+
+          <Text style={styles.ingredientsLabel}>
+            {t('food.ingredients')}
+          </Text>
+
+          <Text style={styles.ingredients}>
+            {foodIngredients(selectedFood)}
+          </Text>
+
+          <Text style={styles.photoCredit}>
+            {t('culture.photoCredit', {
+              author: selectedFood.imageAttribution.author ?? t('culture.unknownAuthor'),
+              license: selectedFood.imageAttribution.license,
+            })}
           </Text>
 
           <Pressable
@@ -236,11 +259,18 @@ function FoodCard({
         pressed && styles.pressed,
       ]}
     >
+      <Image
+        source={food.image}
+        contentFit="cover"
+        transition={150}
+        style={StyleSheet.absoluteFill}
+      />
+
       <LinearGradient
         colors={[
-          food.color,
-          '#13100A',
-          '#080808',
+          'rgba(0,0,0,0.08)',
+          'rgba(19,16,10,0.65)',
+          'rgba(8,8,8,0.95)',
         ]}
         style={
           StyleSheet.absoluteFill
@@ -352,7 +382,7 @@ const styles = StyleSheet.create({
   },
 
   hero: {
-    minHeight: 335,
+    minHeight: 430,
     marginHorizontal: 18,
     borderRadius: 30,
     overflow: 'hidden',
@@ -415,6 +445,27 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 20,
     marginTop: 13,
+  },
+
+  ingredientsLabel: {
+    color: THEME.goldLight,
+    fontSize: 9,
+    fontWeight: '800',
+    letterSpacing: 1.3,
+    marginTop: 14,
+  },
+
+  ingredients: {
+    color: 'rgba(255,255,255,0.58)',
+    fontSize: 11,
+    lineHeight: 17,
+    marginTop: 4,
+  },
+
+  photoCredit: {
+    color: 'rgba(255,255,255,0.34)',
+    fontSize: 8,
+    marginTop: 9,
   },
 
   recipeButton: {

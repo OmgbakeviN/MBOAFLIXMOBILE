@@ -1,0 +1,88 @@
+import { EditorialDocumentary } from '@/types';
+
+const BY_SA_4 = 'https://creativecommons.org/licenses/by-sa/4.0/';
+const BY_SA_3 = 'https://creativecommons.org/licenses/by-sa/3.0/';
+const BY_2 = 'https://creativecommons.org/licenses/by/2.0/';
+
+export const DOCUMENTARIES: EditorialDocumentary[] = [
+  {
+    id: 'doc-bimbia',
+    title: { fr: 'Bimbia, mémoire de l’Atlantique', en: 'Bimbia, Memory of the Atlantic' },
+    description: { fr: 'Un dossier éditorial sur l’ancien port de Bimbia, ses vestiges et les routes intérieures liées à la traite transatlantique.', en: 'An editorial feature on Bimbia’s former port, its remains and the inland routes connected to the transatlantic slave trade.' },
+    category: 'history',
+    region: { fr: 'Sud-Ouest', en: 'Southwest' },
+    image: require('@/assets/content/documentaries/bimbia.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:Bimbia_-_Canon_allemand.JPG', author: 'GuillaumeG', license: 'CC BY-SA 3.0', licenseUrl: BY_SA_3 },
+    sources: [{ label: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/tentativelists/6478/' }],
+  },
+  {
+    id: 'doc-landscapes',
+    title: { fr: 'Du golfe de Guinée au Sahel', en: 'From the Gulf of Guinea to the Sahel' },
+    description: { fr: 'Un voyage géographique à travers littoral, volcans, hauts plateaux, forêt du bassin du Congo et plaines septentrionales.', en: 'A geographic journey through coast, volcanoes, highlands, Congo Basin forest and northern plains.' },
+    category: 'geography',
+    region: { fr: 'Cameroun', en: 'Cameroon' },
+    image: require('@/assets/content/documentaries/mount-cameroon.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:Mount_Cameroon_Race_of_Hope_GS_Likoko_Membea_Group_2.jpg', author: 'Adesolive', license: 'CC BY-SA 4.0', licenseUrl: BY_SA_4 },
+    sources: [{ label: 'Encyclopaedia Britannica — Cameroon', url: 'https://www.britannica.com/place/Cameroon' }],
+  },
+  {
+    id: 'doc-dja',
+    title: { fr: 'Dja, forêt du patrimoine mondial', en: 'Dja, a World Heritage Forest' },
+    description: { fr: 'Portrait éditorial d’une vaste forêt tropicale protégée, de sa biodiversité et des enjeux contemporains de conservation.', en: 'An editorial portrait of a vast protected rainforest, its biodiversity and today’s conservation challenges.' },
+    category: 'wildlife',
+    region: { fr: 'Sud et Est', en: 'South and East' },
+    image: require('@/assets/content/documentaries/dja.webp'),
+    imageAttribution: { sourceUrl: 'https://whc.unesco.org/en/documents/109439', author: 'C. Hance / UNESCO', license: 'CC BY-SA 3.0 IGO', licenseUrl: 'https://creativecommons.org/licenses/by-sa/3.0/igo/' },
+    sources: [{ label: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/list/407' }],
+  },
+  {
+    id: 'doc-sangha',
+    title: { fr: 'Sangha trinational', en: 'Sangha Trinational' },
+    description: { fr: 'Le volet camerounais d’un paysage forestier transfrontalier partagé avec la République centrafricaine et la République du Congo.', en: 'The Cameroonian part of a transboundary forest landscape shared with the Central African Republic and Republic of the Congo.' },
+    category: 'wildlife',
+    region: { fr: 'Est — parc national de Lobéké', en: 'East — Lobéké National Park' },
+    image: require('@/assets/content/documentaries/sangha.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:Buffle_dans_le_Parc_National_de_Lobéké.jpg', author: 'Ministry of Tourism and Leisure, Cameroon', license: 'CC BY-SA 3.0', licenseUrl: BY_SA_3 },
+    sources: [{ label: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/list/1380/' }],
+  },
+  {
+    id: 'doc-grassfields-art',
+    title: { fr: 'Le langage des arts royaux', en: 'The Language of Royal Arts' },
+    description: { fr: 'Masques, perles, trônes et textiles racontent les systèmes de pouvoir, de mémoire et de représentation des Grassfields.', en: 'Masks, beads, thrones and textiles reveal Grassfields systems of power, memory and representation.' },
+    category: 'arts',
+    region: { fr: 'Ouest et Nord-Ouest', en: 'West and Northwest' },
+    image: require('@/assets/content/documentaries/grassfields-art.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:BamumMaleFigure.jpg', author: 'Cliff', license: 'CC BY 2.0', licenseUrl: BY_2 },
+    sources: [{ label: 'The Metropolitan Museum of Art', url: 'https://www.metmuseum.org/art/collection/search/311021' }],
+  },
+  {
+    id: 'doc-cinema',
+    title: { fr: 'Pionnières et pionniers du cinéma camerounais', en: 'Pioneers of Cameroonian Cinema' },
+    description: { fr: 'Une introduction aux premiers regards camerounais derrière la caméra et à la transmission fragile de ce patrimoine filmique.', en: 'An introduction to early Cameroonian voices behind the camera and the fragile transmission of this film heritage.' },
+    category: 'cinema',
+    region: { fr: 'Cameroun', en: 'Cameroon' },
+    image: require('@/assets/content/documentaries/cinema.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:Bamum_School_of_King_Njoya_in_Foumban.jpg', author: 'Bamum Script and Archives Project', license: 'Public domain', licenseUrl: 'https://creativecommons.org/publicdomain/mark/1.0/' },
+    sources: [{ label: 'Le Monde — Thérèse Sita-Bella', url: 'https://www.lemonde.fr/afrique/article/2022/08/06/au-cameroun-l-heritage-meconnu-de-therese-sita-bella-pionniere-du-journalisme-africain_6137385_3212.html' }],
+  },
+  {
+    id: 'doc-ngondo',
+    title: { fr: 'Ngondo, le peuple et l’eau', en: 'Ngondo, People and Water' },
+    description: { fr: 'Un parcours informatif au cœur des pratiques sawa liées aux oracles de l’eau, à la transmission et à la cohésion communautaire.', en: 'An informational journey into Sawa practices connecting water oracles, transmission and community cohesion.' },
+    category: 'heritage',
+    region: { fr: 'Littoral', en: 'Littoral' },
+    image: require('@/assets/content/documentaries/ngondo.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:Activités_du_Ngondo_12.jpg', author: 'Photokadaffi', license: 'CC BY-SA 4.0', licenseUrl: BY_SA_4 },
+    sources: [{ label: 'UNESCO Intangible Cultural Heritage', url: 'https://ich.unesco.org/en/RL/ngondo-worship-of-water-oracles-and-associated-cultural-traditions-among-the-sawa-02140' }],
+  },
+  {
+    id: 'doc-diy-gid-biy',
+    title: { fr: 'Les pierres du Diy-Gid-Biy', en: 'The Stones of Diy-Gid-Biy' },
+    description: { fr: 'Seize ensembles de pierre sèche et des terrasses agricoles témoignent d’une civilisation ancienne et de pratiques mafa toujours vivantes.', en: 'Sixteen dry-stone complexes and agricultural terraces bear witness to an earlier civilisation and living Mafa practices.' },
+    category: 'heritage',
+    region: { fr: 'Extrême-Nord', en: 'Far North' },
+    image: require('@/assets/content/documentaries/diy-gid-biy.jpg'),
+    imageAttribution: { sourceUrl: 'https://commons.wikimedia.org/wiki/File:ASC_Leiden_-_W.E.A._van_Beek_Collection_-_Thuis_in_Afrika_-_03.3b_-_The_village_chief_-_Gudur,_Mandara_Mountains,_Cameroon_-_1973.jpg', author: 'Wouter van Beek', license: 'CC BY-SA 4.0', licenseUrl: BY_SA_4 },
+    sources: [{ label: 'UNESCO World Heritage Centre', url: 'https://whc.unesco.org/en/list/1745' }],
+  },
+];

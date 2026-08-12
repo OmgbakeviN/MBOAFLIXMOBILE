@@ -2,7 +2,20 @@ import { TFunction } from 'i18next';
 
 import i18n from '@/i18n';
 
-import { CultureItem, FoodItem, Movie } from '@/types';
+import { CultureItem, EditorialDocumentary, FoodItem, LocalizedText, Movie } from '@/types';
+
+export const localizedText = (
+  value: LocalizedText
+) => {
+  const language =
+    i18n.resolvedLanguage ??
+    i18n.language ??
+    'en';
+
+  return language.startsWith('fr')
+    ? value.fr
+    : value.en;
+};
 
 const normalise = (value: string) =>
   value
@@ -107,32 +120,22 @@ export const formatViews = (
 };
 
 export const cultureTitle = (
-  t: TFunction,
+  _t: TFunction,
   item: CultureItem
 ) =>
-  t(`content.culture.${item.id}.title`, {
-    defaultValue: item.title,
-  });
+  localizedText(item.title);
 
 export const cultureDescription = (
-  t: TFunction,
+  _t: TFunction,
   item: CultureItem
 ) =>
-  t(
-    `content.culture.${item.id}.description`,
-    {
-      defaultValue: item.description,
-    }
-  );
+  localizedText(item.description);
 
 export const cultureCategoryLabel = (
   t: TFunction,
   category: CultureItem['category']
 ) => {
-  const key =
-    category === 'tradition'
-      ? 'traditions'
-      : category;
+  const key = category === 'tradition' ? 'traditions' : category;
 
   return t(`culture.filters.${key}`, {
     defaultValue: category,
@@ -140,17 +143,27 @@ export const cultureCategoryLabel = (
 };
 
 export const foodDescription = (
-  t: TFunction,
+  _t: TFunction,
   food: FoodItem
 ) =>
-  t(`content.food.${food.id}.description`, {
-    defaultValue: food.description,
-  });
+  localizedText(food.description);
 
 export const foodRegion = (
-  t: TFunction,
+  _t: TFunction,
   food: FoodItem
 ) =>
-  t(`content.food.${food.id}.region`, {
-    defaultValue: food.region,
-  });
+  food.region
+    ? localizedText(food.region)
+    : '';
+
+export const foodIngredients = (
+  food: FoodItem
+) => localizedText(food.ingredients);
+
+export const documentaryTitle = (
+  item: EditorialDocumentary
+) => localizedText(item.title);
+
+export const documentaryDescription = (
+  item: EditorialDocumentary
+) => localizedText(item.description);

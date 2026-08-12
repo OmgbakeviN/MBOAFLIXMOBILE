@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import Feather from '@/components/FeatherCompat';
+import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
@@ -19,16 +20,13 @@ import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { THEME } from '@/constants/theme';
-import { cultureCategoryLabel, cultureDescription, cultureTitle } from '@/utils/localizedContent';
+import { cultureCategoryLabel, cultureDescription, cultureTitle, localizedText } from '@/utils/localizedContent';
 import { CULTURE_ITEMS } from '@/data/culture';
 import { CultureItem } from '@/types';
 
 type CultureFilter =
   | 'all'
-  | Exclude<
-      CultureItem['category'],
-      'food'
-    >;
+  | CultureItem['category'];
 
 type FeatherIconName =
   keyof typeof Feather.glyphMap;
@@ -57,6 +55,18 @@ const FILTERS: {
     id: 'art',
     label: 'Art',
   },
+  {
+    id: 'festival',
+    label: 'Festivals',
+  },
+  {
+    id: 'heritage',
+    label: 'Heritage',
+  },
+  {
+    id: 'historical_place',
+    label: 'Historical places',
+  },
 ];
 
 export default function CultureScreen() {
@@ -73,10 +83,7 @@ export default function CultureScreen() {
 
   const items = useMemo(() => {
     if (activeFilter === 'all') {
-      return CULTURE_ITEMS.filter(
-        (item) =>
-          item.category !== 'food'
-      );
+      return CULTURE_ITEMS;
     }
 
     return CULTURE_ITEMS.filter(
@@ -251,10 +258,17 @@ export default function CultureScreen() {
                     styles.pressed,
                 ]}
               >
+                <Image
+                  source={item.image}
+                  contentFit="cover"
+                  transition={180}
+                  style={StyleSheet.absoluteFill}
+                />
+
                 <LinearGradient
                   colors={[
-                    item.color,
-                    '#15100B',
+                    'rgba(0,0,0,0.18)',
+                    'rgba(8,8,8,0.78)',
                     '#080808',
                   ]}
                   start={{
@@ -296,6 +310,13 @@ export default function CultureScreen() {
                   {cultureCategoryLabel(t, item.category).toUpperCase()}
                 </Text>
 
+                {item.region && (
+                  <View style={styles.cardRegionRow}>
+                    <Feather name="map-pin" size={11} color={THEME.goldLight} />
+                    <Text style={styles.cardRegion}>{localizedText(item.region)}</Text>
+                  </View>
+                )}
+
                 <Text style={styles.cardTitle}>
                   {cultureTitle(t, item)}
                 </Text>
@@ -310,15 +331,17 @@ export default function CultureScreen() {
                 </Text>
 
                 <View style={styles.discoverRow}>
-                  <Text style={styles.discoverText}>
-                    {t('culture.discover')}
-                  </Text>
+                  <View style={styles.discoverAction}>
+                    <Text style={styles.discoverText}>{t('culture.discover')}</Text>
+                    <Feather name="arrow-up-right" size={15} color={THEME.gold} />
+                  </View>
 
-                  <Feather
-                    name="arrow-up-right"
-                    size={15}
-                    color={THEME.gold}
-                  />
+                  <Text style={styles.photoCredit} numberOfLines={1}>
+                    {t('culture.photoCredit', {
+                      author: item.imageAttribution.author ?? t('culture.unknownAuthor'),
+                      license: item.imageAttribution.license,
+                    })}
+                  </Text>
                 </View>
               </Pressable>
             );
@@ -492,7 +515,7 @@ const styles = StyleSheet.create({
   },
 
   cultureCard: {
-    minHeight: 205,
+    minHeight: 285,
     borderRadius: 27,
     overflow: 'hidden',
     padding: 19,
@@ -537,6 +560,19 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
 
+  cardRegionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    marginTop: 8,
+  },
+
+  cardRegion: {
+    color: 'rgba(255,255,255,0.62)',
+    fontSize: 10,
+    flex: 1,
+  },
+
   cardDescription: {
     color: 'rgba(255,255,255,0.60)',
     fontSize: 12,
@@ -547,14 +583,28 @@ const styles = StyleSheet.create({
   discoverRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    justifyContent: 'space-between',
+    gap: 10,
     marginTop: 15,
+  },
+
+  discoverAction: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
   },
 
   discoverText: {
     color: THEME.gold,
     fontSize: 11,
     fontWeight: '600',
+  },
+
+  photoCredit: {
+    color: 'rgba(255,255,255,0.36)',
+    fontSize: 8,
+    flex: 1,
+    textAlign: 'right',
   },
 
   pressed: {
