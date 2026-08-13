@@ -406,6 +406,11 @@ export default function HomeScreen() {
               <DocumentaryCard
                 key={documentary.id}
                 documentary={documentary}
+                onPress={() =>
+                  router.push(
+                    `/discover/documentary/${documentary.id}` as never
+                  )
+                }
               />
             ))}
           </ScrollView>

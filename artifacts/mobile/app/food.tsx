@@ -168,14 +168,17 @@ export default function FoodScreen() {
           </Text>
 
           <Pressable
-            onPress={() =>
-              Haptics
-                .impactAsync(
-                  Haptics
-                    .ImpactFeedbackStyle
-                    .Light
-                )
-            }
+            onPress={() => {
+              Haptics.impactAsync(
+                Haptics
+                  .ImpactFeedbackStyle
+                  .Light
+              );
+
+              router.push(
+                `/discover/food/${selectedFood.id}` as never
+              );
+            }}
             style={styles.recipeButton}
           >
             <Feather
@@ -185,7 +188,7 @@ export default function FoodScreen() {
             />
 
             <Text style={styles.recipeText}>
-              {t('food.recipeSoon')}
+              {t('food.viewDetails')}
             </Text>
           </Pressable>
         </View>
@@ -215,6 +218,10 @@ export default function FoodScreen() {
 
                   setSelectedId(
                     food.id
+                  );
+
+                  router.push(
+                    `/discover/food/${food.id}` as never
                   );
                 }}
               />

@@ -92,6 +92,7 @@ export const fr = {
     subtitle: 'Découvrez les plats emblématiques des différentes régions du Cameroun.',
     featuredDish: 'PLAT À LA UNE',
     recipeSoon: 'Les détails de la recette arrivent bientôt',
+    viewDetails: 'Découvrir ce plat',
     ingredients: 'INGRÉDIENTS REPRÉSENTATIFS',
     dishes: 'Plats',
     dishCount_one: '{{count}} plat',
@@ -109,6 +110,31 @@ export const fr = {
     categories: {
       history: 'Histoire', geography: 'Géographie', wildlife: 'Faune',
       arts: 'Arts', cinema: 'Cinéma', heritage: 'Patrimoine',
+    },
+  },
+
+
+  details: {
+    about: 'À propos',
+    region: 'Région',
+    category: 'Catégorie',
+    ingredients: 'Ingrédients représentatifs',
+    sources: 'Sources et références',
+    photoCredits: 'Crédits photo',
+    viewPhotoSource: 'Voir la source de la photo',
+    related: 'À découvrir aussi',
+    editorialFeature: 'Dossier éditorial',
+    videoComing: 'La vidéo sera ajoutée lorsqu’une source autorisée sera disponible.',
+    notFound: 'Contenu introuvable',
+    notFoundText: 'Ce contenu de découverte n’est plus disponible dans le catalogue.',
+    goBack: 'Retour',
+    sourceDisclaimer: 'Source externe',
+    foodCategories: {
+      main: 'Plat principal',
+      side: 'Accompagnement',
+      street_food: 'Cuisine de rue',
+      snack: 'En-cas',
+      drink: 'Boisson',
     },
   },
 

@@ -244,14 +244,17 @@ export default function CultureScreen() {
             return (
               <Pressable
                 key={item.id}
-                onPress={() =>
-                  Haptics
-                    .impactAsync(
-                      Haptics
-                        .ImpactFeedbackStyle
-                        .Light
-                    )
-                }
+                onPress={() => {
+                  Haptics.impactAsync(
+                    Haptics
+                      .ImpactFeedbackStyle
+                      .Light
+                  );
+
+                  router.push(
+                    `/discover/culture/${item.id}` as never
+                  );
+                }}
                 style={({ pressed }) => [
                   styles.cultureCard,
                   pressed &&

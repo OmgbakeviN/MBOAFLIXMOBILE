@@ -92,6 +92,7 @@ export const en = {
     subtitle: 'Discover iconic dishes from different regions of Cameroon.',
     featuredDish: 'FEATURED DISH',
     recipeSoon: 'Recipe details coming soon',
+    viewDetails: 'Discover this dish',
     ingredients: 'REPRESENTATIVE INGREDIENTS',
     dishes: 'Dishes',
     dishCount_one: '{{count}} dish',
@@ -109,6 +110,31 @@ export const en = {
     categories: {
       history: 'History', geography: 'Geography', wildlife: 'Wildlife',
       arts: 'Arts', cinema: 'Cinema', heritage: 'Heritage',
+    },
+  },
+
+
+  details: {
+    about: 'About',
+    region: 'Region',
+    category: 'Category',
+    ingredients: 'Representative ingredients',
+    sources: 'Sources & references',
+    photoCredits: 'Photo credits',
+    viewPhotoSource: 'View photo source',
+    related: 'You may also like',
+    editorialFeature: 'Editorial feature',
+    videoComing: 'Video content will be added when an authorized source is available.',
+    notFound: 'Content not found',
+    notFoundText: 'This discovery item is no longer available in the catalogue.',
+    goBack: 'Go back',
+    sourceDisclaimer: 'External source',
+    foodCategories: {
+      main: 'Main dish',
+      side: 'Side dish',
+      street_food: 'Street food',
+      snack: 'Snack',
+      drink: 'Drink',
     },
   },
 
