@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import Feather from '@/components/FeatherCompat';
@@ -12,13 +12,22 @@ import { documentaryDescription, documentaryTitle, localizedText } from '@/utils
 
 export function DocumentaryCard({
   documentary,
+  onPress,
 }: {
   documentary: EditorialDocumentary;
+  onPress?: () => void;
 }) {
   const { t } = useTranslation();
 
   return (
-    <View style={styles.card}>
+    <Pressable
+      onPress={onPress}
+      disabled={!onPress}
+      style={({ pressed }) => [
+        styles.card,
+        pressed && styles.pressed,
+      ]}
+    >
       <Image source={documentary.image} contentFit="cover" transition={180} style={StyleSheet.absoluteFill} />
       <LinearGradient colors={['rgba(0,0,0,0.08)', 'rgba(5,5,5,0.68)', '#050505']} style={StyleSheet.absoluteFill} />
 
@@ -40,7 +49,7 @@ export function DocumentaryCard({
         <Text style={styles.description} numberOfLines={3}>{documentaryDescription(documentary)}</Text>
         <Text style={styles.status}>{t('documentaries.catalogueOnly')}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -85,4 +94,5 @@ const styles = StyleSheet.create({
   region: { color: 'rgba(255,255,255,0.58)', fontSize: 10 },
   description: { color: 'rgba(255,255,255,0.66)', fontSize: 12, lineHeight: 18, marginTop: 10 },
   status: { color: THEME.gold, fontSize: 9, fontWeight: '700', marginTop: 12 },
+  pressed: { opacity: 0.78, transform: [{ scale: 0.98 }] },
 });

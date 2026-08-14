@@ -50,7 +50,7 @@ function makeId() {
 
 export default function NkapScreen() {
   const router = useRouter();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const listRef = useRef<FlatList<UiMessage>>(null);
 
   const welcomeMessage = useMemo<UiMessage>(
@@ -140,7 +140,17 @@ export default function NkapScreen() {
       scrollToBottom();
 
       try {
-        const answer = await askNkap(nextConversation);
+        const language =
+          i18n.resolvedLanguage === 'fr'
+            ? 'fr'
+            : i18n.resolvedLanguage === 'en'
+              ? 'en'
+              : 'auto';
+
+        const answer = await askNkap(
+          nextConversation,
+          language
+        );
 
         setMessages((current) => [
           ...current,
@@ -176,7 +186,7 @@ export default function NkapScreen() {
         setSending(false);
         scrollToBottom();
       }
-    }, [conversation, input, sending, scrollToBottom, t]
+    }, [conversation, input, sending, scrollToBottom, t, i18n.resolvedLanguage]
   );
 
   return (

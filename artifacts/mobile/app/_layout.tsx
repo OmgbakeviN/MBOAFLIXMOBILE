@@ -11,6 +11,8 @@ import '@/i18n';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { AuthProvider } from '@/context/AuthContext';
 import { LanguageProvider } from '@/context/LanguageContext';
+import { SettingsProvider } from '@/context/SettingsContext';
+import { WatchlistProvider } from '@/context/WatchlistContext';
 
 const queryClient = new QueryClient();
 
@@ -57,6 +59,30 @@ function RootNavigator() {
       />
 
       <Stack.Screen
+        name="settings"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+      />
+
+      <Stack.Screen
+        name="watchlist"
+        options={{
+          headerShown: false,
+          animation: 'slide_from_right',
+        }}
+      />
+
+      <Stack.Screen
+        name="watch"
+        options={{
+          headerShown: false,
+          animation: 'fade',
+        }}
+      />
+
+      <Stack.Screen
         name="login"
         options={{
           headerShown: false,
@@ -89,16 +115,20 @@ export default function RootLayout() {
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <LanguageProvider>
-              <GestureHandlerRootView
-                style={{
-                  flex: 1,
-                  backgroundColor: '#050505',
-                }}
-              >
-                <KeyboardProvider>
-                  <RootNavigator />
-                </KeyboardProvider>
-              </GestureHandlerRootView>
+              <SettingsProvider>
+                <WatchlistProvider>
+                  <GestureHandlerRootView
+                  style={{
+                    flex: 1,
+                    backgroundColor: '#050505',
+                  }}
+                >
+                  <KeyboardProvider>
+                    <RootNavigator />
+                  </KeyboardProvider>
+                  </GestureHandlerRootView>
+                </WatchlistProvider>
+              </SettingsProvider>
             </LanguageProvider>
           </AuthProvider>
         </QueryClientProvider>

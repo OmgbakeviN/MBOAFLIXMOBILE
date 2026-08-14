@@ -475,7 +475,7 @@ function MetaGrid({
     <View style={styles.metaGrid}>
       <View style={styles.metaCard}>
         <Feather
-          name="grid"
+          name="menu"
           size={17}
           color={THEME.gold}
         />

@@ -1,6 +1,5 @@
 import React, {
   useMemo,
-  useState,
 } from 'react';
 
 import {
@@ -38,6 +37,7 @@ import { MovieCard } from '@/components/MovieCard';
 import { MOVIES } from '@/data/movies';
 
 import { THEME } from '@/constants/theme';
+import { useWatchlist } from '@/context/WatchlistContext';
 import { formatViews, genreLabel, movieDescription, tagLabel } from '@/utils/localizedContent';
 
 
@@ -162,8 +162,12 @@ export default function MovieDetailScreen() {
       (item) => item.id === movieId
     ) ?? MOVIES[0];
 
-  const [saved, setSaved] =
-    useState(false);
+  const {
+    isSaved,
+    toggleMovie,
+  } = useWatchlist();
+
+  const saved = isSaved(movie.id);
 
 
   /* ----------------------------------
@@ -198,10 +202,9 @@ export default function MovieDetailScreen() {
   }, [movie]);
 
 
-  const toggleSaved = () => {
+  const toggleSaved = async () => {
     Haptics.selectionAsync();
-
-    setSaved((value) => !value);
+    await toggleMovie(movie.id);
   };
 
 
@@ -210,10 +213,9 @@ export default function MovieDetailScreen() {
       Haptics.ImpactFeedbackStyle.Medium
     );
 
-    /*
-      Plus tard :
-      router.push(`/watch/${movie.id}`)
-    */
+    router.push(
+      `/watch/${movie.id}` as never
+    );
   };
 
 
@@ -803,13 +805,17 @@ export default function MovieDetailScreen() {
             </Text>
 
             <Pressable
-              onPress={() =>
+              onPress={() => {
                 Haptics.impactAsync(
                   Haptics
                     .ImpactFeedbackStyle
                     .Medium
-                )
-              }
+                );
+
+                router.push(
+                  `/watch/${movie.id}?source=trailer` as never
+                );
+              }}
               style={({ pressed }) => [
                 styles.trailer,
 
@@ -1352,7 +1358,7 @@ const styles = StyleSheet.create({
 
     fontSize: 20,
 
-    fontWeight: '750',
+    fontWeight: '700',
 
     letterSpacing: -0.25,
 
