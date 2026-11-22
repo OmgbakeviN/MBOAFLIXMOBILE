@@ -47,3 +47,25 @@ Thumbs.db
 # Replit
 .cache/
 .local/
+
+# Dependencies and package cache
+node_modules/
+.pnpm-store/
+
+# Expo
+.expo/
+.expo-shared/
+
+# Build outputs
+dist/
+build/
+coverage/
+
+# Temporary files
+tmp/
+*.tgz
+
+# Environment secrets
+.env
+.env.local
+.env.production
