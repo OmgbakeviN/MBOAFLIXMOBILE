@@ -1,16 +1,15 @@
 {
-  "name": "workspace",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "mboaflix-workspace",
+  "version": "2.0.0",
+  "private": true,
   "scripts": {
     "preinstall": "node scripts/check-package-manager.cjs",
-    "build": "pnpm run typecheck && pnpm -r --if-present run build",
-    "typecheck:libs": "tsc --build",
-    "typecheck": "pnpm run typecheck:libs && pnpm -r --filter \"./artifacts/**\" --filter \"./scripts\" --if-present run typecheck"
-  },
-  "private": true,
-  "dependencies": {
-    "@replit/connectors-sdk": "^0.4.1"
+    "dev": "pnpm --filter @workspace/mobile dev",
+    "dev:offline": "pnpm --filter @workspace/mobile dev:offline",
+    "android": "pnpm --filter @workspace/mobile android",
+    "web": "pnpm --filter @workspace/mobile web",
+    "build:web": "pnpm --filter @workspace/mobile build:web",
+    "typecheck": "pnpm --filter @workspace/mobile typecheck"
   },
   "devDependencies": {
     "prettier": "^3.9.6",
